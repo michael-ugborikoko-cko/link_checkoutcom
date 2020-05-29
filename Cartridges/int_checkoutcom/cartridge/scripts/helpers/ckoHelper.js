@@ -11,6 +11,8 @@ var SystemObjectMgr = require('dw/object/SystemObjectMgr');
 var Resource = require('dw/web/Resource');
 var ServiceRegistry = require('dw/svc/ServiceRegistry');
 var PaymentMgr = require('dw/order/PaymentMgr');
+var CustomObjectMgr = require('dw/object/CustomObjectMgr');
+var Site = require('dw/system/Site');
 
 // Card Currency Config
 var ckoCurrencyConfig = require('~/cartridge/scripts/config/ckoCurrencyConfig');
@@ -65,7 +67,7 @@ var ckoHelper = {
      * Get value from custom preferences
      */
     getValue: function (field) {
-        return dw.system.Site.getCurrent().getCustomPreferenceValue(field);
+        return CustomObjectMgr.getCustomObject('ckoSettings', Site.getCurrent().name).custom[field];
     },
     
     /**
@@ -774,7 +776,7 @@ var ckoHelper = {
      * Build metadata object
      */
     getMetadataString: function (data, args) {
-      
+    	
         // Prepare the base metadata
         var meta = 'integration_data' + this.getCartridgeMeta() + 'platform_data' + this.getValue('ckoPlatformData');
 
