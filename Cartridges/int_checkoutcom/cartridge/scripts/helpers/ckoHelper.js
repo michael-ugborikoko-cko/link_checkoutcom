@@ -152,7 +152,7 @@ var ckoHelper = {
         // Call the service
         var resp = serv.call(requestData);
         if (resp.status != 'OK') {
-            return resp.error;
+            return false;
         }
 
         return resp.object;
