@@ -94,7 +94,7 @@ function handleReturn() {
             ckoHelper.handleFail(null);
         }
     } else {
-        CKOHelper.handleFail(null);
+        ckOHelper.handleFail(null);
     }
 }
 
