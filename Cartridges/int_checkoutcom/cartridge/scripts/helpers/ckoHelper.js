@@ -19,6 +19,17 @@ var ckoCurrencyConfig = require('~/cartridge/scripts/config/ckoCurrencyConfig');
 var ckoHelper = {
 
     /**
+     * CKO Response object
+     */
+    ckoResponse: function (data) {
+        response.setBuffered(false);
+        response.setContentType('text/plain');
+        var out = response.writer;
+
+        return out.println(JSON.stringify(data));
+    },
+
+    /**
      * Get the required value for each mode
      */
     getAppModeValue: function (sandboxValue, liveValue) {
@@ -250,6 +261,7 @@ var ckoHelper = {
      */
     getCurrency : function () {
         var orderId = this.getOrderId();
+
         // load the card and order information
         var order = OrderMgr.getOrder(orderId);
         var currency = order.getCurrencyCode();
@@ -269,9 +281,6 @@ var ckoHelper = {
      */
     paymentSuccess: function (gatewayResponse) {
     	if (gatewayResponse.hasOwnProperty('response_code')) {
-
-            // Logging
-            ckoHelper.doLog('response_code', gatewayResponse.response_code);
 
     		return gatewayResponse.response_code == "10000" || gatewayResponse.response_code == '10100' || gatewayResponse.response_code == '10200';
     	}else if(gatewayResponse.hasOwnProperty('actions')){
