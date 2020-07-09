@@ -1,7 +1,7 @@
 /* Table styles */
 .tabulator .tabulator-tableHolder .tabulator-placeholder span {
-    font-size: 0.9em !important;
-    margin: 0em !important;
+    font-size: 0.9em;
+    margin: 0em;
 }
 
 .tabulator-header-filter input {
@@ -16,7 +16,7 @@
 }
 
 .tabulator-row .tabulator-cell, .tabulator-col {
-    border-right: 0.01em solid #dddddd !important;
+    border-right: 0.01em solid #dddddd;
 }
 
 /* Table controls */
@@ -28,7 +28,6 @@
 .ckoModal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */

@@ -3,9 +3,9 @@
 }
 
 .ckoModal .label {
-    color: black !important;
-    padding-left: 0em !important;
-    font-size: 0.8em !important;
+    color: black;
+    padding-left: 0em;
+    font-size: 0.8em;
 }
 
 .ckoModal .input-row {
