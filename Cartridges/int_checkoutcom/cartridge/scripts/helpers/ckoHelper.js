@@ -282,10 +282,10 @@ var ckoHelper = {
     paymentSuccess: function (gatewayResponse) {
     	if (gatewayResponse.hasOwnProperty('response_code')) {
 
-    		return gatewayResponse.response_code == "10000" || gatewayResponse.response_code == '10100' || gatewayResponse.response_code == '10200';
+    		return gatewayResponse.response_code == 10000 || gatewayResponse.response_code == 10100 || gatewayResponse.response_code == 10200;
     	}else if(gatewayResponse.hasOwnProperty('actions')){
 
-    		return gatewayResponse.actions[0].response_code == "10000" || gatewayResponse.actions[0].response_code == '10100' || gatewayResponse.actions[0].response_code == '10200';
+    		return gatewayResponse.actions[0].response_code == 10000 || gatewayResponse.actions[0].response_code == 10100 || gatewayResponse.actions[0].response_code == 10200;
     	}else if(gatewayResponse.hasOwnProperty('source')){
 
     		return gatewayResponse.source.type == 'sofort' || 'bancontact';
