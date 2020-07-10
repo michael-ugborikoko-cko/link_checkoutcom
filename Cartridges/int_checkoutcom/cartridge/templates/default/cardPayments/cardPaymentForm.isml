@@ -77,7 +77,7 @@
 	<input type="hidden" id="ckoApmFilterUrl" value="${URLUtils.https('CKOMain-GetApmFilter')}" />
 </div>
 
-<!-- Imort card formatting scripts -->
+<!-- Import card formatting scripts -->
 <script src="${URLUtils.staticURL('/js/checkoutcom.js')}"></script>
 <script src="${URLUtils.staticURL('/js/cleave.js')}"></script>
 <script src="${URLUtils.staticURL('js/cardPayment.js')}"></script>
