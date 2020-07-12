@@ -195,7 +195,7 @@ var CKOHelper = {
     /**
      * Writes gateway information to the website's custom log files.
      */
-    logThis: function (dataType, gatewayData) {
+    log: function (dataType, gatewayData) {
         if (this.getValue('ckoDebugEnabled') == 'true' && (gatewayData)) {
             var logger = Logger.getLogger('ckodebug');
             if (logger) {
