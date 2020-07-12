@@ -57,7 +57,7 @@ var googlePayHelper = {
 
             // Validate the response
             if (ckoHelper.paymentSuccess(gatewayResponse)) {
-
+                ckoHelper.updateCustomerData(gatewayResponse);
                 return gatewayResponse;
             }
 
@@ -75,19 +75,7 @@ var googlePayHelper = {
             return false;
         }
     },
-    
-    /**
-     * Handle full Google Pay response from CKO API
-     */
-    handleResponse: function (gatewayResponse) {
-    	
-        // Logging
-        ckoHelper.doLog('response', gatewayResponse);
-        
-        // Update customer data
-        ckoHelper.updateCustomerData(gatewayResponse);
-    },
-    
+
     /**
      * Build Gateway Source Object
      */

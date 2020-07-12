@@ -99,7 +99,7 @@ var ckoHelper = {
     /**
      * Write gateway information to the website's custom log files
      */
-    doLog: function (dataType, gatewayData) {
+    log: function (dataType, gatewayData) {
         if (this.getValue("ckoDebugEnabled") == true) {
             var logger = Logger.getLogger('ckodebug');
             if (logger) {
@@ -314,12 +314,6 @@ var ckoHelper = {
      * Handle a failed payment response
      */
     handleFail: function (gatewayResponse) {
-        if (gatewayResponse) {
-
-            // Logging
-            this.doLog(this._('cko.cartridge.failed', 'cko'), JSON.stringify(gatewayResponse));
-        }
-
         // Send back to the error page
         ISML.renderTemplate('custom/common/response/failed.isml');
     },
