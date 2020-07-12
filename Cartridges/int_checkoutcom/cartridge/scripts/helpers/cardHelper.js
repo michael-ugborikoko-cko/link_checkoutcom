@@ -91,7 +91,7 @@ var cardHelper = {
         	
             // Fail the order
             Transaction.wrap(function () {
-                OrderMgr.failOrder(order);
+                OrderMgr.failOrder(order, true);
             });
 
             return false;

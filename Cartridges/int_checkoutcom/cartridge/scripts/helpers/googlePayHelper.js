@@ -66,11 +66,8 @@ var googlePayHelper = {
         	
             // Update the transaction
             Transaction.wrap(function () {
-                OrderMgr.failOrder(order);
+                OrderMgr.failOrder(order, true);
             });
-            
-            // Restore the cart
-            ckoHelper.checkAndRestoreBasket(order);
             
             return false;
         }
@@ -80,7 +77,6 @@ var googlePayHelper = {
      * Build Gateway Source Object
      */
     getSourceObject: function (tokenData) {
-    	
         // Source object
         var source = {
             type: "token",

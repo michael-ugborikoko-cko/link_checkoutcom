@@ -30,7 +30,6 @@ function handleReturn() {
     var serviceName = 'cko.verify.charges.' + mode + '.service';
     var orderId = ckoHelper.getOrderId();
 
-
     // If there is a track id
     if (orderId) {
         // Load the order
@@ -67,7 +66,7 @@ function handleReturn() {
                         app.getController('COSummary').ShowConfirmation(order);
                     } else {
                         // Restore the cart
-                        ckoHelper.checkAndRestoreBasket(order);
+                        OrderMgr.failOrder(order, true);
 
                         // Send back to the error page
                         ISML.renderTemplate('custom/common/response/failed.isml');
@@ -75,7 +74,7 @@ function handleReturn() {
                 } else {
 
                     // Restore the cart
-                    ckoHelper.checkAndRestoreBasket(order);
+                    OrderMgr.failOrder(order, true);
 
                     // Send back to the error page
                     ISML.renderTemplate('custom/common/response/failed.isml');
@@ -117,7 +116,7 @@ function handleFail() {
     var order = OrderMgr.getOrder(session.privacy.ckoOrderId);
 
     // Restore the cart
-    ckoHelper.checkAndRestoreBasket(order);
+    OrderMgr.failOrder(order, true);
 
     // Send back to the error page
     ISML.renderTemplate('custom/common/response/failed.isml');
