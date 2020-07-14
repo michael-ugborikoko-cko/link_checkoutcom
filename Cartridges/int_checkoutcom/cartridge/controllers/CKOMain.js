@@ -45,11 +45,11 @@ function handleReturn() {
                     serviceName,
                     {'paymentToken': sessionId}
                 );
-        
+
                 // Log the payment verify data
                 ckoHelper.log(
                     serviceName + ' - ' + ckoHelper._('cko.verify.data', 'cko'),
-                    gRequest
+                    gVerify
                 );
 
                 // If there is a valid response
