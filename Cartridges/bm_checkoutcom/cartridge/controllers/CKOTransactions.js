@@ -48,8 +48,8 @@ function remoteCall()
     var serviceName = 'cko.transaction.' + task + '.' + mode + '.service';
 
     // Log the payment request data
-    ckoHelper.log(
-        ckoHelper._('cko.request.data', 'cko') + ' - ' + serviceName,
+    CKOHelper.log(
+        CKOHelper._('cko.request.data', 'cko') + ' - ' + serviceName,
         gRequest
     );
 
@@ -60,8 +60,8 @@ function remoteCall()
     );
 
     // Log the payment response data
-    ckoHelper.log(
-        ckoHelper._('cko.response.data', 'cko') + ' - ' + serviceName,
+    CKOHelper.log(
+        CKOHelper._('cko.response.data', 'cko') + ' - ' + serviceName,
         gResponse
     );
 
