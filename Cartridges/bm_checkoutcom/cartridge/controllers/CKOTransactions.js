@@ -24,7 +24,7 @@ function getTransactionsData()
     var data = CKOHelper.getCkoTransactions();
     
     // Send the AJAX response
-    ISML.renderTemplate('transactions/ajax', {data: JSON.stringify(data) });
+    response.writer.println(JSON.stringify(data));
 }
 
 /**
@@ -66,7 +66,7 @@ function remoteCall()
     );
 
     // Return the response
-    ISML.renderTemplate('transactions/ajax', {data: JSON.stringify(gResponse) });
+    response.writer.println(JSON.stringify(gResponse));
 }
 
 /*
