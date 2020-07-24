@@ -39,6 +39,7 @@ function remoteCall() {
 
     // Prepare the payload
     var gRequest = {
+        // eslint-disable-next-line
         amount: CKOHelper.getFormattedPrice(request.httpParameterMap.get('amount').stringValue), // eslint-disable-next-line
         chargeId: request.httpParameterMap.get('pid').stringValue, // eslint-disable-next-line
     };
