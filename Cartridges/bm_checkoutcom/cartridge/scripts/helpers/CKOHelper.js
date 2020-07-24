@@ -29,13 +29,13 @@ var CKOHelper = {
         var result = SystemObjectMgr.querySystemObjects('Order', '', 'creationDate desc');
         
         // Loop through the results
-        //eslint-disable-line
+        // eslint-disable-next-line
         for each(var item in result) {
             // Get the payment instruments
             var paymentInstruments = item.getPaymentInstruments();
             
             // Loop through the payment instruments
-            //eslint-disable-line
+            // eslint-disable-next-line
             for each(var instrument in paymentInstruments) {
                 if (this.isCkoItem(instrument.paymentMethod) && !this.containsObject(item, data)) {
                     data.push(item);
@@ -59,13 +59,13 @@ var CKOHelper = {
         // Loop through the results
         var i = 1;
 
-        //eslint-disable-line
+        // eslint-disable-next-line
         for each(var item in result) {
             // Get the payment instruments
             var paymentInstruments = item.getPaymentInstruments();
             
             // Loop through the payment instruments
-            //eslint-disable-line
+            // eslint-disable-next-line
             for each(var instrument in paymentInstruments) {
                 // Get the payment transaction
                 var paymentTransaction = instrument.getPaymentTransaction();
@@ -114,7 +114,7 @@ var CKOHelper = {
         var totalCaptured = 0;
 
         // Loop through the payment instruments
-        //eslint-disable-line
+        // eslint-disable-next-line
         for each(var instrument in paymentInstruments) {
             // Get the payment transaction
             var paymentTransaction = instrument.getPaymentTransaction();
