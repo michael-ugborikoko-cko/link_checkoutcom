@@ -106,7 +106,7 @@ function getTransactionData(members) {
             var field7Id = '[id="' + task + '_refundable_amount"]';
 
             // Handle the capture case transation amount value
-            if (transaction.data_type == 'CAPTURE') {
+            if (transaction.data_type === 'CAPTURE') {
                 jQuery(field1Id).val(transaction.refundable_amount);
                 jQuery(field7Id).append(transaction.refundable_amount + ' ' + transaction.currency);
             } else {
@@ -124,6 +124,7 @@ function getTransactionData(members) {
             jQuery(modalId).show();
         },
         error: function(request, status, error) {
+            // eslint-disable-next-line no-console
             console.log(error);
         },
     });
@@ -184,6 +185,7 @@ function performAction(task) {
             }
         },
         error: function(request, status, error) {
+            // eslint-disable-next-line no-console
             console.log(error);
         },
     });

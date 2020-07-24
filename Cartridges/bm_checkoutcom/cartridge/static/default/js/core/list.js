@@ -52,6 +52,7 @@ function getTransactions(callBackFn) {
             callBackFn(data);
         },
         error: function(request, status, error) {
+            // eslint-disable-next-line no-console
             console.log(error);
         },
     });
