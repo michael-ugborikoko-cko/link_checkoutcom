@@ -181,6 +181,7 @@ function performAction(task) {
                 jQuery('.ckoModal .modal-content .close').trigger('click');
 
                 // Reload the table data
+                // eslint-disable-next-line
                 getTransactions(reloadTable);
             }
         },

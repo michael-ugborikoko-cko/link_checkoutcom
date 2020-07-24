@@ -5,19 +5,28 @@
  */
 document.addEventListener('DOMContentLoaded', function() {
     // Load the translation strings
+    // eslint-disable-next-line
     loadTranslations();
 
     // Build the navigation tabs
+    // eslint-disable-next-line
     buildTabs();
 
     // Get the transactions
+    // eslint-disable-next-line
     getTransactions(initTable);
 }, false);
 
+/**
+ * Load the transactions.
+ */
 function loadTranslations() {
     window.ckoLang = JSON.parse(jQuery('[id="translationStrings"]').val());
 }
 
+/**
+ * Build the tabs.
+ */
 function buildTabs() {
     // Get the active tab id
     var activeId = '[id="' + getCookie('ckoTabs') + '"]';
@@ -27,6 +36,11 @@ function buildTabs() {
     jQuery(activeId).parent('td').removeClass('table_tabs_dis_background').addClass('table_tabs_en_background');
 }
 
+/**
+ * Get a cookie value.
+ * @param {string} cname The cookie name
+ * @returns {string} The cookie value
+ */
 function getCookie(cname) {
     var name = cname + '=';
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -43,6 +57,10 @@ function getCookie(cname) {
     return '';
 }
 
+/**
+ * Get transactions.
+ * @param {string} callBackFn The callback function
+ */
 function getTransactions(callBackFn) {
     var controllerUrl = jQuery('[id="transactionsControllerUrl"]').val();
     jQuery.ajax({
@@ -58,6 +76,10 @@ function getTransactions(callBackFn) {
     });
 }
 
+/**
+ * Initialise the table.
+ * @param {string} tableData The table data
+ */
 function initTable(tableData) {
     // Build the table instance
     window.ckoTransactionsTable = new Tabulator('#transactions-table', {
@@ -79,6 +101,10 @@ function initTable(tableData) {
     });
 }
 
+/**
+ * Get the table strings.
+ * @returns {Object} The trannslated strings object
+ */
 function getTableStrings() {
     var tableLocale = getTableLocale();
     return {
@@ -110,11 +136,19 @@ function getTableStrings() {
     };
 }
 
+/**
+ * Get the table locale.
+ * @returns {string} The table locale
+ */
 function getTableLocale() {
     var currentLocale = jQuery('[id="currentLocale"]').val();
     return currentLocale + '-' + currentLocale;
 }
 
+/**
+ * Reload the table data.
+ * @param {string} The table data
+ */
 function reloadTable(tableData) {
     // Update the row data
     window.ckoTransactionsTable.replaceData(tableData);
@@ -123,6 +157,9 @@ function reloadTable(tableData) {
     showSuccessMessage();
 }
 
+/**
+ * Show a success message.
+ */
 function showSuccessMessage() {
     // Show the success message
     jQuery('.ckoSuccessMessage').show(
@@ -135,6 +172,10 @@ function showSuccessMessage() {
     );
 }
 
+/**
+ * Set the table pagination.
+ * @param {Object} table table data
+ */
 function setPagination(table) {
     // Add the pager event
     jQuery('.transactions-table-controls .transactions-table-pager').change(function() {
@@ -144,6 +185,10 @@ function setPagination(table) {
     });
 }
 
+/**
+ * Get the table columns.
+ * @returns {Object} The table columns object
+ */
 function getTableColumns() {
     return [
         { title: 'Id', field: 'id', visible: false },
@@ -177,6 +222,11 @@ function getTableColumns() {
     ];
 }
 
+/**
+ * Get the HTML buttons.
+ * @param {Object} cell the table cell
+ * @returns {string} The buttons HTML
+ */
 function getButtonsHtml(cell) {
     // Get the row data
     var rowData = cell.getRow().getData();
