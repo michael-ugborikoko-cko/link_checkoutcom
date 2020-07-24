@@ -9,6 +9,7 @@ var util = require('~/cartridge/scripts/helpers/CKOHelper');
 var wrapper = {
     /**
      * Initialize HTTP service for the Checkout.com sandbox full card void.
+     * @returns {String} returns the http response
      */
     sandbox: function() {
         return svc.LocalServiceRegistry.createService('cko.transaction.void.sandbox.service', {
@@ -37,6 +38,7 @@ var wrapper = {
 
     /**
      * Initialize HTTP service for the Checkout.com live full card void.
+     * @returns {String} returns the http response
      */
     live: function() {
         return svc.LocalServiceRegistry.createService('cko.transaction.void.live.service', {
