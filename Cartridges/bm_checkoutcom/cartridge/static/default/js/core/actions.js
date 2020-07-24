@@ -33,7 +33,7 @@ function initButtons() {
             // eslint-disable-next-line
             openModal(e.target);
         }
-    },true);
+    }, true);
 
     // Submit the action request
     jQuery('.ckoModal .modal-content .submit').click(function() {
@@ -52,6 +52,7 @@ function initButtons() {
 
 /**
  * Open the modal window.
+ * @param elt
  */
 function openModal(elt) {
     // Prepare the origin element id members
@@ -69,6 +70,10 @@ function openModal(elt) {
     }
 }
 
+/**
+ * Get the transaction data.
+ * @param members
+ */
 function getTransactionData(members) {
     // Prepare the controller URL for the AJAX request
     var controllerUrl = jQuery('[id="transactionsControllerUrl"]').val();
@@ -124,6 +129,10 @@ function getTransactionData(members) {
     });
 }
 
+/**
+ * Show the error message.
+ * @param selector
+ */
 function showErrorMessage(selector) {
     // Show the error message
     jQuery('.' + selector).show(
@@ -136,6 +145,10 @@ function showErrorMessage(selector) {
     );
 }
 
+/**
+ * Perform a transaction action.
+ * @param task
+ */
 function performAction(task) {
     // Prepare the action URL
     var actionUrl = jQuery('[id="actionControllerUrl"]').val();
