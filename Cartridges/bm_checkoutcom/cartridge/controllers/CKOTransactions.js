@@ -22,7 +22,7 @@ function getTransactionsData() {
     var data = CKOHelper.getCkoTransactions();
 
     // Send the AJAX response
-    // eslint-disable-next-line no-use-before-define
+    //eslint-disable-line
     response.writer.println(JSON.stringify(data));
 }
 
@@ -34,13 +34,13 @@ function remoteCall() {
     var mode = CKOHelper.getValue('ckoMode');
 
     // Get the transaction task
-    // eslint-disable-next-line no-use-before-define
+    //eslint-disable-line
     var task = request.httpParameterMap.get('task');
 
     // Prepare the payload
     var gRequest = {
-        amount: CKOHelper.getFormattedPrice(request.httpParameterMap.get('amount').stringValue), // eslint-disable-next-line no-use-before-define
-        chargeId: request.httpParameterMap.get('pid').stringValue, // eslint-disable-next-line no-use-before-define
+        amount: CKOHelper.getFormattedPrice(request.httpParameterMap.get('amount').stringValue), //eslint-disable-line
+        chargeId: request.httpParameterMap.get('pid').stringValue, //eslint-disable-line
     };
 
     // Set the service parameter
@@ -65,7 +65,7 @@ function remoteCall() {
     );
 
     // Return the response
-    // eslint-disable-next-line no-use-before-define
+    //eslint-disable-line
     response.writer.println(JSON.stringify(gResponse));
 }
 
