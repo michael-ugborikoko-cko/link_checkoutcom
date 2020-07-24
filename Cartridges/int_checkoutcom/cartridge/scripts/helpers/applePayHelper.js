@@ -1,7 +1,7 @@
-"use strict"
+'use strict';
 
 
-// API Includes 
+// API Includes
 var Transaction = require('dw/system/Transaction');
 var OrderMgr = require('dw/order/OrderMgr');
 
@@ -13,17 +13,17 @@ var applePayHelper = {
     /**
      * Handle full charge Request to CKO API
      */
-    handleRequest: function (args) {
+    handleRequest: function(args) {
         // Prepare the parameters
         var order = OrderMgr.getOrder(args.OrderNo);
         var paymentInstrument = args.PaymentInstrument;
-        var ckoApplePayData =  paymentInstrument.paymentTransaction.custom.ckoApplePayData;
+        var ckoApplePayData = paymentInstrument.paymentTransaction.custom.ckoApplePayData;
         var serviceName;
 
         // Prepare the parameters
         var requestData = {
-            "type": "applepay",
-            "token_data": JSON.parse(ckoApplePayData)
+            type: 'applepay',
+            token_data: JSON.parse(ckoApplePayData),
         };
 
         // Perform the request to the payment gateway
@@ -44,17 +44,17 @@ var applePayHelper = {
         // If the request is valid, process the response
         if (tokenResponse && tokenResponse.hasOwnProperty('token')) {
             var chargeData = {
-                "source"                : this.getSourceObject(tokenResponse),
-                "amount"                : ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), ckoHelper.getCurrency()),
-                "currency"              : ckoHelper.getCurrency(),
-                "reference"             : args.OrderNo,
-                "capture"               : ckoHelper.getValue('ckoAutoCapture'),
-                "capture_on"            : ckoHelper.getCaptureTime(),
-                "customer"              : ckoHelper.getCustomer(args),
-                "billing_descriptor"    : ckoHelper.getBillingDescriptorObject(),
-                "shipping"              : ckoHelper.getShippingObject(args),
-                "payment_ip"            : ckoHelper.getHost(args),
-                "metadata"              : ckoHelper.getMetadataObject([], args)
+                source: this.getSourceObject(tokenResponse),
+                amount: ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), ckoHelper.getCurrency()),
+                currency: ckoHelper.getCurrency(),
+                reference: args.OrderNo,
+                capture: ckoHelper.getValue('ckoAutoCapture'),
+                capture_on: ckoHelper.getCaptureTime(),
+                customer: ckoHelper.getCustomer(args),
+                billing_descriptor: ckoHelper.getBillingDescriptorObject(),
+                shipping: ckoHelper.getShippingObject(args),
+                payment_ip: ckoHelper.getHost(args),
+                metadata: ckoHelper.getMetadataObject([], args),
             };
 
             // Log the payment request data
@@ -77,29 +77,28 @@ var applePayHelper = {
             }
 
             return false;
-        } else {
-            // Update the transaction
-            Transaction.wrap(function () {
-                OrderMgr.failOrder(order, true);
-            });
-            
-            return false;
         }
+            // Update the transaction
+        Transaction.wrap(function() {
+            OrderMgr.failOrder(order, true);
+        });
+
+        return false;
     },
-    
+
     /**
      * Build Gateway Source Object
      */
-    getSourceObject: function (tokenData) {
+    getSourceObject: function(tokenData) {
         // source object
         var source = {
-            type: "token",
-            token: tokenData.token
-        }
-        
+            type: 'token',
+            token: tokenData.token,
+        };
+
         return source;
-    }
-}
+    },
+};
 
 // Module exports
 module.exports = applePayHelper;

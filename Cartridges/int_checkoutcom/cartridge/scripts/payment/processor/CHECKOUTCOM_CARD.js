@@ -1,19 +1,19 @@
 'use strict';
 
-// API Includes 
+// API Includes
 var PaymentMgr = require('dw/order/PaymentMgr');
 var Transaction = require('dw/system/Transaction');
 
-// Site controller 
+// Site controller
 var SiteControllerName = dw.system.Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
 
-// Shopper cart 
+// Shopper cart
 var Cart = require(SiteControllerName + '/cartridge/scripts/models/CartModel');
 
-// App 
+// App
 var app = require(SiteControllerName + '/cartridge/scripts/app');
 
-// Utility 
+// Utility
 var cardHelper = require('~/cartridge/scripts/helpers/cardHelper');
 var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 
@@ -30,21 +30,23 @@ function Handle(args) {
 
     // Prepare card data object
     var cardData = {
-        owner       : paymentForm.get('owner').value(),
-        number      : ckoHelper.getFormattedNumber(paymentForm.get('number').value()),
-        month       : paymentForm.get('expiration.month').value(),
-        year        : paymentForm.get('expiration.year').value(),
-        cvn         : paymentForm.get('cvn').value(),
-        cardType    : paymentForm.get('type').value()
+        owner: paymentForm.get('owner').value(),
+        number: ckoHelper.getFormattedNumber(paymentForm.get('number').value()),
+        month: paymentForm.get('expiration.month').value(),
+        year: paymentForm.get('expiration.year').value(),
+        cvn: paymentForm.get('cvn').value(),
+        cardType: paymentForm.get('type').value(),
     };
 
     // Save card feature
-    if(paymentForm.get('saveCard').value()){
-    	var i, creditCards, newCreditCard;
+    if (paymentForm.get('saveCard').value()) {
+    	var i,
+        creditCards,
+        newCreditCard;
 
         creditCards = customer.profile.getWallet().getPaymentInstruments(paymentMethod);
 
-        Transaction.wrap(function () {
+        Transaction.wrap(function() {
             newCreditCard = customer.profile.getWallet().createPaymentInstrument(paymentMethod);
 
             // copy the credit card details to the payment instrument
@@ -65,7 +67,7 @@ function Handle(args) {
     }
 
     // Proceed with transaction
-    Transaction.wrap(function () {
+    Transaction.wrap(function() {
         cart.removeExistingPaymentInstruments(paymentMethod);
         var paymentInstrument = cart.createPaymentInstrument(paymentMethod, cart.getNonGiftCertificateAmount());
         paymentInstrument.creditCardHolder = cardData.owner;
@@ -75,12 +77,8 @@ function Handle(args) {
         paymentInstrument.creditCardType = cardData.cardType;
     });
 
-    return {success: true};
+    return { success: true };
 }
-
-
-
-
 
 
 /**
@@ -89,7 +87,6 @@ function Handle(args) {
  * logic to authorise credit card payment.
  */
 function Authorize(args) {
-
     // Preparing payment parameters
     var paymentInstrument = args.PaymentInstrument;
 
@@ -101,19 +98,18 @@ function Authorize(args) {
 
     // Build card data object
     var cardData = {
-        'name'          : paymentInstrument.creditCardHolder,
-        'number'        : ckoHelper.getFormattedNumber(paymentForm.get('number').value()),
-        'expiryMonth'   : paymentInstrument.creditCardExpirationMonth,
-        'expiryYear'    : paymentInstrument.creditCardExpirationYear,
-        'cvv'           : paymentForm.get('cvn').value(),
-        'type'          : paymentInstrument.creditCardType
+        name: paymentInstrument.creditCardHolder,
+        number: ckoHelper.getFormattedNumber(paymentForm.get('number').value()),
+        expiryMonth: paymentInstrument.creditCardExpirationMonth,
+        expiryYear: paymentInstrument.creditCardExpirationYear,
+        cvv: paymentForm.get('cvn').value(),
+        type: paymentInstrument.creditCardType,
     };
-    
+
     if (cardHelper.cardAuthorization(cardData, args)) {
-        return {success: true};
-    } else {
-        return {error: true};
+        return { success: true };
     }
+    return { error: true };
 }
 
 // Module exports

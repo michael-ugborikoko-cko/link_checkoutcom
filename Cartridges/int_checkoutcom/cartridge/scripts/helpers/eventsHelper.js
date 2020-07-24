@@ -17,12 +17,10 @@ var eventsHelper = {
     /**
      * Adds the gateway webhook information to the newly created order
      */
-    addWebhookInfo: function (hook, paymentStatus, orderStatus) {
-
+    addWebhookInfo: function(hook, paymentStatus, orderStatus) {
         // Load the order
         var order = OrderMgr.getOrder(hook.data.reference);
         if (order) {
-
             // Prepare the webhook info
             var details = '';
             details += ckoHelper._('cko.webhook.event', 'cko') + ': ' + hook.type + '\n';
@@ -32,8 +30,7 @@ var eventsHelper = {
             details += ckoHelper._('cko.response.code', 'cko') + ': ' + hook.data.response_code + '\n';
 
             // Process the transaction
-            Transaction.wrap(function () {
-
+            Transaction.wrap(function() {
                 // Add the details to the order
                 order.addNote(ckoHelper._('cko.webhook.info', 'cko'), details);
 
@@ -43,7 +40,7 @@ var eventsHelper = {
                 }
 
                 // Update the order status
-                if ((orderStatus) && (orderStatus.indexOf("CANCELLED") != -1 || orderStatus.indexOf("FAILED") != -1)) {
+                if ((orderStatus) && (orderStatus.indexOf('CANCELLED') != -1 || orderStatus.indexOf('FAILED') != -1)) {
                     OrderMgr.failOrder(order, true);
                 }
             });
@@ -53,8 +50,7 @@ var eventsHelper = {
     /**
      * Payment captured event
      */
-    paymentCaptured: function (hook) {
-
+    paymentCaptured: function(hook) {
         // Create the webhook info
         this.addWebhookInfo(hook, 'PAYMENT_STATUS_PAID', null);
 
@@ -68,7 +64,7 @@ var eventsHelper = {
         var transactionAmount = transactionHelper.getHookTransactionAmount(hook);
 
         // Create the captured transaction
-        Transaction.wrap(function () {
+        Transaction.wrap(function() {
             // Create the transaction
             var paymentInstrument = order.createPaymentInstrument(paymentProcessorId, transactionAmount);
             var paymentProcessor = PaymentMgr.getPaymentMethod(paymentInstrument.paymentMethod).getPaymentProcessor();
@@ -91,8 +87,7 @@ var eventsHelper = {
     /**
      * Payment authorized event
      */
-    paymentApproved: function (hook) {
-
+    paymentApproved: function(hook) {
         // Create the webhook info
         this.addWebhookInfo(hook, 'PAYMENT_STATUS_NOTPAID', null);
 
@@ -104,7 +99,6 @@ var eventsHelper = {
         var customerId = hook.data.metadata.customer_id;
         var processorId = hook.data.metadata.payment_processor;
         if (cardUuid != 'false' && customerId) {
-
             // Load the saved card
             var savedCard = cardHelper.getSavedCard(
                 cardUuid,
@@ -113,9 +107,8 @@ var eventsHelper = {
             );
 
             if (savedCard) {
-
                 // Add the card source
-                Transaction.wrap(function () {
+                Transaction.wrap(function() {
                     savedCard.setCreditCardToken(hook.data.source.id);
                 });
             }
@@ -125,29 +118,28 @@ var eventsHelper = {
     /**
      * Card verified event
      */
-    cardVerified: function (hook) {
+    cardVerified: function(hook) {
         this.addWebhookInfo(hook, 'PAYMENT_STATUS_NOTPAID', null);
     },
 
     /**
      * Authorization failed event
      */
-    paymentDeclined: function (hook) {
+    paymentDeclined: function(hook) {
         this.addWebhookInfo(hook, 'PAYMENT_STATUS_NOTPAID', 'ORDER_STATUS_FAILED');
     },
 
     /**
      * Capture failed event
      */
-    paymentCapturedDeclined: function (hook) {
+    paymentCapturedDeclined: function(hook) {
         this.addWebhookInfo(hook, 'PAYMENT_STATUS_NOTPAID', 'ORDER_STATUS_FAILED');
     },
 
     /**
      * Payment refunded event
      */
-    paymentRefunded: function (hook) {
-
+    paymentRefunded: function(hook) {
         // Create the webhook info
         this.addWebhookInfo(hook, 'PAYMENT_STATUS_PAID', 'ORDER_STATUS_CANCELLED');
 
@@ -161,8 +153,7 @@ var eventsHelper = {
         var transactionAmount = transactionHelper.getHookTransactionAmount(hook);
 
         // Create the refunded transaction
-        Transaction.wrap(function () {
-
+        Transaction.wrap(function() {
             // Create the transaction
             var paymentInstrument = order.createPaymentInstrument(paymentProcessorId, transactionAmount);
             var paymentProcessor = PaymentMgr.getPaymentMethod(paymentInstrument.paymentMethod).getPaymentProcessor();
@@ -185,8 +176,7 @@ var eventsHelper = {
     /**
      * Payment voided event
      */
-    paymentVoided: function (hook) {
-
+    paymentVoided: function(hook) {
         // Create the webhook info
         this.addWebhookInfo(hook, 'PAYMENT_STATUS_NOTPAID', 'ORDER_STATUS_CANCELLED');
 
@@ -200,8 +190,7 @@ var eventsHelper = {
         var transactionAmount = transactionHelper.getHookTransactionAmount(hook);
 
         // Create the voided transaction
-        Transaction.wrap(function () {
-
+        Transaction.wrap(function() {
             // Create the transaction
             var paymentInstrument = order.createPaymentInstrument(paymentProcessorId, transactionAmount);
             var paymentProcessor = PaymentMgr.getPaymentMethod(paymentInstrument.paymentMethod).getPaymentProcessor();
@@ -225,23 +214,23 @@ var eventsHelper = {
     /**
      * Refund failed event
      */
-    paymentRefundDeclined: function (hook) {
+    paymentRefundDeclined: function(hook) {
         this.addWebhookInfo(hook, null, null);
     },
 
     /**
      * Charge void failed event
      */
-    paymentVoidDeclined: function (hook) {
+    paymentVoidDeclined: function(hook) {
         this.addWebhookInfo(hook, null, null);
     },
 
     /**
     * Payment pending event.
     */
-    paymentExpired: function (hook) {
+    paymentExpired: function(hook) {
         this.addWebhookInfo(hook, null, null);
-    }
+    },
 };
 
 // Module exports
