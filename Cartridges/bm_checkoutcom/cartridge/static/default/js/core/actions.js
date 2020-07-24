@@ -52,7 +52,7 @@ function initButtons() {
 
 /**
  * Open the modal window.
- * @param elt
+ * @param {Object} elt The DOM element
  */
 function openModal(elt) {
     // Prepare the origin element id members
@@ -60,19 +60,19 @@ function openModal(elt) {
 
     // Get the transaction data
     var tidExists = members[2] !== null && members[2] !== 'undefined';
-    var isValidTid = members[2].length > 0 && members[2].indexOf('act_') == 0;
+    var isValidTid = members[2].length > 0 && members[2].indexOf('act_') === 0;
     if (tidExists && isValidTid) {
         // eslint-disable-next-line
         getTransactionData(members);
     } else {
         // eslint-disable-next-line no-alert
-        alert(l.transactionMissing);
+        alert(window.ckoLang.transactionMissing);
     }
 }
 
 /**
  * Get the transaction data.
- * @param members
+ * @param {array} members The transaction data array
  */
 function getTransactionData(members) {
     // Prepare the controller URL for the AJAX request
@@ -131,7 +131,7 @@ function getTransactionData(members) {
 
 /**
  * Show the error message.
- * @param selector
+ * @param {string} selector The CSS selector
  */
 function showErrorMessage(selector) {
     // Show the error message
@@ -147,7 +147,7 @@ function showErrorMessage(selector) {
 
 /**
  * Perform a transaction action.
- * @param task
+ * @param {string} task The task to perform
  */
 function performAction(task) {
     // Prepare the action URL
