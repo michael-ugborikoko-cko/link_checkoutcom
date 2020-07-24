@@ -5,9 +5,13 @@
  */
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize the button events
+    // eslint-disable-next-line
     initButtons();
 }, false);
 
+/**
+ * Initialise the buttons beahviour.
+ */
 function initButtons() {
     // Close the modal window
     jQuery('.ckoModal .modal-content .close').click(function(e) {
@@ -26,9 +30,10 @@ function initButtons() {
             }
 
             // Open the modal
+            // eslint-disable-next-line
             openModal(e.target);
         }
-    },  true);
+    },true);
 
     // Submit the action request
     jQuery('.ckoModal .modal-content .submit').click(function() {
@@ -40,20 +45,26 @@ function initButtons() {
         var task = members[0];
 
         // Perform the requested action
+        // eslint-disable-next-line
         performAction(task);
     });
 }
 
+/**
+ * Open the modal window.
+ */
 function openModal(elt) {
     // Prepare the origin element id members
     var members = elt.id.split('-');
 
     // Get the transaction data
-    var tidExists = members[2] != null && members[2] != 'undefined';
+    var tidExists = members[2] !== null && members[2] !== 'undefined';
     var isValidTid = members[2].length > 0 && members[2].indexOf('act_') == 0;
     if (tidExists && isValidTid) {
+        // eslint-disable-next-line
         getTransactionData(members);
     } else {
+        // eslint-disable-next-line no-alert
         alert(l.transactionMissing);
     }
 }
