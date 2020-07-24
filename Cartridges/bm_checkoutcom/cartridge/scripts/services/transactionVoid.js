@@ -1,7 +1,7 @@
 'use strict';
 
 /* API Includes */
-var svc = require('dw/svc');
+var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
 
 /* Utility */
 var util = require('~/cartridge/scripts/helpers/CKOHelper');
@@ -12,7 +12,7 @@ var wrapper = {
      * @returns {string} returns the http response
      */
     sandbox: function() {
-        return svc.LocalServiceRegistry.createService('cko.transaction.void.sandbox.service', {
+        return LocalServiceRegistry.createService('cko.transaction.void.sandbox.service', {
             createRequest: function(svc, args) {
                 // Prepare the http service
                 svc.addHeader('Authorization', util.getAccountKeys().secretKey);
@@ -41,7 +41,7 @@ var wrapper = {
      * @returns {string} returns the http response
      */
     live: function() {
-        return svc.LocalServiceRegistry.createService('cko.transaction.void.live.service', {
+        return LocalServiceRegistry.createService('cko.transaction.void.live.service', {
             createRequest: function(svc, args) {
                 // Prepare the http service
                 svc.addHeader('Authorization', util.getAccountKeys().secretKey);
