@@ -71,7 +71,6 @@ function initTable(tableData)
         placeholder: window.ckoLang.noResults,
         layout: 'fitColumns',
         data: JSON.parse(tableData),
-        layout: 'fitColumns',
         pagination: 'local',
         paginationSize: 50,
         columns: getTableColumns(),
