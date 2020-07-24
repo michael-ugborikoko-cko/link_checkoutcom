@@ -8,8 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initButtons();
 }, false);
 
-function initButtons()
-{
+function initButtons() {
     // Close the modal window
     jQuery('.ckoModal .modal-content .close').click(function(e) {
         jQuery('.ckoModal .modal-content input').val('');
@@ -18,7 +17,7 @@ function initButtons()
     });
 
     // Define the transaction buttons click events
-    document.addEventListener('click', function (e) {
+    document.addEventListener('click', function(e) {
         // Prevent double click
         if (typeof e.target.className === 'string' && e.target.className.indexOf('ckoAction') !== -1) {
             // Ignore double cliks
@@ -30,9 +29,9 @@ function initButtons()
             openModal(e.target);
         }
     },  true);
-    
+
     // Submit the action request
-    jQuery('.ckoModal .modal-content .submit').click(function () {
+    jQuery('.ckoModal .modal-content .submit').click(function() {
         // Prepare the origin element id members
         var elt = jQuery(this).closest('.modal-content').find('input');
         var members = elt.attr('id').split('_');
@@ -41,12 +40,11 @@ function initButtons()
         var task = members[0];
 
         // Perform the requested action
-        performAction(task);               
+        performAction(task);
     });
 }
 
-function openModal(elt)
-{
+function openModal(elt) {
     // Prepare the origin element id members
     var members = elt.id.split('-');
 
@@ -60,8 +58,7 @@ function openModal(elt)
     }
 }
 
-function getTransactionData(members)
-{
+function getTransactionData(members) {
     // Prepare the controller URL for the AJAX request
     var controllerUrl = jQuery('[id="transactionsControllerUrl"]').val();
 
@@ -78,8 +75,8 @@ function getTransactionData(members)
     jQuery.ajax({
         type: 'POST',
         url: controllerUrl,
-        data: {tid: transactionId},
-        success: function (data) {
+        data: { tid: transactionId },
+        success: function(data) {
             // Get the data
             var transaction = JSON.parse(data)[0];
 
@@ -96,8 +93,7 @@ function getTransactionData(members)
             if (transaction.data_type == 'CAPTURE') {
                 jQuery(field1Id).val(transaction.refundable_amount);
                 jQuery(field7Id).append(transaction.refundable_amount + ' ' + transaction.currency);
-            }
-            else {
+            } else {
                 jQuery(field1Id).val(transaction.amount);
             }
 
@@ -111,30 +107,28 @@ function getTransactionData(members)
             // Show the modal window
             jQuery(modalId).show();
         },
-        error: function (request, status, error) {
+        error: function(request, status, error) {
             console.log(error);
-        }
+        },
     });
 }
 
-function showErrorMessage(selector)
-{
+function showErrorMessage(selector) {
     // Show the error message
     jQuery('.' + selector).show(
         'fast',
-        function () {
-            setTimeout(function () {
+        function() {
+            setTimeout(function() {
                 jQuery('.' + selector).hide();
             }, 7000);
         }
     );
 }
 
-function performAction(task)
-{
+function performAction(task) {
     // Prepare the action URL
     var actionUrl = jQuery('[id="actionControllerUrl"]').val();
-    
+
     // Set the transaction id
     var paymentId = jQuery('[id="' + task + '_payment_id"]').text();
 
@@ -145,15 +139,15 @@ function performAction(task)
     var data = {
         pid: paymentId,
         task: task,
-        amount: amount
-    }
+        amount: amount,
+    };
 
     // Send the AJAX request
     jQuery.ajax({
         type: 'POST',
         url: actionUrl,
         data: data,
-        success: function (res) {
+        success: function(res) {
             var success = JSON.parse(res);
             if (!success) {
                 showErrorMessage('ckoErrorMessage');
@@ -165,8 +159,8 @@ function performAction(task)
                 getTransactions(reloadTable);
             }
         },
-        error: function (request, status, error) {
+        error: function(request, status, error) {
             console.log(error);
-        }
+        },
     });
 }

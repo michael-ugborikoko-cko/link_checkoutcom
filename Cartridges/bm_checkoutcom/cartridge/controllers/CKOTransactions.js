@@ -9,8 +9,7 @@ var CKOHelper = require('~/cartridge/scripts/helpers/CKOHelper');
 /**
  * Get the transactions list
  */
-function listTransactions()
-{
+function listTransactions() {
     // Render the template
     ISML.renderTemplate('transactions/list');
 }
@@ -18,11 +17,10 @@ function listTransactions()
 /**
  * Get the transactions table data
  */
-function getTransactionsData()
-{
+function getTransactionsData() {
     // Prepare the output array
     var data = CKOHelper.getCkoTransactions();
-    
+
     // Send the AJAX response
     response.writer.println(JSON.stringify(data));
 }
@@ -30,19 +28,18 @@ function getTransactionsData()
 /**
  * Perform a remote Hub Call
  */
-function remoteCall()
-{
+function remoteCall() {
     // Get the operating mode
     var mode = CKOHelper.getValue('ckoMode');
-   
+
     // Get the transaction task
     var task = request.httpParameterMap.get('task');
 
     // Prepare the payload
     var gRequest = {
         amount: CKOHelper.getFormattedPrice(request.httpParameterMap.get('amount').stringValue),
-        chargeId: request.httpParameterMap.get('pid').stringValue
-    }
+        chargeId: request.httpParameterMap.get('pid').stringValue,
+    };
 
     // Set the service parameter
     var serviceName = 'cko.transaction.' + task + '.' + mode + '.service';
