@@ -107,7 +107,7 @@ var cardHelper = {
         var gatewayLinks = gatewayResponse._links;
 
         // Add 3DS redirect URL to session if exists
-        if (gatewayLinks.hasOwnProperty('redirect')) {
+        if (Object.prototype.hasOwnProperty.call(gatewayLinks, 'redirect')) {
         	// Save redirect link to session
             session.privacy.redirectUrl = gatewayLinks.redirect.href;
 

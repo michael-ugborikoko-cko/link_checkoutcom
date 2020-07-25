@@ -166,7 +166,7 @@ var ckoHelper = {
         var serv = this.getService(serviceId);
 
         // Prepare the request URL and data
-        if (requestData.hasOwnProperty('chargeId')) {
+        if (Object.prototype.hasOwnProperty.call(requestData, 'chargeId')) {
             var requestUrl = serv.getURL().replace('chargeId', requestData.chargeId);
             serv.setURL(requestUrl);
             delete requestData['chargeId'];
@@ -294,17 +294,13 @@ var ckoHelper = {
      * Confirm is a payment is valid from API response code
      */
     paymentSuccess: function (gatewayResponse) {
-    	if (gatewayResponse.hasOwnProperty('response_code')) {
-
+    	if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'response_code')) {
     		return gatewayResponse.response_code == 10000 || gatewayResponse.response_code == 10100 || gatewayResponse.response_code == 10200;
-    	}else if(gatewayResponse.hasOwnProperty('actions')){
-
+    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'actions')){
     		return gatewayResponse.actions[0].response_code == 10000 || gatewayResponse.actions[0].response_code == 10100 || gatewayResponse.actions[0].response_code == 10200;
-    	}else if(gatewayResponse.hasOwnProperty('source')){
-
+    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'source')){
     		return gatewayResponse.source.type == 'sofort' || 'bancontact';
-    	}else if(gatewayResponse.hasOwnProperty('reference')){
-
+    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'reference')){
     		return gatewayResponse.reference == this.getOrderId();
     	}
 
@@ -315,7 +311,7 @@ var ckoHelper = {
      * Write order information to session for the current shopper
      */
     updateCustomerData: function (gatewayResponse) {
-        if ((gatewayResponse) && gatewayResponse.hasOwnProperty('card')) {
+        if ((gatewayResponse) && Object.prototype.hasOwnProperty.call(gatewayResponse, 'card')) {
             Transaction.wrap(function () {
                 if (session.customer.profile !== null) {
                     session.customer.profile.custom.ckoCustomerId = gatewayResponse.card.customerId;
@@ -693,7 +689,7 @@ var ckoHelper = {
         }
 
         // Add the data info if needed
-        if (data.hasOwnProperty('type')) {
+        if (Object.prototype.hasOwnProperty.call(data, 'type')) {
             meta.udf1 = data.type;
         }
 
@@ -715,7 +711,7 @@ var ckoHelper = {
         var meta = 'integration_data' + this.getCartridgeMeta() + 'platform_data' + this.getValue('ckoSgPlatformData')
 
         // Add the data info if needed
-        if (data.hasOwnProperty('type')) {
+        if (Object.prototype.hasOwnProperty.call(data, 'type')) {
             meta += 'udf1' + data.type;
         }
 

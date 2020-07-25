@@ -36,7 +36,7 @@ var googlePayHelper = {
         );
 
         // If the request is valid, process the response
-        if (tokenResponse && tokenResponse.hasOwnProperty('token')) {
+        if (tokenResponse && Object.prototype.hasOwnProperty.call(tokenResponse, 'token')) {
             var chargeData = {
                 source: this.getSourceObject(tokenResponse),
                 amount: ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), ckoHelper.getCurrency()),
