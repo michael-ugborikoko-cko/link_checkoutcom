@@ -13,28 +13,32 @@ var Resource = require('dw/web/Resource');
 var CKOHelper = {
     /**
      * Handles string translation with language resource files.
+     * @param {string} strValue The strin to translate
+     * @param {string} strFile The translation file
+     * @returns {string} Retuns the translated string
      */
-    _: function (strValue, strFile) {
+    _: function(strValue, strFile) {
         return Resource.msg(strValue, strFile, null);
     },
 
     /**
      * Get the Checkout.com orders.
+     * @returns {array} Retuns the orders array
      */
-    getCkoOrders: function () {
+    getCkoOrders: function() {
         // Prepare the output array
         var data = [];
-    
+
         // Query the orders
         var result = SystemObjectMgr.querySystemObjects('Order', '', 'creationDate desc');
-        
+
         // Loop through the results
         while (result.hasNext()) {
             var item = result.next();
 
             // Get the payment instruments
             var paymentInstruments = item.getPaymentInstruments().toArray();
-            
+
             // Loop through the payment instruments
             for (var i = 0; i < paymentInstruments.length; i++) {
                 if (this.isCkoItem(paymentInstruments[i].paymentMethod) && !this.containsObject(item, data)) {
@@ -48,20 +52,21 @@ var CKOHelper = {
 
     /**
      * Get the Checkout.com transactions.
+     * @returns {array} Retuns the transactions array
      */
-    getCkoTransactions: function () {
+    getCkoTransactions: function() {
         // Prepare the output array
         var data = [];
 
         // Query the orders
-        var result  = this.getCkoOrders();
+        var result = this.getCkoOrders();
 
         // Loop through the results
         var i = 1;
         for (var j = 0; j < result.length; j++) {
             // Get the payment instruments
             var paymentInstruments = result[j].getPaymentInstruments().toArray();
-            
+
             // Loop through the payment instruments
             for (var k = 0; k < paymentInstruments.length; k++) {
                 // Get the payment transaction
@@ -82,7 +87,7 @@ var CKOHelper = {
                         type: paymentTransaction.type.displayValue,
                         processor: this.getProcessorId(paymentInstruments[k]),
                         refundable_amount: 0,
-                        data_type: paymentTransaction.type.toString()
+                        data_type: paymentTransaction.type.toString(),
                     };
 
                     // Calculate the refundable amount
@@ -98,23 +103,25 @@ var CKOHelper = {
                 }
             }
         }
-        
+
         return data;
     },
 
     /**
      * Check if a capture transaction can allow refunds.
+     * @param {array} paymentInstruments The paymentInstruments array
+     * @returns {number} The refundable amount
      */
-    getRefundableAmount: function (paymentInstruments) {
+    getRefundableAmount: function(paymentInstruments) {
         // Prepare the totals
         var totalRefunded = 0;
         var totalCaptured = 0;
 
         // Loop through the payment instruments
         // eslint-disable-next-line
-        for each(var instrument in paymentInstruments) {
+        for (var i = 0; i < paymentInstruments.length; i++) {
             // Get the payment transaction
-            var paymentTransaction = instrument.getPaymentTransaction();
+            var paymentTransaction = paymentInstruments[i].getPaymentTransaction();
 
             // Calculate the total refunds
             if (paymentTransaction.type.toString() == PaymentTransaction.TYPE_CREDIT) {
@@ -126,7 +133,7 @@ var CKOHelper = {
                 totalCaptured += parseFloat(paymentTransaction.amount.value);
             }
         }
-    
+
         // Return the final amount
         var finalAmount = totalCaptured - totalRefunded;
         return finalAmount.toFixed(2);
@@ -134,8 +141,10 @@ var CKOHelper = {
 
     /**
      * Checks if a transaction should be returned in the reaults.
+     * @param {object} paymentTransaction The paymentTransaction object
+     * @returns {boolean} The status of the current transaction
      */
-    isTransactionNeeded: function (paymentTransaction, paymentInstrument) {
+    isTransactionNeeded: function(paymentTransaction, paymentInstrument) {
         // Get an optional transaction id
         var tid = request.httpParameterMap.get('tid').stringValue;
 
@@ -143,7 +152,7 @@ var CKOHelper = {
         var condition1 = (tid && paymentTransaction.transactionID == tid) || !tid;
         var condition2 = this.isCkoItem(paymentInstrument.paymentMethod);
         var condition3 = this.isCkoItem(this.getProcessorId(paymentInstrument));
-        var condition4 = paymentTransaction.custom.ckoPaymentId !==null && paymentTransaction.custom.ckoPaymentId != '';
+        var condition4 = paymentTransaction.custom.ckoPaymentId !== null && paymentTransaction.custom.ckoPaymentId != '';
         var condition5 = paymentTransaction.transactionID && paymentTransaction.transactionID != '';
 
         if (condition1 && condition2 && condition3 && condition4 && condition5) {
@@ -155,29 +164,35 @@ var CKOHelper = {
 
     /**
      * Checks if a payment instrument is Checkout.com.
+     * @param {object} item The payment instrument
+     * @returns {boolean} The status of the current payment instrument
      */
-    isCkoItem: function (item) {
+    isCkoItem: function(item) {
         return item.length > 0 && item.indexOf('CHECKOUTCOM_') >= 0;
     },
 
     /**
      * Get the processor ID for a payment instrument.
+     * @param {object} instrument The payment instrument
+     * @returns {string} The payment instrument Id
      */
-    getProcessorId: function (instrument) {
+    getProcessorId: function(instrument) {
         var paymentMethod = PaymentMgr.getPaymentMethod(instrument.getPaymentMethod());
         if (paymentMethod) {
             return paymentMethod.getPaymentProcessor().getID();
-        } else {
-            return '';
         }
+        return '';
     },
-    
+
     /**
      * Checks if an object already exists in an array.
+     * @param {object} obj The object
+     * @param {array} list The list of objects to parse
+     * @returns {boolean} The status of the current object
      */
-    containsObject: function (obj, list) {
+    containsObject: function(obj, list) {
         var i;
-        for each(i = 0; i < list.length; i++) {
+        for (i = 0; i < list.length; i++) {
             if (list[i] === obj) {
                 return true;
             }
@@ -188,8 +203,9 @@ var CKOHelper = {
 
     /**
      * Loads an order by track id.
+     * @returns {object} The loaded order
      */
-    loadOrderFromRequest: function () {
+    loadOrderFromRequest: function() {
         // Get the order from the request
         var trackId = request.httpParameterMap.get('trackId').stringValue;
 
@@ -198,8 +214,10 @@ var CKOHelper = {
 
     /**
      * Writes gateway information to the website's custom log files.
+     * @param {string} dataType The data type
+     * @param {object} gatewayData The gateway data
      */
-    log: function (dataType, gatewayData) {
+    log: function(dataType, gatewayData) {
         if (this.getValue('ckoDebugEnabled') == 'true' && (gatewayData)) {
             // Get the logger
             var logger = Logger.getLogger('ckodebug');
@@ -213,17 +231,19 @@ var CKOHelper = {
         }
     },
 
-    /*
-     * Remove sentitive data from the logs
+    /**
+     * Remove sentitive data from the logs.
+     * @param {object} data The raw gateway data
+     * @returns {object} The clean gateway data
      */
-    removeSentisiveData: function (data) {
+    removeSentisiveData: function(data) {
         // Card data
         if (data.hasOwnProperty('source')) {
-           if (data.source.hasOwnProperty('number')) data.source.number.replace(/^.{14}/g, '*');
-           if (data.source.hasOwnProperty('cvv')) data.source.cvv.replace(/^.{3}/g, '*');
-           if (data.source.hasOwnProperty('billing_address')) delete data.source.billing_address;
-           if (data.source.hasOwnProperty('phone')) delete data.source.phone;
-           if (data.source.hasOwnProperty('name')) delete data.source.name;
+            if (data.source.hasOwnProperty('number')) data.source.number.replace(/^.{14}/g, '*');
+            if (data.source.hasOwnProperty('cvv')) data.source.cvv.replace(/^.{3}/g, '*');
+            if (data.source.hasOwnProperty('billing_address')) delete data.source.billing_address;
+            if (data.source.hasOwnProperty('phone')) delete data.source.phone;
+            if (data.source.hasOwnProperty('name')) delete data.source.name;
         }
 
         // Customer data
@@ -233,11 +253,14 @@ var CKOHelper = {
 
         return data;
     },
-    
-    /*
-     * Create an HTTP client to handle request to gateway
+
+    /**
+     * Create an HTTP client to handle request to gateway.
+     * @param {string} serviceId The service Id
+     * @param {object} requestData The request data
+     * @returns {object} The HTTP response
      */
-    getGatewayClient: function (serviceId, requestData, method) {
+    getGatewayClient: function(serviceId, requestData, method) {
         var method = method || 'POST';
         var serv = this.getService(serviceId);
 
@@ -245,7 +268,7 @@ var CKOHelper = {
         if (requestData.hasOwnProperty('chargeId')) {
             var requestUrl = serv.getURL().replace('chargeId', requestData.chargeId);
             serv.setURL(requestUrl);
-            delete requestData['chargeId'];
+            delete requestData.chargeId;
         }
 
         // Set the request method
@@ -260,8 +283,13 @@ var CKOHelper = {
         return resp.object;
     },
 
-    getService: function (serviceId) {
-        var parts  =  serviceId.split('.');
+    /**
+     * Get the HTTP service.
+     * @param {string} serviceId The service Id
+     * @returns {object} The service instance
+     */
+    getService: function(serviceId) {
+        var parts = serviceId.split('.');
         var entity = parts[1];
         var action = parts[2];
         var mode = parts[3];
@@ -270,32 +298,38 @@ var CKOHelper = {
 
         return svcClass[mode]();
     },
-    
+
     /**
      * Returns a price formatted for processing by the gateway.
+     * @param {number} amount The amount to format
+     * @returns {number} The formatted amount
      */
-    getFormattedPrice: function (amount) {
-        return amount*100;
+    getFormattedPrice: function(amount) {
+        return amount * 100;
     },
 
     /**
      * The cartridge metadata.
+     * @returns {string} The platform metadata
      */
-    getCartridgeMeta: function (price) {
+    getCartridgeMeta: function() {
         return this.getValue('ckoBmPlatformData');
     },
 
     /**
      * Retrieves a custom preference value from the configuration.
+     * @param {string} fieldName The configuration field name
+     * @returns {string} The configuration field value
      */
-    getValue: function (fieldName) {
+    getValue: function(fieldName) {
         return dw.system.Site.getCurrent().getCustomPreferenceValue(fieldName);
     },
 
     /**
      * Get live or sandbox account keys.
+     * @returns {object} The configuration account keys
      */
-    getAccountKeys: function () {
+    getAccountKeys: function() {
         var keys = {};
         var str = this.getValue('ckoMode') == 'live' ? 'Live' : 'Sandbox';
 
@@ -304,7 +338,7 @@ var CKOHelper = {
         keys.privateKey = this.getValue('cko' + str + 'PrivateKey');
 
         return keys;
-    }
+    },
 };
 
 /*
