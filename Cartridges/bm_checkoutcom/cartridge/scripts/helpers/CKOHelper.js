@@ -29,8 +29,9 @@ var CKOHelper = {
         var result = SystemObjectMgr.querySystemObjects('Order', '', 'creationDate desc');
         
         // Loop through the results
-        // eslint-disable-next-line
-        for each(var item in result) {
+        while (result.hasNext()) {
+            var item = result.next();
+
             // Get the payment instruments
             var paymentInstruments = item.getPaymentInstruments();
             
