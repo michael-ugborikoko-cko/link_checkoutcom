@@ -123,7 +123,7 @@ var apmHelper = {
         if (gatewayResponse) {
             return gatewayResponse;
         }
-        
+
         // Update the transaction
         Transaction.wrap(function() {
             OrderMgr.failOrder(order, true);
