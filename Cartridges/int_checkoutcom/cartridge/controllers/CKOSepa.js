@@ -115,11 +115,11 @@ function handleMandate() {
                             // Show the confirmation screen
                             app.getController('COSummary').ShowConfirmation(order);
                         } else {
-                        	// Return to the billing start page
-                        	app.getController('COBilling').Start();
+                            // Return to the billing start page
+                            app.getController('COBilling').Start();
                         }
                     } else {
-                    	// Return to the billing start page
+                        // Return to the billing start page
                         app.getController('COBilling').Start();
                     }
                 } else {
@@ -131,7 +131,7 @@ function handleMandate() {
                 }
             } else {
                 // load the mandate form
-            	mandate();
+                mandate();
             }
         },
     });

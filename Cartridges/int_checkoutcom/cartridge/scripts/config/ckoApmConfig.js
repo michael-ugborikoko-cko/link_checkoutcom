@@ -54,7 +54,7 @@ var ckoApmConfig = {
                 country: ckoHelper.getBillingCountry(args),
                 payer: {
                     name: ckoHelper.getCustomerName(args),
-                	email: ckoHelper.getCustomer(args).email,
+                    email: ckoHelper.getCustomer(args).email,
                     document: paymentForm.get('boleto_cpf').value(),
                 },
             },
