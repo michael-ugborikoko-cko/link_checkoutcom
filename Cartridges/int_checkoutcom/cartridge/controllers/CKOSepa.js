@@ -14,7 +14,8 @@ var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 var apmHelper = require('~/cartridge/scripts/helpers/apmHelper');
 
 /**
- * Initiate the mandate session
+ * Initiate the mandate session.
+ * @returns {Object} The gateway response
  */
 function mandate() {
     // Prepare the varirables

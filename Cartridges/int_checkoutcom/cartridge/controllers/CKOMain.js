@@ -136,7 +136,7 @@ function handleWebhook() {
         var hook = JSON.parse(request.httpParameterMap.getRequestBodyAsString());
 
         // Check the webhook event
-        if (hook !== null && hook.hasOwnProperty('type')) {
+        if (hook !== null && Object.prototype.hasOwnProperty.call(hook, 'type')) {
             // Get a camel case function name from event type
             var func = '';
             var parts = hook.type.split('_');
