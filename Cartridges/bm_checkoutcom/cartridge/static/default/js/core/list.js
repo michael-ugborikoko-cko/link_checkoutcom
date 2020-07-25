@@ -150,21 +150,6 @@ function getTableLocale() {
 }
 
 /**
- * Show a success message.
- */
-function showSuccessMessage() {
-    // Show the success message
-    jQuery('.ckoSuccessMessage').show(
-        'fast',
-        function() {
-            setTimeout(function() {
-                jQuery('.ckoSuccessMessage').hide('fast');
-            }, 7000);
-        }
-    );
-}
-
-/**
  * Set the table pagination.
  * @param {Object} table table data
  */

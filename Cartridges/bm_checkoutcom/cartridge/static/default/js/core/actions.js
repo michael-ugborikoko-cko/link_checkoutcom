@@ -204,3 +204,18 @@ function reloadTable(tableData) {
     // eslint-disable-next-line
     showSuccessMessage();
 }
+
+/**
+ * Show a success message.
+ */
+function showSuccessMessage() {
+    // Show the success message
+    jQuery('.ckoSuccessMessage').show(
+        'fast',
+        function() {
+            setTimeout(function() {
+                jQuery('.ckoSuccessMessage').hide('fast');
+            }, 7000);
+        }
+    );
+}
