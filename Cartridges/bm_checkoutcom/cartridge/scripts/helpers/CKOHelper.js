@@ -7,6 +7,7 @@ var PaymentMgr = require('dw/order/PaymentMgr');
 var PaymentTransaction = require('dw/order/PaymentTransaction');
 var Resource = require('dw/web/Resource');
 var Logger = require('dw/system/Logger');
+var Site = require('dw/system/Site');
 
 /**
  * Helper functions for the Checkout.com cartridge integration.
@@ -263,9 +264,11 @@ var CKOHelper = {
      * Create an HTTP client to handle request to gateway.
      * @param {string} serviceId The service Id
      * @param {Object} requestData The request data
+     * @param {string} method The method Id
      * @returns {Object} The HTTP response
      */
     getGatewayClient: function(serviceId, requestData, method) {
+        // eslint-disable-next-line
         var method = method || 'POST';
         var serv = this.getService(serviceId);
 
@@ -281,7 +284,7 @@ var CKOHelper = {
 
         // Call the service
         var resp = serv.call(requestData);
-        if (resp.status != 'OK') {
+        if (resp.status !== 'OK') {
             return resp.error;
         }
 
@@ -327,7 +330,7 @@ var CKOHelper = {
      * @returns {string} The configuration field value
      */
     getValue: function(fieldName) {
-        return dw.system.Site.getCurrent().getCustomPreferenceValue(fieldName);
+        return Site.getCurrent().getCustomPreferenceValue(fieldName);
     },
 
     /**
@@ -336,7 +339,7 @@ var CKOHelper = {
      */
     getAccountKeys: function() {
         var keys = {};
-        var str = this.getValue('ckoMode') == 'live' ? 'Live' : 'Sandbox';
+        var str = this.getValue('ckoMode') === 'live' ? 'Live' : 'Sandbox';
 
         keys.publicKey = this.getValue('cko' + str + 'PublicKey');
         keys.secretKey = this.getValue('cko' + str + 'SecretKey');
