@@ -210,6 +210,7 @@ var CKOHelper = {
      */
     loadOrderFromRequest: function() {
         // Get the order from the request
+        // eslint-disable-next-line
         var trackId = request.httpParameterMap.get('trackId').stringValue;
 
         return OrderMgr.getOrder(trackId);
@@ -226,6 +227,7 @@ var CKOHelper = {
             var logger = Logger.getLogger('ckodebug');
 
             // Remove sensitive data
+            // eslint-disable-next-line
             gatewayData = this.removeSentisiveData(gatewayData);
 
             if (logger) {
@@ -241,18 +243,18 @@ var CKOHelper = {
      */
     removeSentisiveData: function(data) {
         // Card data
-        if (data.hasOwnProperty('source')) {
-            if (data.source.hasOwnProperty('number')) data.source.number.replace(/^.{14}/g, '*');
-            if (data.source.hasOwnProperty('cvv')) data.source.cvv.replace(/^.{3}/g, '*');
-            if (data.source.hasOwnProperty('billing_address')) delete data.source.billing_address;
-            if (data.source.hasOwnProperty('phone')) delete data.source.phone;
-            if (data.source.hasOwnProperty('name')) delete data.source.name;
+        if (Object.prototype.hasOwnProperty.call(data, 'source')) {
+            if (Object.prototype.hasOwnProperty.call(data.source, 'source')) data.source.number.replace(/^.{14}/g, '*');
+            if (Object.prototype.hasOwnProperty.call(data.source, 'cvv')) data.source.cvv.replace(/^.{3}/g, '*');
+            if (Object.prototype.hasOwnProperty.call(data.source, 'billing_address')) delete data.source.billing_address;
+            if (Object.prototype.hasOwnProperty.call(data.source, 'phone')) delete data.source.phone;
+            if (Object.prototype.hasOwnProperty.call(data.source, 'name')) delete data.source.name;
         }
 
         // Customer data
-        if (data.hasOwnProperty('customer')) delete data.customer;
-        if (data.hasOwnProperty('shipping')) delete data.shipping;
-        if (data.hasOwnProperty('billing')) delete data.billing;
+        if (Object.prototype.hasOwnProperty.call(data, 'customer')) delete data.customer;
+        if (Object.prototype.hasOwnProperty.call(data, 'shipping')) delete data.shipping;
+        if (Object.prototype.hasOwnProperty.call(data, 'billing')) delete data.billing;
 
         return data;
     },
@@ -268,7 +270,7 @@ var CKOHelper = {
         var serv = this.getService(serviceId);
 
         // Prepare the request URL and data
-        if (requestData.hasOwnProperty('chargeId')) {
+        if (Object.prototype.hasOwnProperty.call(requestData, 'chargeId')) {
             var requestUrl = serv.getURL().replace('chargeId', requestData.chargeId);
             serv.setURL(requestUrl);
             delete requestData.chargeId;
