@@ -58,24 +58,21 @@ var CKOHelper = {
 
         // Loop through the results
         var i = 1;
-
-        // eslint-disable-next-line
-        for each(var item in result) {
+        for (var j = 0; j < result.length; j++) {
             // Get the payment instruments
-            var paymentInstruments = item.getPaymentInstruments();
+            var paymentInstruments = result[j].getPaymentInstruments().toArray();
             
             // Loop through the payment instruments
-            // eslint-disable-next-line
-            for each(var instrument in paymentInstruments) {
+            for (var k = 0; k < paymentInstruments.length; k++) {
                 // Get the payment transaction
-                var paymentTransaction = instrument.getPaymentTransaction();
+                var paymentTransaction = paymentInstruments[k].getPaymentTransaction();
 
                 // Add the payment transaction to the output
-                if (!this.containsObject(paymentTransaction, data) && this.isTransactionNeeded(paymentTransaction, instrument)) {
+                if (!this.containsObject(paymentTransaction, data) && this.isTransactionNeeded(paymentTransaction, paymentInstruments[k])) {
                     // Build the row data
                     var row = {
                         id: i,
-                        order_no: item.orderNo,
+                        order_no: result[j].orderNo,
                         transaction_id: paymentTransaction.transactionID,
                         payment_id: paymentTransaction.custom.ckoPaymentId,
                         opened: paymentTransaction.custom.ckoTransactionOpened,
@@ -83,7 +80,7 @@ var CKOHelper = {
                         currency: paymentTransaction.amount.currencyCode,
                         creation_date: paymentTransaction.getCreationDate().toDateString(),
                         type: paymentTransaction.type.displayValue,
-                        processor: this.getProcessorId(instrument),
+                        processor: this.getProcessorId(paymentInstruments[k]),
                         refundable_amount: 0,
                         data_type: paymentTransaction.type.toString()
                     };
