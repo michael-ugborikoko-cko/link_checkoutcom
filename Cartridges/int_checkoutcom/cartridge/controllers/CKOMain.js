@@ -44,7 +44,7 @@ function handleReturn() {
                 // Perform the request to the payment gateway
                 gVerify = ckoHelper.gatewayClientRequest(
                     serviceName,
-                    {'paymentToken': sessionId}
+                    { paymentToken: sessionId }
                 );
 
                 // Log the payment verify data
@@ -54,7 +54,7 @@ function handleReturn() {
                 );
 
                 // If there is a valid response
-                if (typeof(gVerify) === 'object' && gVerify.hasOwnProperty('id')) {
+                if (typeof (gVerify) === 'object' && gVerify.hasOwnProperty('id')) {
                     // Log the payment response data
                     ckoHelper.log(
                         serviceName + ' - ' + ckoHelper._('cko.response.data', 'cko'),
@@ -73,7 +73,6 @@ function handleReturn() {
                         ISML.renderTemplate('custom/common/response/failed.isml');
                     }
                 } else {
-
                     // Restore the cart
                     OrderMgr.failOrder(order, true);
 
@@ -129,13 +128,11 @@ function handleFail() {
 function handleWebhook() {
     var isValidResponse = ckoHelper.isValidResponse();
     if (isValidResponse) {
-
         // Get the response as JSON object
         var hook = JSON.parse(request.httpParameterMap.getRequestBodyAsString());
 
         // Check the webhook event
         if (hook !== null && hook.hasOwnProperty('type')) {
-
             // Get a camel case function name from event type
             var func = '';
             var parts = hook.type.split('_');
@@ -143,11 +140,10 @@ function handleWebhook() {
                 func += (i == 0) ? parts[i] : parts[i].charAt(0).toUpperCase() + parts[i].slice(1);
             }
             if (eventsHelper.hasOwnProperty(func)) {
-
                 // Call the event
                 eventsHelper[func](hook);
             }
-       }
+        }
     }
 }
 
@@ -176,7 +172,7 @@ function getCardsList() {
         }
 
         // Send the output for rendering
-        ISML.renderTemplate('custom/ajax/output.isml', {data: JSON.stringify(data)});
+        ISML.renderTemplate('custom/ajax/output.isml', { data: JSON.stringify(data) });
     } else {
         app.getModel('Customer').logout();
         app.getView().render('csrf/csrffailed');
@@ -187,7 +183,6 @@ function getCardsList() {
  * Apms filter helper
  */
 function getApmFilter() {
-
     // Prepare some variables
     var basket = BasketMgr.getCurrentBasket();
     var currencyCode = basket.getCurrencyCode();
@@ -195,15 +190,15 @@ function getApmFilter() {
 
     // Prepare the filter object
     var filterObject = {
-        country     : countryCode,
-        currency    : currencyCode
-    }
+        country: countryCode,
+        currency: currencyCode,
+    };
 
     // Prepare the response object
     var responseObject = {
-        'filterObject'          : filterObject,
-        'ckoApmFilterConfig'    : ckoApmFilterConfig
-    }
+        filterObject: filterObject,
+        ckoApmFilterConfig: ckoApmFilterConfig,
+    };
 
     // Write the response
     return ckoHelper.ckoResponse(responseObject);
@@ -213,16 +208,16 @@ function getApmFilter() {
  * Mada Bins helper
  */
 function getMadaBin() {
-	var madaBins = ckoMadaConfig;
+    var madaBins = ckoMadaConfig;
 
     // Write the response
     return ckoHelper.ckoResponse(madaBins);
 }
 
 // Module exports
-exports.HandleReturn = guard.ensure(['get','https'], handleReturn);
-exports.HandleFail = guard.ensure(['get','https'], handleFail);
+exports.HandleReturn = guard.ensure(['get', 'https'], handleReturn);
+exports.HandleFail = guard.ensure(['get', 'https'], handleFail);
 exports.HandleWebhook = guard.ensure(['post', 'https'], handleWebhook);
-exports.GetCardsList = guard.ensure(['post','https'], getCardsList);
-exports.GetApmFilter = guard.ensure(['get','https'], getApmFilter);
+exports.GetCardsList = guard.ensure(['post', 'https'], getCardsList);
+exports.GetApmFilter = guard.ensure(['get', 'https'], getApmFilter);
 exports.GetMadaBin = guard.ensure(['get', 'https'], getMadaBin);
