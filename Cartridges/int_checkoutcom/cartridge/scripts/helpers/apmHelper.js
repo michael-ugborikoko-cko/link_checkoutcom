@@ -29,7 +29,7 @@ var apmHelper = {
                 if (session.privacy.redirectUrl) {
                     // Set the redirection template
                     var templatePath;
-                    if (payObject.hasOwnProperty('type') && payObject.type == 'sepa') {
+                    if (Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'sepa') {
                         templatePath = 'redirects/sepaMandate.isml';
                     } else {
                         templatePath = 'redirects/apm.isml';
@@ -66,7 +66,7 @@ var apmHelper = {
         ckoHelper.updateCustomerData(gatewayResponse);
 
         // Get the response links
-        var gatewayLinks = gatewayResponse._links;
+        var gatewayLinks = gatewayResponse['_links'];
 
         // Get the response type
         var type = gatewayResponse.type;
@@ -78,7 +78,7 @@ var apmHelper = {
         }
 
         // Add redirect URL to session if exists
-        if (gatewayLinks.hasOwnProperty('redirect')) {
+        if (Object.prototype.hasOwnProperty.call(gatewayLinks, 'redirect')) {
             // eslint-disable-next-line
             session.privacy.redirectUrl = gatewayLinks.redirect.href;
 
@@ -108,7 +108,7 @@ var apmHelper = {
         ckoHelper.log(serviceName + ' ' + ckoHelper._('cko.request.data', 'cko'), gatewayRequest);
 
         // Prepare the service name (test for SEPA)
-        serviceName = payObject.hasOwnProperty('type') && payObject.type == 'sepa'
+        serviceName = payObject.hasOwnProperty('type') && payObject.type === 'sepa'
         ? 'cko.card.sources.'
         : 'cko.card.charge.';
 
@@ -145,7 +145,7 @@ var apmHelper = {
         var amount = ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), payObject.currency);
 
         // Object APM is SEPA
-        if (payObject.hasOwnProperty('type') && payObject.type == 'sepa') {
+        if (Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'sepa') {
             // Prepare the charge data
             chargeData = {
                 customer: ckoHelper.getCustomer(args),
@@ -160,7 +160,7 @@ var apmHelper = {
                 billing_descriptor: ckoHelper.getBillingDescriptorObject(),
                 udf5: ckoHelper.getMetadataString(payObject, args),
             };
-        } else if (payObject.hasOwnProperty('source') && payObject.source.type == 'klarna') {
+        } else if (Object.prototype.hasOwnProperty.call(source, 'type') && payObject.source.type === 'klarna') {
             // Prepare chargeData object
             chargeData = {
                 customer: ckoHelper.getCustomer(args),
@@ -200,7 +200,10 @@ var apmHelper = {
         var gatewayResponse = false;
 
         // Perform the request to the payment gateway
-        gatewayResponse = ckoHelper.gatewayClientRequest('cko.card.charge.' + ckoHelper.getValue('ckoMode') + '.service', payObject);
+        gatewayResponse = ckoHelper.gatewayClientRequest(
+            'cko.card.charge.' + ckoHelper.getValue('ckoMode') + '.service',
+            payObject
+        );
 
         // If the charge is valid, process the response
         if (gatewayResponse) {
