@@ -8,10 +8,14 @@ var OrderMgr = require('dw/order/OrderMgr');
 // Utility
 var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 
-// Utility functions for my cartridge integration
+/**
+ * Module applePayHelper
+ */
 var applePayHelper = {
     /**
      * Handle full charge Request to CKO API
+     * @param {Object} args The request arguments
+     * @returns {Object} The gateway response
      */
     handleRequest: function(args) {
         // Prepare the parameters
@@ -76,14 +80,14 @@ var applePayHelper = {
                 return gatewayResponse;
             }
 
-            return false;
+            return null;
         }
             // Update the transaction
         Transaction.wrap(function() {
             OrderMgr.failOrder(order, true);
         });
 
-        return false;
+        return null;
     },
 
     /**

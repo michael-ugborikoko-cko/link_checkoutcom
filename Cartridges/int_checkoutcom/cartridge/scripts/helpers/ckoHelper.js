@@ -15,11 +15,14 @@ var ISML = require('dw/template/ISML');
 // Card Currency Config
 var ckoCurrencyConfig = require('~/cartridge/scripts/config/ckoCurrencyConfig');
 
-// Utility functions for my cartridge integration.
+/**
+ * Module ckoHelper
+ */
 var ckoHelper = {
-
     /**
-     * CKO Response object
+     * CKO Response object.
+     * @param {Object} data Format a gateway response
+     * @returns {string} The response JSON string
      */
     ckoResponse: function (data) {
         response.setBuffered(false);
@@ -30,7 +33,10 @@ var ckoHelper = {
     },
 
     /**
-     * Get the required value for each mode
+     * Get the required value for each mode.
+     * @param {string} sandboxValue The sandbox value
+     * @param {string} liveValue The live value
+     * @returns {string} The APM mode
      */
     getAppModeValue: function (sandboxValue, liveValue) {
         var appMode = this.getValue('ckoMode');
@@ -43,6 +49,7 @@ var ckoHelper = {
 
     /**
      * Get user language
+     * @returns {string} The user language.
      */
     getLanguage: function () {
         return request.locale.replace('_', '-');
@@ -50,6 +57,7 @@ var ckoHelper = {
 
     /**
      * Get Site Name
+     * @returns {string} The site name.
      */
     getSiteName: function () {
         return dw.system.Site.getCurrent().name;
@@ -57,6 +65,7 @@ var ckoHelper = {
 
     /**
      * Get site Hostname
+     * @returns {string} The site host name.
      */
     getSiteHostName: function () {
         return dw.system.Site.getCurrent().httpHostName;
@@ -64,6 +73,7 @@ var ckoHelper = {
 
     /**
      * Check if the gateway response is valid
+     * @returns {boolean} The gateway response status.
      */
     isValidResponse: function () {
         var requestKey = request.httpHeaders.get("authorization");
@@ -74,13 +84,17 @@ var ckoHelper = {
 
     /**
      * Get value from custom preferences
+     * @param {string} field The field id
+     * @returns {string} The field value
      */
     getValue: function (field) {
         return dw.system.Site.getCurrent().getCustomPreferenceValue(field);
     },
 
     /**
-     * Change Fist Letter of a string to UpperCase
+     * Change the first letter of a string to upper case.
+     * @param {string} data The string to process
+     * @returns {string} The processed string
      */
     upperCaseFirst: function (data) {
     	if(data){

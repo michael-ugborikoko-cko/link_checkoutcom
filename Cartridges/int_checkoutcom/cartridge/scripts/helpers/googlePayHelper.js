@@ -8,11 +8,14 @@ var OrderMgr = require('dw/order/OrderMgr');
 // Utility
 var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 
-// Utility functions for my cartridge integration
+/**
+ * Module googlePayHelper
+ */
 var googlePayHelper = {
-
     /**
      * Handle full charge Request to CKO API
+     * @param {Object} args The request arguments
+     * @returns {Object} The gateway response
      */
     handleRequest: function(args) {
         // load the order information
@@ -60,7 +63,7 @@ var googlePayHelper = {
                 return gatewayResponse;
             }
 
-            return false;
+            return null;
         }
 
             // Update the transaction
@@ -68,11 +71,13 @@ var googlePayHelper = {
             OrderMgr.failOrder(order, true);
         });
 
-        return false;
+        return null;
     },
 
     /**
-     * Build Gateway Source Object
+     * Build a gateway source object
+     * @param {Object} tokenData The token data
+     * @returns {Object} The gateway source
      */
     getSourceObject: function(tokenData) {
         // Source object

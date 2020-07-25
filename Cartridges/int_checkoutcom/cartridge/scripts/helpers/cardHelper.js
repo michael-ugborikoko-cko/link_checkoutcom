@@ -11,9 +11,10 @@ var URLUtils = require('dw/web/URLUtils');
 // Utility
 var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 
-// Utility functions for my cartridge integration
+/**
+ * Module cardPayHelper
+ */
 var cardHelper = {
-
     /**
      * Creates Site Genesis Transaction Object
      */
