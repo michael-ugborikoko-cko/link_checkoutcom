@@ -8,11 +8,15 @@ var OrderMgr = require('dw/order/OrderMgr');
 // Utility
 var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 
-// Utility functions for my cartridge integration.
+/**
+ * APM utility funnctions.
+ */
 var apmHelper = {
-
     /**
-     * Creates Site Genesis Transaction Object
+     * Creates Site Genesis Transaction Object.
+     * @param {Object} payObject The transaction parameters
+     * @param {Object} args The transaction arguments
+     * @returns {boolean} Payment success or failure
      */
     apmAuthorization: function(payObject, args) {
         // Perform the charge
@@ -49,7 +53,9 @@ var apmHelper = {
     },
 
     /**
-     * Handle APM charge Response from CKO API
+     * Handle APM charge Response from CKO API.
+     * @param {Object} gatewayResponse The gateway response
+     * @returns {boolean} Payment success or failure
      */
     handleApmChargeResponse: function(gatewayResponse) {
         // Clean the session
@@ -83,7 +89,9 @@ var apmHelper = {
     },
 
     /**
-     * Apm Request
+     * Apm Request.
+     * @param {Object} payObject The transaction parameters
+     * @param {Object} args The transaction arguments
      */
     handleApmRequest: function(payObject, args) {
         // Gateway response
@@ -122,7 +130,9 @@ var apmHelper = {
     },
 
     /**
-     * Return the APM request data
+     * Return the APM request data.
+     * @param {Object} payObject The transaction parameters
+     * @param {Object} args The transaction arguments
      */
     getApmRequest: function(payObject, args) {
         // Charge data
@@ -181,7 +191,9 @@ var apmHelper = {
     },
 
     /**
-     * Sepa controller Request
+     * Sepa controller Request.
+     * @param {Object} payObject The transaction parameters
+     * @param {Object} args The transaction arguments
      */
     handleSepaControllerRequest: function(payObject, order) {
         // Gateway response
