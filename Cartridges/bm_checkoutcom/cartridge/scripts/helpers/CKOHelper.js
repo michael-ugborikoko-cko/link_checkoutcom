@@ -33,12 +33,11 @@ var CKOHelper = {
             var item = result.next();
 
             // Get the payment instruments
-            var paymentInstruments = item.getPaymentInstruments();
+            var paymentInstruments = item.getPaymentInstruments().toArray();
             
             // Loop through the payment instruments
-            // eslint-disable-next-line
-            for each(var instrument in paymentInstruments) {
-                if (this.isCkoItem(instrument.paymentMethod) && !this.containsObject(item, data)) {
+            for (var i = 0; i < paymentInstruments.length; i++) {
+                if (this.isCkoItem(paymentInstruments[i].paymentMethod) && !this.containsObject(item, data)) {
                     data.push(item);
                 }
             }
