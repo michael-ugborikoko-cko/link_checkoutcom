@@ -137,7 +137,7 @@ var apmHelper = {
      * Return the APM request data.
      * @param {Object} payObject The transaction parameters
      * @param {Object} args The transaction arguments
-     * @returns {Object} The gateway response
+     * @returns {Object} The gateway request
      */
     getApmRequest: function(payObject, args) {
         // Charge data
@@ -199,10 +199,11 @@ var apmHelper = {
      * Sepa controller Request.
      * @param {Object} payObject The transaction parameters
      * @param {Object} args The transaction arguments
+     * @returns {Object} The gateway response
      */
     handleSepaControllerRequest: function(payObject, order) {
         // Gateway response
-        var gatewayResponse = false;
+        var gatewayResponse = null;
 
         // Perform the request to the payment gateway
         gatewayResponse = ckoHelper.gatewayClientRequest(
@@ -220,7 +221,7 @@ var apmHelper = {
             OrderMgr.failOrder(order, true);
         });
 
-        return false;
+        return null;
     },
 };
 
