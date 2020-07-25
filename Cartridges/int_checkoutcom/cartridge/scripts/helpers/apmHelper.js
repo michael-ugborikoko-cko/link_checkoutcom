@@ -137,6 +137,7 @@ var apmHelper = {
      * Return the APM request data.
      * @param {Object} payObject The transaction parameters
      * @param {Object} args The transaction arguments
+     * @returns {Object} The gateway response
      */
     getApmRequest: function(payObject, args) {
         // Charge data
