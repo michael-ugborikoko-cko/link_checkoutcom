@@ -91,7 +91,7 @@ var CKOHelper = {
                     };
 
                     // Calculate the refundable amount
-                    var condition1 = row.data_type == PaymentTransaction.TYPE_CAPTURE;
+                    var condition1 = row.data_type === PaymentTransaction.TYPE_CAPTURE;
                     var condition2 = row.opened !== false;
                     if (condition1 && condition2) {
                         row.refundable_amount = this.getRefundableAmount(paymentInstruments);
@@ -124,12 +124,12 @@ var CKOHelper = {
             var paymentTransaction = paymentInstruments[i].getPaymentTransaction();
 
             // Calculate the total refunds
-            if (paymentTransaction.type.toString() == PaymentTransaction.TYPE_CREDIT) {
+            if (paymentTransaction.type.toString() === PaymentTransaction.TYPE_CREDIT) {
                 totalRefunded += parseFloat(paymentTransaction.amount.value);
             }
 
             // Calculate the total captures
-            if (paymentTransaction.type.toString() == PaymentTransaction.TYPE_CAPTURE) {
+            if (paymentTransaction.type.toString() === PaymentTransaction.TYPE_CAPTURE) {
                 totalCaptured += parseFloat(paymentTransaction.amount.value);
             }
         }
@@ -141,19 +141,20 @@ var CKOHelper = {
 
     /**
      * Checks if a transaction should be returned in the reaults.
-     * @param {object} paymentTransaction The paymentTransaction object
+     * @param {Object} paymentTransaction The paymentTransaction object
      * @returns {boolean} The status of the current transaction
      */
     isTransactionNeeded: function(paymentTransaction, paymentInstrument) {
         // Get an optional transaction id
+        // eslint-disable-next-line
         var tid = request.httpParameterMap.get('tid').stringValue;
 
         // Return true only if conditions are met
-        var condition1 = (tid && paymentTransaction.transactionID == tid) || !tid;
+        var condition1 = (tid && paymentTransaction.transactionID === tid) || !tid;
         var condition2 = this.isCkoItem(paymentInstrument.paymentMethod);
         var condition3 = this.isCkoItem(this.getProcessorId(paymentInstrument));
         var condition4 = paymentTransaction.custom.ckoPaymentId !== null && paymentTransaction.custom.ckoPaymentId != '';
-        var condition5 = paymentTransaction.transactionID && paymentTransaction.transactionID != '';
+        var condition5 = paymentTransaction.transactionID && paymentTransaction.transactionID !== '';
 
         if (condition1 && condition2 && condition3 && condition4 && condition5) {
             return true;
@@ -164,7 +165,7 @@ var CKOHelper = {
 
     /**
      * Checks if a payment instrument is Checkout.com.
-     * @param {object} item The payment instrument
+     * @param {Object} item The payment instrument
      * @returns {boolean} The status of the current payment instrument
      */
     isCkoItem: function(item) {
@@ -173,7 +174,7 @@ var CKOHelper = {
 
     /**
      * Get the processor ID for a payment instrument.
-     * @param {object} instrument The payment instrument
+     * @param {Object} instrument The payment instrument
      * @returns {string} The payment instrument Id
      */
     getProcessorId: function(instrument) {
@@ -186,7 +187,7 @@ var CKOHelper = {
 
     /**
      * Checks if an object already exists in an array.
-     * @param {object} obj The object
+     * @param {Object} obj The object
      * @param {array} list The list of objects to parse
      * @returns {boolean} The status of the current object
      */
@@ -203,7 +204,7 @@ var CKOHelper = {
 
     /**
      * Loads an order by track id.
-     * @returns {object} The loaded order
+     * @returns {Object} The loaded order
      */
     loadOrderFromRequest: function() {
         // Get the order from the request
@@ -215,7 +216,7 @@ var CKOHelper = {
     /**
      * Writes gateway information to the website's custom log files.
      * @param {string} dataType The data type
-     * @param {object} gatewayData The gateway data
+     * @param {Object} gatewayData The gateway data
      */
     log: function(dataType, gatewayData) {
         if (this.getValue('ckoDebugEnabled') == 'true' && (gatewayData)) {
@@ -233,8 +234,8 @@ var CKOHelper = {
 
     /**
      * Remove sentitive data from the logs.
-     * @param {object} data The raw gateway data
-     * @returns {object} The clean gateway data
+     * @param {Object} data The raw gateway data
+     * @returns {Object} The clean gateway data
      */
     removeSentisiveData: function(data) {
         // Card data
@@ -257,8 +258,8 @@ var CKOHelper = {
     /**
      * Create an HTTP client to handle request to gateway.
      * @param {string} serviceId The service Id
-     * @param {object} requestData The request data
-     * @returns {object} The HTTP response
+     * @param {Object} requestData The request data
+     * @returns {Object} The HTTP response
      */
     getGatewayClient: function(serviceId, requestData, method) {
         var method = method || 'POST';
@@ -286,7 +287,7 @@ var CKOHelper = {
     /**
      * Get the HTTP service.
      * @param {string} serviceId The service Id
-     * @returns {object} The service instance
+     * @returns {Object} The service instance
      */
     getService: function(serviceId) {
         var parts = serviceId.split('.');
@@ -327,7 +328,7 @@ var CKOHelper = {
 
     /**
      * Get live or sandbox account keys.
-     * @returns {object} The configuration account keys
+     * @returns {Object} The configuration account keys
      */
     getAccountKeys: function() {
         var keys = {};
