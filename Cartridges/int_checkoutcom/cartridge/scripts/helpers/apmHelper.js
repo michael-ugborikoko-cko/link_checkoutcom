@@ -165,7 +165,7 @@ var apmHelper = {
                 billing_descriptor: ckoHelper.getBillingDescriptorObject(),
                 udf5: ckoHelper.getMetadataString(payObject, args),
             };
-        } else if (Object.prototype.hasOwnProperty.call(source, 'type') && payObject.source.type === 'klarna') {
+        } else if (Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.source.type === 'klarna') {
             // Prepare chargeData object
             chargeData = {
                 customer: ckoHelper.getCustomer(args),
