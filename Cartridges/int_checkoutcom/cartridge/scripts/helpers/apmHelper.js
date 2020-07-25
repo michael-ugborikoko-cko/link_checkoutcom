@@ -72,7 +72,7 @@ var apmHelper = {
         var type = gatewayResponse.type;
 
         // Add redirect to sepa source reqeust
-        if (type == 'Sepa') {
+        if (type === 'Sepa') {
             session.privacy.redirectUrl = "${URLUtils.url('CKOSepa-Mandate')}"; // eslint-disable-line
             session.privacy.sepaResponseId = gatewayResponse.id; // eslint-disable-line
         }
@@ -121,9 +121,10 @@ var apmHelper = {
 
         // If the charge is valid, process the response
         if (gatewayResponse) {
-        	return gatewayResponse;
+            return gatewayResponse;
         }
-            // Update the transaction
+        
+        // Update the transaction
         Transaction.wrap(function() {
             OrderMgr.failOrder(order, true);
         });
