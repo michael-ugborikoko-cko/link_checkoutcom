@@ -59,7 +59,6 @@ function mandate() {
  */
 function handleMandate() {
     var orderId = ckoHelper.getOrderId();
-
     app.getForm('sepaForm').handleAction({
         cancel: function() {
             // Clear form
@@ -89,35 +88,30 @@ function handleMandate() {
                 // Get the response object from session
                 // eslint-disable-next-line
                 var responseObjectId = session.privacy.sepaResponseId;
+
+                // Load the order
+                var order = OrderMgr.getOrder(orderId);
                 if (responseObjectId) {
-                    if (orderId) {
-                        // Load the order
-                        var order = OrderMgr.getOrder(orderId);
+                    // Prepare the payment object
+                    var payObject = {
+                        source: {
+                            type: 'id',
+                            id: responseObjectId,
+                        },
+                        amount: ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), ckoHelper.getCurrency()),
+                        currency: ckoHelper.getCurrency(),
+                        reference: orderId,
+                    };
 
-                        // Prepare the payment object
-                        var payObject = {
-                            source: {
-                                type: 'id',
-                                id: responseObjectId,
-                            },
-                            amount: ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), ckoHelper.getCurrency()),
-                            currency: ckoHelper.getCurrency(),
-                            reference: orderId,
-                        };
+                    // Reset the response in session
+                    // eslint-disable-next-line
+                    session.privacy.sepaResponseId = null;
 
-                        // Reset the response in session
-                        // eslint-disable-next-line
-                        session.privacy.sepaResponseId = null;
-
-                        // Handle the SEPA request
-                        var sepaRequest = apmHelper.handleSepaControllerRequest(payObject, order);
-                        if (apmHelper.handleApmChargeResponse(sepaRequest, order)) {
-                            // Show the confirmation screen
-                            app.getController('COSummary').ShowConfirmation(order);
-                        } else {
-                            // Return to the billing start page
-                            app.getController('COBilling').Start();
-                        }
+                    // Handle the SEPA request
+                    var sepaRequest = apmHelper.handleSepaControllerRequest(payObject, order);
+                    if (apmHelper.handleApmChargeResponse(sepaRequest, order)) {
+                        // Show the confirmation screen
+                        app.getController('COSummary').ShowConfirmation(order);
                     } else {
                         // Return to the billing start page
                         app.getController('COBilling').Start();
