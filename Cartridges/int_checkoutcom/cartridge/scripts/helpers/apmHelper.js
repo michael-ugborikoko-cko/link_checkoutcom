@@ -92,6 +92,7 @@ var apmHelper = {
      * Apm Request.
      * @param {Object} payObject The transaction parameters
      * @param {Object} args The transaction arguments
+     * @returns {Object} The gateway response
      */
     handleApmRequest: function(payObject, args) {
         // Gateway response
@@ -128,6 +129,8 @@ var apmHelper = {
         Transaction.wrap(function() {
             OrderMgr.failOrder(order, true);
         });
+
+        return null;
     },
 
     /**
