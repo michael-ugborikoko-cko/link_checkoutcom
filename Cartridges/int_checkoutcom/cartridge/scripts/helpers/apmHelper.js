@@ -2,7 +2,6 @@
 
 // API Includes
 var PaymentMgr = require('dw/order/PaymentMgr');
-var PaymentTransaction = require('dw/order/PaymentTransaction');
 var Transaction = require('dw/system/Transaction');
 var ISML = require('dw/template/ISML');
 var OrderMgr = require('dw/order/OrderMgr');
