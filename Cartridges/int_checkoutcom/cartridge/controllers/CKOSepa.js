@@ -1,7 +1,8 @@
 'use strict';
 
 // Script Modules
-var siteControllerName = dw.system.Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
+var Site = require('dw/system/Site');
+var siteControllerName = Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
 var app = require(siteControllerName + '/cartridge/scripts/app');
 var guard = require(siteControllerName + '/cartridge/scripts/guard');
 var ISML = require('dw/template/ISML');
@@ -18,6 +19,7 @@ var apmHelper = require('~/cartridge/scripts/helpers/apmHelper');
  */
 function mandate() {
     // Prepare the varirables
+    // eslint-disable-next-line
     var url = session.privacy.redirectUrl;
     var orderId = ckoHelper.getOrderId();
     var order = OrderMgr.getOrder(orderId);
@@ -80,9 +82,11 @@ function handleMandate() {
                 app.getForm('sepaForm').clear();
 
                 // Set session redirect url to null
+                // eslint-disable-next-line
                 session.privacy.redirectUrl = null;
 
                 // Get the response object from session
+                // eslint-disable-next-line
                 var responseObjectId = session.privacy.sepaResponseId;
                 if (responseObjectId) {
                     if (orderId) {
@@ -101,6 +105,7 @@ function handleMandate() {
                         };
 
                         // Reset the response in session
+                        // eslint-disable-next-line
                         session.privacy.sepaResponseId = null;
 
                         // Handle the SEPA request

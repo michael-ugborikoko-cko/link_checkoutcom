@@ -1,7 +1,8 @@
 'use strict';
 
 // API Includes
-var siteControllerName = dw.system.Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
+var Site = require('dw/system/Site');
+var siteControllerName = Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
 var app = require(siteControllerName + '/cartridge/scripts/app');
 var guard = require(siteControllerName + '/cartridge/scripts/guard');
 var ISML = require('dw/template/ISML');
@@ -111,8 +112,8 @@ function handleReturn() {
  * Handles a failed payment from the Checkout.com payment gateway
  */
 function handleFail() {
-
     // Load the order
+    // eslint-disable-next-line
     var order = OrderMgr.getOrder(session.privacy.ckoOrderId);
 
     // Restore the cart
@@ -162,7 +163,7 @@ function getCardsList() {
         var profile = customer.getProfile();
         if (profile) {
             applicablePaymentCards = customer.profile.getWallet().getPaymentInstruments();
-            for (let i = 0; i < applicablePaymentCards.length; i++) {
+            for (var i = 0; i < applicablePaymentCards.length; i++) {
                 data.push({
                     cardId: applicablePaymentCards[i].getUUID(),
                     cardNumber: applicablePaymentCards[i].getCreditCardNumber(),

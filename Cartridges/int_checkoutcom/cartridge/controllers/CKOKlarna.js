@@ -1,7 +1,8 @@
 'use strict';
 
 //  API Includes
-var siteControllerName = dw.system.Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
+var Site = require('dw/system/Site');
+var siteControllerName = Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
 var guard = require(siteControllerName + '/cartridge/scripts/guard');
 var BasketMgr = require('dw/order/BasketMgr');
 
@@ -10,6 +11,7 @@ var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 
 /**
  * Initiate the Kalrna session
+ * @returns {string} The Klarna response
  */
 function klarnaSession() {
     // Prepare the basket

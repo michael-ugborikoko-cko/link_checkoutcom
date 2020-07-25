@@ -27,6 +27,7 @@ var apmHelper = {
         // Handle apm result
         if (apmRequest) {
             if (this.handleApmChargeResponse(apmRequest)) {
+                // eslint-disable-next-line
                 if (session.privacy.redirectUrl) {
                     // Set the redirection template
                     var templatePath;
@@ -38,7 +39,7 @@ var apmHelper = {
 
                     // Redirect
                     ISML.renderTemplate(templatePath, {
-                        redirectUrl: session.privacy.redirectUrl,
+                        redirectUrl: session.privacy.redirectUrl // eslint-disable-line
                     });
 
                     return { authorized: true, redirected: true };
@@ -58,6 +59,7 @@ var apmHelper = {
      */
     handleApmChargeResponse: function(gatewayResponse) {
         // clean the session
+        // eslint-disable-next-line
         session.privacy.redirectUrl = null;
 
         // Update customer data
@@ -71,12 +73,13 @@ var apmHelper = {
 
         // Add redirect to sepa source reqeust
         if (type == 'Sepa') {
-            session.privacy.redirectUrl = "${URLUtils.url('CKOSepa-Mandate')}";
-            session.privacy.sepaResponseId = gatewayResponse.id;
+            session.privacy.redirectUrl = "${URLUtils.url('CKOSepa-Mandate')}"; // eslint-disable-line
+            session.privacy.sepaResponseId = gatewayResponse.id; // eslint-disable-line
         }
 
         // Add redirect URL to session if exists
         if (gatewayLinks.hasOwnProperty('redirect')) {
+            // eslint-disable-next-line
             session.privacy.redirectUrl = gatewayLinks.redirect.href;
 
             return ckoHelper.paymentSuccess(gatewayResponse);
