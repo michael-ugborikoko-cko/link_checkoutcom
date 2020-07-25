@@ -29,6 +29,7 @@ function loadTranslations() {
  */
 function buildTabs() {
     // Get the active tab id
+    // eslint-disable-next-line
     var activeId = '[id="' + getCookie('ckoTabs') + '"]';
 
     // Activate current
@@ -47,10 +48,10 @@ function getCookie(cname) {
     var ca = decodedCookie.split(';');
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
             c = c.substring(1);
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
             return c.substring(name.length, c.length);
         }
     }
@@ -82,6 +83,7 @@ function getTransactions(callBackFn) {
  */
 function initTable(tableData) {
     // Build the table instance
+    // eslint-disable-next-line
     window.ckoTransactionsTable = new Tabulator('#transactions-table', {
         index: 'id',
         responsiveLayout: true,
@@ -92,10 +94,11 @@ function initTable(tableData) {
         data: JSON.parse(tableData),
         pagination: 'local',
         paginationSize: 50,
-        columns: getTableColumns(),
-        langs: getTableStrings(),
+        columns: getTableColumns(), // eslint-disable-line
+        langs: getTableStrings(), // eslint-disable-line
         tableBuilt: function() {
             // Set the pagination controls
+            // eslint-disable-next-line
             setPagination(this);
         },
     });
@@ -106,6 +109,7 @@ function initTable(tableData) {
  * @returns {Object} The trannslated strings object
  */
 function getTableStrings() {
+    // eslint-disable-next-line
     var tableLocale = getTableLocale();
     return {
         tableLocale: {
@@ -147,13 +151,14 @@ function getTableLocale() {
 
 /**
  * Reload the table data.
- * @param {string} The table data
+ * @param {string} tableData The table data
  */
 function reloadTable(tableData) {
     // Update the row data
     window.ckoTransactionsTable.replaceData(tableData);
 
     // Show the success message
+    // eslint-disable-next-line
     showSuccessMessage();
 }
 
@@ -216,6 +221,7 @@ function getTableColumns() {
             headerSort: false,
             align: 'center',
             formatter: function(cell, formatterParams, onRendered) {
+                // eslint-disable-next-line
                 return getButtonsHtml(cell);
             },
         },
@@ -235,7 +241,7 @@ function getButtonsHtml(cell) {
     var html = '';
 
     // Build the action buttons
-    if (JSON.parse(rowData.opened) && rowData.type != 'CREDIT') {
+    if (JSON.parse(rowData.opened) && rowData.type !== 'CREDIT') {
         // Capture
         if (rowData.type == 'AUTH') {
             html += '<button type="button" id="void-button-' + rowData.transaction_id + '" class="btn btn-default ckoAction">' + window.ckoLang.void + '</button>';
@@ -243,7 +249,7 @@ function getButtonsHtml(cell) {
         }
 
         // Void
-        if (rowData.type == 'CAPTURE') {
+        if (rowData.type === 'CAPTURE') {
             html += '<button type="button" id="refund-button-' + rowData.transaction_id + '" class="btn btn-secondary ckoAction">' + window.ckoLang.refund + '</button>';
         }
     } else {
