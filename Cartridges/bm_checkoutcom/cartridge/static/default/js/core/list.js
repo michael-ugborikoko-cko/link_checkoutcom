@@ -243,7 +243,7 @@ function getButtonsHtml(cell) {
     // Build the action buttons
     if (JSON.parse(rowData.opened) && rowData.type !== 'CREDIT') {
         // Capture
-        if (rowData.type == 'AUTH') {
+        if (rowData.type === 'AUTH') {
             html += '<button type="button" id="void-button-' + rowData.transaction_id + '" class="btn btn-default ckoAction">' + window.ckoLang.void + '</button>';
             html += '<button type="button" id="capture-button-' + rowData.transaction_id + '" class="btn btn-info ckoAction">' + window.ckoLang.capture + '</button>';
         }
