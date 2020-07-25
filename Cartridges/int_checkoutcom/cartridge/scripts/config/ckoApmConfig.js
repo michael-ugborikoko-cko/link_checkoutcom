@@ -23,7 +23,7 @@ var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 var ckoApmConfig = {
     /**
      * Ideal Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     idealPayAuthorization: function(args) {
         // building ideal pay object
@@ -43,7 +43,7 @@ var ckoApmConfig = {
 
     /**
      * Boleto Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     boletoPayAuthorization: function(args) {
         // Building pay object
@@ -67,7 +67,7 @@ var ckoApmConfig = {
 
     /**
      * Bancontact Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     bancontactPayAuthorization: function(args) {
         // Building pay object
@@ -87,7 +87,7 @@ var ckoApmConfig = {
 
     /**
      * Benefit Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     benefitPayAuthorization: function(args) {
         // Process benefit pay
@@ -105,7 +105,7 @@ var ckoApmConfig = {
 
     /**
      * Giro Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     giroPayAuthorization: function(args) {
         // Building pay object
@@ -123,7 +123,7 @@ var ckoApmConfig = {
 
     /**
      * EPS Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     epsPayAuthorization: function(args) {
         // Building pay object
@@ -141,7 +141,7 @@ var ckoApmConfig = {
 
     /**
      * Sofort Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     sofortPayAuthorization: function(args) {
         // Building pay object
@@ -158,7 +158,7 @@ var ckoApmConfig = {
 
     /**
      * Knet Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     knetPayAuthorization: function(args) {
         // Building pay object
@@ -176,7 +176,7 @@ var ckoApmConfig = {
 
     /**
      * Q Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     qpayPayAuthorization: function(args) {
         // Building pay object
@@ -197,7 +197,7 @@ var ckoApmConfig = {
 
     /**
      * Fawry Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     fawryPayAuthorization: function(args) {
         // Building pay object
@@ -218,7 +218,7 @@ var ckoApmConfig = {
 
     /**
      * Sepa Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     sepaPayAuthorization: function(args) {
         // Building pay object
@@ -239,7 +239,7 @@ var ckoApmConfig = {
 
     /**
      * Multibanco Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     multibancoPayAuthorization: function(args) {
         // Building pay object
@@ -258,7 +258,7 @@ var ckoApmConfig = {
 
     /**
      * Poli Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     poliPayAuthorization: function(args) {
         // Building pay object
@@ -274,7 +274,7 @@ var ckoApmConfig = {
 
     /**
      * P24 Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     p24PayAuthorization: function(args) {
         // Building pay object
@@ -294,7 +294,7 @@ var ckoApmConfig = {
 
     /**
      * Klarna Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     klarnaPayAuthorization: function(args) {
         // Gdt the order
@@ -328,7 +328,7 @@ var ckoApmConfig = {
 
     /**
      * Paypal Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     paypalPayAuthorization: function(args) {
         // Build the payment object
@@ -345,7 +345,7 @@ var ckoApmConfig = {
 
     /**
      * Oxxo Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     oxxoPayAuthorization: function(args) {
         // Build the payment object
@@ -368,7 +368,7 @@ var ckoApmConfig = {
 
     /**
      * Ali Pay Authorization.
-     * @param args The payment arguments
+     * @param {Object} args The payment arguments
      */
     aliPayAuthorization: function(args) {
         // Build the payment object
