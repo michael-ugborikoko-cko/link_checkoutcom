@@ -6,6 +6,7 @@ var OrderMgr = require('dw/order/OrderMgr');
 var PaymentMgr = require('dw/order/PaymentMgr');
 var PaymentTransaction = require('dw/order/PaymentTransaction');
 var Resource = require('dw/web/Resource');
+var Logger = require('dw/system/Logger');
 
 /**
  * Helper functions for the Checkout.com cartridge integration.
