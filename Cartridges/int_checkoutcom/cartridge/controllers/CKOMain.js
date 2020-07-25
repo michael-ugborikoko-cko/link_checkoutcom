@@ -56,7 +56,7 @@ function handleReturn() {
                 );
 
                 // If there is a valid response
-                if (typeof (gVerify) === 'object' && gVerify.hasOwnProperty('id')) {
+                if (typeof (gVerify) === 'object' && Object.prototype.hasOwnProperty.call(gVerify, 'id')) {
                     // Log the payment response data
                     ckoHelper.log(
                         serviceName + ' - ' + ckoHelper._('cko.response.data', 'cko'),
@@ -141,9 +141,9 @@ function handleWebhook() {
             var func = '';
             var parts = hook.type.split('_');
             for (var i = 0; i < parts.length; i++) {
-                func += (i == 0) ? parts[i] : parts[i].charAt(0).toUpperCase() + parts[i].slice(1);
+                func += (i === 0) ? parts[i] : parts[i].charAt(0).toUpperCase() + parts[i].slice(1);
             }
-            if (eventsHelper.hasOwnProperty(func)) {
+            if (Object.prototype.hasOwnProperty.call(eventsHelper, func)) {
                 // Call the event
                 eventsHelper[func](hook);
             }
@@ -159,10 +159,11 @@ function getCardsList() {
     var data = [];
 
     // If user logged in
+    // eslint-disable-next-line
     if (customer.authenticated) {
-        var profile = customer.getProfile();
+        var profile = customer.getProfile(); // eslint-disable-line
         if (profile) {
-            applicablePaymentCards = customer.profile.getWallet().getPaymentInstruments();
+            applicablePaymentCards = customer.profile.getWallet().getPaymentInstruments(); // eslint-disable-line
             for (var i = 0; i < applicablePaymentCards.length; i++) {
                 data.push({
                     cardId: applicablePaymentCards[i].getUUID(),
@@ -184,7 +185,8 @@ function getCardsList() {
 }
 
 /**
- * Apms filter helper
+ * Apms filter helper.
+ * @returns {Object} The response object
  */
 function getApmFilter() {
     // Prepare some variables
@@ -209,7 +211,8 @@ function getApmFilter() {
 }
 
 /**
- * Mada Bins helper
+ * Mada Bins helper.
+ * @returns {Object} The response object
  */
 function getMadaBin() {
     var madaBins = ckoMadaConfig;
