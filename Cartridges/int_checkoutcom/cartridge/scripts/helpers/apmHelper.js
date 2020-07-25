@@ -1,7 +1,6 @@
 'use strict';
 
 // API Includes
-var PaymentMgr = require('dw/order/PaymentMgr');
 var Transaction = require('dw/system/Transaction');
 var ISML = require('dw/template/ISML');
 var OrderMgr = require('dw/order/OrderMgr');
@@ -16,11 +15,7 @@ var apmHelper = {
      * Creates Site Genesis Transaction Object
      */
     apmAuthorization: function(payObject, args) {
-        // Preparing payment parameters
-        var paymentInstrument = args.PaymentInstrument;
-        var paymentProcessor = PaymentMgr.getPaymentMethod(paymentInstrument.getPaymentMethod()).getPaymentProcessor();
-
-        // perform the charge
+        // Perform the charge
         var apmRequest = this.handleApmRequest(payObject, args);
 
         // Handle apm result
@@ -57,7 +52,7 @@ var apmHelper = {
      * Handle APM charge Response from CKO API
      */
     handleApmChargeResponse: function(gatewayResponse) {
-        // clean the session
+        // Clean the session
         // eslint-disable-next-line
         session.privacy.redirectUrl = null;
 
@@ -199,7 +194,8 @@ var apmHelper = {
         if (gatewayResponse) {
             return gatewayResponse;
         }
-            // Update the transaction
+        
+        // Update the transaction
         Transaction.wrap(function() {
             OrderMgr.failOrder(order, true);
         });
