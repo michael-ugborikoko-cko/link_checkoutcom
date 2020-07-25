@@ -30,6 +30,7 @@ function handleReturn() {
     var mode = ckoHelper.getValue('ckoMode');
     var serviceName = 'cko.verify.charges.' + mode + '.service';
     var orderId = ckoHelper.getOrderId();
+    var gVerify;
 
     // If there is a track id
     if (orderId) {
@@ -37,6 +38,7 @@ function handleReturn() {
         var order = OrderMgr.getOrder(orderId);
         if (order) {
             // Check the payment token if exists
+            // eslint-disable-next-line
             var sessionId = request.httpParameterMap.get('cko-session-id').stringValue;
 
             // If there is a payment session id available, verify
@@ -84,6 +86,7 @@ function handleReturn() {
             // Else it's a normal transaction
             else {
                 // Get the response
+                // eslint-disable-next-line
                 gResponse = JSON.parse(request.httpParameterMap.getRequestBodyAsString());
 
                 // Log the payment response data
@@ -129,6 +132,7 @@ function handleWebhook() {
     var isValidResponse = ckoHelper.isValidResponse();
     if (isValidResponse) {
         // Get the response as JSON object
+        // eslint-disable-next-line
         var hook = JSON.parse(request.httpParameterMap.getRequestBodyAsString());
 
         // Check the webhook event

@@ -9,7 +9,6 @@ var ISML = require('dw/template/ISML');
 var URLUtils = require('dw/web/URLUtils');
 var OrderMgr = require('dw/order/OrderMgr');
 
-
 // Utility
 var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 var apmHelper = require('~/cartridge/scripts/helpers/apmHelper');
@@ -27,7 +26,6 @@ function mandate() {
     // Process the URL
     if (url) {
         app.getView({
-
             // Prepare the view parameters
             creditAmount: order.totalGrossPrice.value.toFixed(2),
             formatedAmount: ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), ckoHelper.getCurrency()),
@@ -51,6 +49,8 @@ function mandate() {
         // Write the response
         return ckoHelper.ckoResponse(ckoHelper._('cko.sepa.error', 'cko'));
     }
+
+    return null;
 }
 
 /**

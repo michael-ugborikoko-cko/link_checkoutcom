@@ -54,6 +54,8 @@ function klarnaSession() {
     } else {
         return ckoHelper.ckoResponse(ckoHelper._('cko.klarna.notFound', 'cko'));
     }
+
+    return null;
 }
 
 // Module exports
