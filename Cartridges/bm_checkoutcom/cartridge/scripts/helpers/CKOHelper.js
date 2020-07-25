@@ -247,15 +247,15 @@ var CKOHelper = {
         if (Object.prototype.hasOwnProperty.call(data, 'source')) {
             if (Object.prototype.hasOwnProperty.call(data.source, 'source')) data.source.number.replace(/^.{14}/g, '*');
             if (Object.prototype.hasOwnProperty.call(data.source, 'cvv')) data.source.cvv.replace(/^.{3}/g, '*');
-            if (Object.prototype.hasOwnProperty.call(data.source, 'billing_address')) delete data.source.billing_address;
-            if (Object.prototype.hasOwnProperty.call(data.source, 'phone')) delete data.source.phone;
-            if (Object.prototype.hasOwnProperty.call(data.source, 'name')) delete data.source.name;
+            if (Object.prototype.hasOwnProperty.call(data.source, 'billing_address')) delete data.source.billing_address; // eslint-disable-line no-delete-var
+            if (Object.prototype.hasOwnProperty.call(data.source, 'phone')) delete data.source.phone; // eslint-disable-line no-delete-var
+            if (Object.prototype.hasOwnProperty.call(data.source, 'name')) delete data.source.name; // eslint-disable-line no-delete-var
         }
 
         // Customer data
-        if (Object.prototype.hasOwnProperty.call(data, 'customer')) delete data.customer;
-        if (Object.prototype.hasOwnProperty.call(data, 'shipping')) delete data.shipping;
-        if (Object.prototype.hasOwnProperty.call(data, 'billing')) delete data.billing;
+        if (Object.prototype.hasOwnProperty.call(data, 'customer')) delete data.customer; // eslint-disable-line no-delete-var
+        if (Object.prototype.hasOwnProperty.call(data, 'shipping')) delete data.shipping; // eslint-disable-line no-delete-var
+        if (Object.prototype.hasOwnProperty.call(data, 'billing')) delete data.billing; // eslint-disable-line no-delete-var
 
         return data;
     },
