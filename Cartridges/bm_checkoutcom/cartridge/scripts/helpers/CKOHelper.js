@@ -143,6 +143,7 @@ var CKOHelper = {
     /**
      * Checks if a transaction should be returned in the reaults.
      * @param {Object} paymentTransaction The paymentTransaction object
+     * @param {Object} paymentInstrument The paymentInstrument object
      * @returns {boolean} The status of the current transaction
      */
     isTransactionNeeded: function(paymentTransaction, paymentInstrument) {
@@ -154,7 +155,7 @@ var CKOHelper = {
         var condition1 = (tid && paymentTransaction.transactionID === tid) || !tid;
         var condition2 = this.isCkoItem(paymentInstrument.paymentMethod);
         var condition3 = this.isCkoItem(this.getProcessorId(paymentInstrument));
-        var condition4 = paymentTransaction.custom.ckoPaymentId !== null && paymentTransaction.custom.ckoPaymentId != '';
+        var condition4 = paymentTransaction.custom.ckoPaymentId !== null && paymentTransaction.custom.ckoPaymentId !== '';
         var condition5 = paymentTransaction.transactionID && paymentTransaction.transactionID !== '';
 
         if (condition1 && condition2 && condition3 && condition4 && condition5) {
@@ -220,7 +221,7 @@ var CKOHelper = {
      * @param {Object} gatewayData The gateway data
      */
     log: function(dataType, gatewayData) {
-        if (this.getValue('ckoDebugEnabled') == 'true' && (gatewayData)) {
+        if (this.getValue('ckoDebugEnabled') === 'true' && (gatewayData)) {
             // Get the logger
             var logger = Logger.getLogger('ckodebug');
 
