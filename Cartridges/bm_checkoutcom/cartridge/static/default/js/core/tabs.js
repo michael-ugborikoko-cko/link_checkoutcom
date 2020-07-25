@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Set the navigation state.
+ * @param {string} path The navigation path
+ */
 function setNavigationstate(path) {
     // Get the path members
     var members = path.split('/');
