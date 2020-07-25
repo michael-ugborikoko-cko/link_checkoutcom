@@ -66,7 +66,7 @@ var apmHelper = {
         ckoHelper.updateCustomerData(gatewayResponse);
 
         // Get the response links
-        var gatewayLinks = gatewayResponse['_links'];
+        var gatewayLinks = gatewayResponse['_links']; 
 
         // Get the response type
         var type = gatewayResponse.type;

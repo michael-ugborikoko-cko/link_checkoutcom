@@ -103,7 +103,7 @@ var cardHelper = {
         ckoHelper.updateCustomerData(gatewayResponse);
 
         // Get the gateway links
-        var gatewayLinks = gatewayResponse['_links'];
+        var gatewayLinks = gatewayResponse['_links']; 
 
         // Add 3DS redirect URL to session if exists
         if (gatewayLinks.hasOwnProperty('redirect')) {
