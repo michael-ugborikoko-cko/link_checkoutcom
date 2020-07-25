@@ -191,3 +191,16 @@ function performAction(task) {
         },
     });
 }
+
+/**
+ * Reload the table data.
+ * @param {string} tableData The table data
+ */
+function reloadTable(tableData) {
+    // Update the row data
+    window.ckoTransactionsTable.replaceData(tableData);
+
+    // Show the success message
+    // eslint-disable-next-line
+    showSuccessMessage();
+}
