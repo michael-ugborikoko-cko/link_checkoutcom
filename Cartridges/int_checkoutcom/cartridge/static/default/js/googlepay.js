@@ -77,7 +77,7 @@ function launchGooglePay() {
          * Configure support for the Google Pay API
          *
          * @see     {@link https://developers.google.com/pay/api/web/reference/object#PaymentDataRequest|PaymentDataRequest}
-         * @returns {object} PaymentDataRequest fields
+         * @returns {Object} PaymentDataRequest fields
          */
         function getGooglePaymentDataConfiguration() {
             return {
@@ -94,7 +94,7 @@ function launchGooglePay() {
          * Provide Google Pay API with a payment amount, currency, and amount status
          *
          * @see     {@link https://developers.google.com/pay/api/web/reference/object#TransactionInfo|TransactionInfo}
-         * @returns {object} transaction info, suitable for use as transactionInfo property of PaymentDataRequest
+         * @returns {Object} transaction info, suitable for use as transactionInfo property of PaymentDataRequest
          */
         function getGoogleTransactionInfo() {
             return {
@@ -123,7 +123,7 @@ function launchGooglePay() {
         /**
          * Process payment data returned by the Google Pay API
          *
-         * @param {object} paymentData response from Google Pay API after shopper approves payment
+         * @param {Object} paymentData response from Google Pay API after shopper approves payment
          * @see   {@link https://developers.google.com/pay/api/web/reference/object#PaymentData|PaymentData object reference}
          */
         function processPayment(paymentData) {
