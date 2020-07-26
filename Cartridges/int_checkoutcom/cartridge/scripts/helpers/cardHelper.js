@@ -10,11 +10,14 @@ var URLUtils = require('dw/web/URLUtils');
 var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 
 /**
- * Module cardPayHelper
+ * Module cardPayHelper.
  */
 var cardHelper = {
     /**
-     * Creates Site Genesis Transaction Object
+     * Creates Site Genesis Transaction Object.
+     * @param {Object} payObject The payment data
+     * @param {Object} args The request parameters
+     * @returns {Object} The payment result
      */
     cardAuthorization: function(payObject, args) {
         // Perform the charge
@@ -34,11 +37,14 @@ var cardHelper = {
             return { authorized: true };
         }
 
-        return false;
+        return null;
     },
 
     /**
-     * Handle full charge Request to CKO API
+     * Handle full charge Request to CKO API.
+     * @param {Object} cardData The card data
+     * @param {Object} args The request data
+     * @returns {Object} The gateway response
      */
     handleCardRequest: function(cardData, args) {
         // Prepare the parameters
@@ -73,19 +79,21 @@ var cardHelper = {
                 return gatewayResponse;
             }
 
-            return false;
+            return null;
         }
 
-            // Fail the order
+        // Fail the order
         Transaction.wrap(function() {
             OrderMgr.failOrder(order, true);
         });
 
-        return false;
+        return null;
     },
 
     /**
-     * Handle full charge Response from CKO API
+     * Handle full charge Response from CKO API.
+     * @param {Object} gatewayResponse The gateway response
+     * @returns {boolean} The payment success or failure
      */
     handleFullChargeResponse: function(gatewayResponse) {
         // Clean the session
@@ -106,12 +114,15 @@ var cardHelper = {
             return ckoHelper.paymentSuccess(gatewayResponse);
         }
 
-        	// Check if its a valid response
+        // Check if its a valid response
         return ckoHelper.paymentSuccess(gatewayResponse);
     },
 
     /**
-     * Build the gateway request
+     * Build the gateway request.
+     * @param {Object} cardData The card data
+     * @param {Object} args The request data
+     * @returns {Object} The card request data
      */
     getCardRequest: function(cardData, args) {
         // Load the card and order information
@@ -141,7 +152,10 @@ var cardHelper = {
     },
 
     /**
-     * Build Gateway Source Object
+     * Build Gateway Source Object.
+     * @param {Object} cardData The card data
+     * @param {Object} args The request data
+     * @returns {Object} The source object
      */
     getSourceObject: function(cardData, args) {
         // Source object
@@ -160,7 +174,8 @@ var cardHelper = {
     },
 
     /**
-     * Build 3ds object
+     * Build 3ds object.
+     * @returns {Object} The 3ds object
      */
     get3Ds: function() {
         return {
@@ -170,7 +185,9 @@ var cardHelper = {
     },
 
     /**
-     * Build the Billing object
+     * Build the billing object.
+     * @param {Object} args The request data
+     * @returns {Object} The billing object
      */
     getBillingObject: function(args) {
         // Load the card and order information
@@ -193,7 +210,9 @@ var cardHelper = {
     },
 
     /**
-     * Build the Shipping object
+     * Build the shipping object.
+     * @param {Object} args The request data
+     * @returns {Object} The shipping object
      */
     getShippingObject: function(args) {
         // Load the card and order information

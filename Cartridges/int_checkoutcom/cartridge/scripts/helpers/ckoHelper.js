@@ -1,22 +1,23 @@
-"use strict"
+'use strict';
 
-
-// API Includes
+/**
+ * API includes.
+ */
 var Transaction = require('dw/system/Transaction');
 var OrderMgr = require('dw/order/OrderMgr');
 var Logger = require('dw/system/Logger');
-var BasketMgr = require('dw/order/BasketMgr');
 var PaymentMgr = require('dw/order/PaymentMgr');
 var SystemObjectMgr = require('dw/object/SystemObjectMgr');
 var Resource = require('dw/web/Resource');
 var PaymentMgr = require('dw/order/PaymentMgr');
 var ISML = require('dw/template/ISML');
+var Site = require('dw/system/Site');
 
 // Card Currency Config
 var ckoCurrencyConfig = require('~/cartridge/scripts/config/ckoCurrencyConfig');
 
 /**
- * Module ckoHelper
+ * Module ckoHelper.
  */
 var ckoHelper = {
     /**
@@ -51,7 +52,7 @@ var ckoHelper = {
      * Get user language
      * @returns {string} The user language.
      */
-    getLanguage: function () {
+    getLanguage: function() {
         return request.locale.replace('_', '-');
     },
 
@@ -59,23 +60,23 @@ var ckoHelper = {
      * Get Site Name
      * @returns {string} The site name.
      */
-    getSiteName: function () {
-        return dw.system.Site.getCurrent().name;
+    getSiteName: function() {
+        return Site.getCurrent().name;
     },
 
     /**
      * Get site Hostname
      * @returns {string} The site host name.
      */
-    getSiteHostName: function () {
-        return dw.system.Site.getCurrent().httpHostName;
+    getSiteHostName: function() {
+        return Site.getCurrent().httpHostName;
     },
 
     /**
      * Check if the gateway response is valid
      * @returns {boolean} The gateway response status.
      */
-    isValidResponse: function () {
+    isValidResponse: function() {
         var requestKey = request.httpHeaders.get("authorization");
         var privateSharedKey = this.getAccountKeys().privateSharedKey;
 
@@ -88,7 +89,7 @@ var ckoHelper = {
      * @returns {string} The field value
      */
     getValue: function (field) {
-        return dw.system.Site.getCurrent().getCustomPreferenceValue(field);
+        return Site.getCurrent().getCustomPreferenceValue(field);
     },
 
     /**
@@ -97,7 +98,7 @@ var ckoHelper = {
      * @returns {string} The processed string
      */
     upperCaseFirst: function (data) {
-    	if(data){
+    	if (data){
         	var upperChar = data.charAt(0).toUpperCase();
         	return data.replace(data.charAt(0), upperChar);
     	}
@@ -128,7 +129,7 @@ var ckoHelper = {
     /**
      * Return order id
      */
-    getOrderId: function () {
+    getOrderId: function() {
         var orderId = (this.getValue('cko3ds')) ? request.httpParameterMap.get('reference').stringValue : request.httpParameterMap.get('reference').stringValue;
         if (orderId === null) {
             orderId = session.privacy.ckoOrderId;
@@ -140,14 +141,14 @@ var ckoHelper = {
     /**
      * Cartridge metadata
      */
-    getCartridgeMeta: function () {
+    getCartridgeMeta: function() {
         return this.getValue('ckoSgPlatformData');
     },
 
     /**
      * Get Account API Keys
      */
-    getAccountKeys: function () {
+    getAccountKeys: function() {
         var keys = {};
         var str = this.getValue('ckoMode') == 'live' ? 'Live' : 'Sandbox';
 
@@ -273,7 +274,7 @@ var ckoHelper = {
     /**
      * Get Order Quantities
      */
-    getCurrency : function () {
+    getCurrency : function() {
         var orderId = this.getOrderId();
 
         // load the card and order information
@@ -312,7 +313,7 @@ var ckoHelper = {
      */
     updateCustomerData: function (gatewayResponse) {
         if ((gatewayResponse) && Object.prototype.hasOwnProperty.call(gatewayResponse, 'card')) {
-            Transaction.wrap(function () {
+            Transaction.wrap(function() {
                 if (session.customer.profile !== null) {
                     session.customer.profile.custom.ckoCustomerId = gatewayResponse.card.customerId;
                 }
@@ -358,7 +359,7 @@ var ckoHelper = {
     /**
      * Get Billing Descriptor Object from custom preferences
      */
-    getBillingDescriptorObject : function () {
+    getBillingDescriptorObject : function() {
         var billingDescriptor = {
             "name"  : this.getValue('ckoBillingDescriptor1'),
             "city"  : this.getValue('ckoBillingDescriptor2')
@@ -643,14 +644,14 @@ var ckoHelper = {
     /**
      * Return AutoCapture
      */
-    getCapture: function () {
+    getCapture: function() {
     	return ckoHelper.getValue('ckoAutoCapture');
     },
 
     /**
      * Return capture time
      */
-    getCaptureTime: function () {
+    getCaptureTime: function() {
         // Get the current date/time in milliseconds
         var now = Date.now();
 
@@ -668,7 +669,7 @@ var ckoHelper = {
     /**
      * Build 3ds object
      */
-    get3Ds: function () {
+    get3Ds: function() {
         // 3ds object
         var ds = {
             "enabled"               : this.getValue('cko3ds'),

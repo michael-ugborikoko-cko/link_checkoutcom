@@ -1,7 +1,7 @@
 'use strict';
 
 // Site controller
-var Site = require('dw.system.Site');
+var Site = require('dw/system/Site');
 var SiteControllerName = Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
 
 // API Includes

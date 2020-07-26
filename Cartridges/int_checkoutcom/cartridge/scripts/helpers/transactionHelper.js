@@ -51,7 +51,7 @@ var transactionHelper = {
         // Get the payment processor id
         var paymentProcessorId = hook.data.metadata.payment_processor;
         
-        Transaction.wrap(function () {
+        Transaction.wrap(function() {
         	
             // Create the payment instrument and processor
             var paymentInstrument = order.createPaymentInstrument(paymentProcessorId, transactionAmount);

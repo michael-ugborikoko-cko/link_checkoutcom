@@ -1,11 +1,11 @@
 'use strict';
 
 // API Includes
-var PaymentMgr = require('dw/order/PaymentMgr');
 var Transaction = require('dw/system/Transaction');
 
 // Site controller
-var SiteControllerName = dw.system.Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
+var Site = require('dw/system/Site');
+var SiteControllerName = Site.getCurrent().getCustomPreferenceValue('ckoSgStorefrontControllers');
 
 // Shopper cart
 var Cart = require(SiteControllerName + '/cartridge/scripts/models/CartModel');
