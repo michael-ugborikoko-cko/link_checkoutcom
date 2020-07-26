@@ -111,7 +111,7 @@ var cardHelper = {
 
         // Add 3DS redirect URL to session if exists
         if (Object.prototype.hasOwnProperty.call(gatewayLinks, 'redirect')) {
-        	// Save redirect link to session
+            // Save redirect link to session
             // eslint-disable-next-line
             session.privacy.redirectUrl = gatewayLinks.redirect.href;
 

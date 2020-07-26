@@ -10,14 +10,16 @@ var Money = require('dw/value/Money');
 // Utility 
 var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 
-// Transaction helper.
+/**
+ * Module transactionHelper.
+ */
 var transactionHelper = {
-
     /**
-     * Get order transaction amount
+     * Get order transaction amount.
+     * @param {Object} order The order instance
+     * @returns {Object} The formatted amount
      */
     getOrderTransactionAmount : function (order) {
-
         return new Money(
             order.totalGrossPrice.value.toFixed(2),
             order.getCurrencyCode()
@@ -26,6 +28,8 @@ var transactionHelper = {
 
     /**
      * Get webhook transaction amount
+     * @param {Object} hook The gateway webhook data
+     * @returns {Object} The formatted amount
      */
     getHookTransactionAmount : function (hook) {
         var divider = ckoHelper.getCkoFormatedValue(hook.data.currency);
@@ -39,9 +43,9 @@ var transactionHelper = {
 
     /**
      * Create an authorization transaction
+     * @param {Object} hook The gateway webhook data
      */
     createAuthorization: function (hook) {
-
         // Get the transaction amount
         var transactionAmount = this.getHookTransactionAmount(hook);
 
@@ -52,7 +56,6 @@ var transactionHelper = {
         var paymentProcessorId = hook.data.metadata.payment_processor;
         
         Transaction.wrap(function() {
-        	
             // Create the payment instrument and processor
             var paymentInstrument = order.createPaymentInstrument(paymentProcessorId, transactionAmount);
             var paymentProcessor = PaymentMgr.getPaymentMethod(paymentInstrument.paymentMethod).getPaymentProcessor();
@@ -68,8 +71,11 @@ var transactionHelper = {
         });
     },
 
-    /*
+    /**
      * Get a parent transaction from a payment id
+     * @param {Object} hook The gateway webhook data
+     * @param {string} transactionType The transaction type
+     * @returns {Object} The parent transaction
      */
     getParentTransaction: function (hook, transactionType) {
         // Prepare the payload
@@ -102,20 +108,23 @@ var transactionHelper = {
 
     /**
      * Load a transaction by Id.
+     * @param {string} transactionId The transaction id
+     * @param {string} orderNo The order number
+     * @returns {Object} The transaction
      */
     loadTransaction: function (transactionId, orderNo) {
         // Query the orders
         var result  = ckoHelper.getOrders(orderNo);
 
         // Loop through the results
-        for each(var item in result) {
+        for (var i = 0; i < result.length; i++) {
             // Get the payment instruments
-            var paymentInstruments = item.getPaymentInstruments();
+            var paymentInstruments = result[i].getPaymentInstruments().toArray();
             
             // Loop through the payment instruments
-            for each(var instrument in paymentInstruments) {
+            for (var j = 0; j < paymentInstruments.length; j++) {
                 // Get the payment transaction
-                var paymentTransaction = instrument.getPaymentTransaction();
+                var paymentTransaction = paymentInstruments[j].getPaymentTransaction();
 
                 // Prepare the filter condition
                 var isIdMatch = paymentTransaction.transactionID === transactionId;
@@ -130,18 +139,23 @@ var transactionHelper = {
         return null;
     },
 
+    /**
+     * Update the refund permissions.
+     * @param {Object} order The order instance
+     * @returns {boolean} Should refunds be closed
+     */
     shouldCloseRefund: function (order) {
         // Prepare the totals
         var totalRefunded = 0;
         var totalCaptured = 0;
     
         // Get the payment instruments
-        var paymentInstruments = order.getPaymentInstruments();
+        var paymentInstruments = order.getPaymentInstruments().toArray();
     
         // Loop through the payment instruments
-        for each(var instrument in paymentInstruments) {
+        for (var i = 0; i <  paymentInstruments.length; i++) {
             // Get the payment transaction
-            var paymentTransaction = instrument.getPaymentTransaction();
+            var paymentTransaction = paymentInstruments[i].getPaymentTransaction();
     
             // Calculate the total refunds
             if (paymentTransaction.type.toString() === PaymentTransaction.TYPE_CREDIT) {
@@ -156,7 +170,7 @@ var transactionHelper = {
       
         // Check if a refund is possible
         return totalRefunded >= totalCaptured;
-    }
+    },
 };
 
 // Module exports
