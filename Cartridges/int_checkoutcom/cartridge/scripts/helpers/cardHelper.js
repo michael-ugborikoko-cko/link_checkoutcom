@@ -10,7 +10,7 @@ var URLUtils = require('dw/web/URLUtils');
 var ckoHelper = require('~/cartridge/scripts/helpers/ckoHelper');
 
 /**
- * Module cardPayHelper.
+ * Module cardHelper.
  */
 var cardHelper = {
     /**
@@ -25,9 +25,11 @@ var cardHelper = {
 
         // Handle apm result
         if (cardRequest) {
+            // eslint-disable-next-line
             if (session.privacy.redirectUrl) {
                 // 3ds redirection
                 ISML.renderTemplate('redirects/3DSecure.isml', {
+                    // eslint-disable-next-line
                     redirectUrl: session.privacy.redirectUrl,
                 });
 
@@ -97,6 +99,7 @@ var cardHelper = {
      */
     handleFullChargeResponse: function(gatewayResponse) {
         // Clean the session
+        // eslint-disable-next-line
         session.privacy.redirectUrl = null;
 
         // Update customer data
@@ -104,10 +107,11 @@ var cardHelper = {
 
         // Get the gateway links
         var gatewayLinks = gatewayResponse._links;
-
+        
         // Add 3DS redirect URL to session if exists
         if (Object.prototype.hasOwnProperty.call(gatewayLinks, 'redirect')) {
         	// Save redirect link to session
+            // eslint-disable-next-line
             session.privacy.redirectUrl = gatewayLinks.redirect.href;
 
             // Check if its a valid response
