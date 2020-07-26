@@ -46,7 +46,7 @@ var applePayHelper = {
         ckoHelper.log(serviceName + ' ' + ckoHelper._('cko.response.data', 'cko'), tokenResponse);
 
         // If the request is valid, process the response
-        if (tokenResponse && Object.prototype.hasOwnProperty.call(gVerify, 'tokenResponse')) {
+        if (tokenResponse && Object.prototype.hasOwnProperty.call(tokenResponse, 'token')) {
             var chargeData = {
                 source: this.getSourceObject(tokenResponse),
                 amount: ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), ckoHelper.getCurrency()),
