@@ -9,7 +9,6 @@ var Logger = require('dw/system/Logger');
 var PaymentMgr = require('dw/order/PaymentMgr');
 var SystemObjectMgr = require('dw/object/SystemObjectMgr');
 var Resource = require('dw/web/Resource');
-var PaymentMgr = require('dw/order/PaymentMgr');
 var ISML = require('dw/template/ISML');
 var Site = require('dw/system/Site');
 
@@ -26,11 +25,11 @@ var ckoHelper = {
      * @returns {string} The response JSON string
      */
     ckoResponse: function(data) {
-        response.setBuffered(false);
-        response.setContentType('text/plain');
-        var out = response.writer;
+        response.setBuffered(false); // eslint-disable-line
+        response.setContentType('text/plain'); // eslint-disable-line
+        var out = response.writer; // eslint-disable-line
 
-        return out.println(JSON.stringify(data));
+        return out.println(JSON.stringify(data)); // eslint-disable-line
     },
 
     /**
@@ -52,6 +51,7 @@ var ckoHelper = {
      * @returns {string} The user language.
      */
     getLanguage: function() {
+        // eslint-disable-next-line
         return request.locale.replace('_', '-');
     },
 
@@ -76,6 +76,7 @@ var ckoHelper = {
      * @returns {boolean} The gateway response status.
      */
     isValidResponse: function() {
+        // eslint-disable-next-line
         var requestKey = request.httpHeaders.get('authorization');
         var privateSharedKey = this.getAccountKeys().privateSharedKey;
 
@@ -131,6 +132,7 @@ var ckoHelper = {
     getOrderId: function() {
         var orderId = (this.getValue('cko3ds')) ? request.httpParameterMap.get('reference').stringValue : request.httpParameterMap.get('reference').stringValue;
         if (orderId === null) {
+            // eslint-disable-next-line
             orderId = session.privacy.ckoOrderId;
         }
 
@@ -162,7 +164,8 @@ var ckoHelper = {
      * Create an HTTP client to handle request to gateway
      */
     gatewayClientRequest: function(serviceId, requestData, method) {
-        var method = method || 'POST';
+        // eslint-disable-next-line        
+        method = method || 'POST';
         var serv = this.getService(serviceId);
 
         // Prepare the request URL and data
@@ -876,7 +879,8 @@ var ckoHelper = {
     },
 
     /**
-     * Return Basket Item CountryCode
+     * Get the basket country code.
+     * @returns {string} The site country code
      */
     getBasketCountyCode: function(basket) {
         var countyCode = basket.defaultShipment.shippingAddress.countryCode.valueOf();
@@ -885,7 +889,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return Basket Item CountryCode
+     * Get the basket address.
+     * @param {Object} basket The basket instance
+     * @returns {Object} The address
      */
     getBasketAddress: function(basket) {
         var address = {
@@ -906,7 +912,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return Basket Item CountryCode
+     * Get the order address.
+     * @param {Object} args The method arguments
+     * @returns {Object} The address
      */
     getOrderBasketAddress: function(args) {
         var order = OrderMgr.getOrder(args.OrderNo);
