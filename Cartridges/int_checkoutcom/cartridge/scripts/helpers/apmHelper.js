@@ -66,6 +66,7 @@ var apmHelper = {
         ckoHelper.updateCustomerData(gatewayResponse);
 
         // Get the response links
+        // eslint-disable-next-line
         var gatewayLinks = gatewayResponse._links;
 
         // Get the response type
