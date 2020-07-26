@@ -315,11 +315,9 @@ var ckoApmConfig = {
         // Gdt the order
         var order = OrderMgr.getOrder(args.OrderNo);
 
-        // Klarna Form Inputs
-        // eslint-disable-next-line
-        var klarna_approved = paymentForm.get('klarna_approved').value();
-
-        if (klarna_approved) {
+        // Klarna form fields
+        var klarnaApproved = paymentForm.get('klarna_approved').value();
+        if (klarnaApproved) {
             // Build the payment object
             var payObject = {
                 amount: ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), ckoHelper.getCurrency(args)),
