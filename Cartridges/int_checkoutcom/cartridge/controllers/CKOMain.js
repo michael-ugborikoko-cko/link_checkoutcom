@@ -81,10 +81,7 @@ function handleReturn() {
                     // Send back to the error page
                     ISML.renderTemplate('custom/common/response/failed.isml');
                 }
-            }
-
-            // Else it's a normal transaction
-            else {
+            } else {
                 // Get the response
                 // eslint-disable-next-line
                 gResponse = JSON.parse(request.httpParameterMap.getRequestBodyAsString());
