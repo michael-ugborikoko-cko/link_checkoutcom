@@ -106,8 +106,9 @@ var cardHelper = {
         ckoHelper.updateCustomerData(gatewayResponse);
 
         // Get the gateway links
+        // eslint-disable-next-line
         var gatewayLinks = gatewayResponse._links;
-        
+
         // Add 3DS redirect URL to session if exists
         if (Object.prototype.hasOwnProperty.call(gatewayLinks, 'redirect')) {
         	// Save redirect link to session
@@ -143,7 +144,7 @@ var cardHelper = {
             customer: ckoHelper.getCustomer(args),
             billing_descriptor: ckoHelper.getBillingDescriptorObject(),
             shipping: this.getShippingObject(args),
-            '3ds': (cardData.type == 'mada') ? { enabled: true } : this.get3Ds(),
+            '3ds': (cardData.type === 'mada') ? { enabled: true } : this.get3Ds(),
             risk: { enabled: true },
             success_url: URLUtils.https('CKOMain-HandleReturn').toString(),
             failure_url: URLUtils.https('CKOMain-HandleFail').toString(),

@@ -44,7 +44,7 @@ var eventsHelper = {
                 }
 
                 // Update the order status
-                if ((orderStatus) && (orderStatus.indexOf('CANCELLED') != -1 || orderStatus.indexOf('FAILED') != -1)) {
+                if ((orderStatus) && (orderStatus.indexOf('CANCELLED') !== -1 || orderStatus.indexOf('FAILED') !== -1)) {
                     OrderMgr.failOrder(order, true);
                 }
             });
@@ -104,7 +104,7 @@ var eventsHelper = {
         var cardUuid = hook.data.metadata.card_uuid;
         var customerId = hook.data.metadata.customer_id;
         var processorId = hook.data.metadata.payment_processor;
-        if (cardUuid != 'false' && customerId) {
+        if (cardUuid !== 'false' && customerId) {
             // Load the saved card
             var savedCard = cardHelper.getSavedCard(
                 cardUuid,

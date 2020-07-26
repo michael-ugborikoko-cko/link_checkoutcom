@@ -186,7 +186,7 @@ var setMada = function() {
     var input = document.getElementById('dwfrm_cardPaymentForm_number');
     input.addEventListener('keyup', function() {
         var value = this.value;
-        if (value.length == 7) {
+        if (value.length === 7) {
             var cardNumber = value.replace(/\s/g, '');
 
             // Get Mata Config data Url
@@ -195,7 +195,7 @@ var setMada = function() {
 
             madaBinRequest.onreadystatechange = function() {
             	// If request was successful and return 200
-                if (this.readyState == 4 && this.status == 200) {
+                if (this.readyState === 4 && this.status === 200) {
                 	// Assign the request response to responseObject variable
                     var responseObject = JSON.parse(this.responseText);
                     var bins = responseObject;

@@ -60,7 +60,7 @@ function alternativePaymentsFilter() {
     // When request state changes
     xhttpFilter.onreadystatechange = function() {
     	// If request was successful and return 200
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
         	// Assign the request response to responseObject variable
             var responseObject = JSON.parse(this.responseText);
 
@@ -107,7 +107,7 @@ function callKlarnaController(controllerUrl) {
         // When request state changes
         xhttp.onreadystatechange = function() {
         	// If request was successful and return 200
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState === 4 && this.status === 200) {
             	// Klarna session Id
                 var sessionId = JSON.parse(this.responseText).session_id;
 

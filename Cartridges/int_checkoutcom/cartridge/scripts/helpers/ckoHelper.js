@@ -41,7 +41,7 @@ var ckoHelper = {
      */
     getAppModeValue: function (sandboxValue, liveValue) {
         var appMode = this.getValue('ckoMode');
-        if (appMode == 'sandbox') {
+        if (appMode === 'sandbox') {
             return sandboxValue;
         } else {
             return liveValue;
@@ -80,7 +80,7 @@ var ckoHelper = {
         var requestKey = request.httpHeaders.get("authorization");
         var privateSharedKey = this.getAccountKeys().privateSharedKey;
 
-        return requestKey == privateSharedKey
+        return requestKey === privateSharedKey
     },
 
     /**
@@ -115,7 +115,7 @@ var ckoHelper = {
      * Write gateway information to the website's custom log files
      */
     log: function (dataType, gatewayData) {
-        if (this.getValue("ckoDebugEnabled") == true) {
+        if (this.getValue("ckoDebugEnabled") === true) {
             var logger = Logger.getLogger('ckodebug');
             if (logger) {
                 logger.debug(
@@ -150,7 +150,7 @@ var ckoHelper = {
      */
     getAccountKeys: function() {
         var keys = {};
-        var str = this.getValue('ckoMode') == 'live' ? 'Live' : 'Sandbox';
+        var str = this.getValue('ckoMode') === 'live' ? 'Live' : 'Sandbox';
 
         keys.publicKey = this.getValue('cko' + str + 'PublicKey');
         keys.secretKey = this.getValue('cko' +  str + 'SecretKey');
@@ -178,7 +178,7 @@ var ckoHelper = {
 
         // Call the service
         var resp = serv.call(requestData);
-        if (resp.status != 'OK') {
+        if (resp.status !== 'OK') {
             return false;
         }
 
@@ -296,13 +296,13 @@ var ckoHelper = {
      */
     paymentSuccess: function (gatewayResponse) {
     	if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'response_code')) {
-    		return gatewayResponse.response_code == 10000 || gatewayResponse.response_code == 10100 || gatewayResponse.response_code == 10200;
+    		return gatewayResponse.response_code === 10000 || gatewayResponse.response_code === 10100 || gatewayResponse.response_code === 10200;
     	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'actions')){
-    		return gatewayResponse.actions[0].response_code == 10000 || gatewayResponse.actions[0].response_code == 10100 || gatewayResponse.actions[0].response_code == 10200;
+    		return gatewayResponse.actions[0].response_code === 10000 || gatewayResponse.actions[0].response_code === 10100 || gatewayResponse.actions[0].response_code === 10200;
     	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'source')){
-    		return gatewayResponse.source.type == 'sofort' || 'bancontact';
+    		return gatewayResponse.source.type === 'sofort' || 'bancontact';
     	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'reference')){
-    		return gatewayResponse.reference == this.getOrderId();
+    		return gatewayResponse.reference === this.getOrderId();
     	}
 
     	return false;
