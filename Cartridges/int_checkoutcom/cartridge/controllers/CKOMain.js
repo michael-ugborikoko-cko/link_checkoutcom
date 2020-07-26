@@ -96,14 +96,14 @@ function handleReturn() {
                 if (ckoHelper.paymentIsValid(gResponse)) {
                     app.getController('COSummary').ShowConfirmation(order);
                 } else {
-                    ckoHelper.handleFail(gResponse);
+                    handleFail();
                 }
             }
         } else {
-            ckoHelper.handleFail(null);
+            handleFail();
         }
     } else {
-        ckoHelper.handleFail(null);
+        handleFail();
     }
 }
 

@@ -322,15 +322,9 @@ var ckoHelper = {
     },
 
     /**
-     * Handle a failed payment response
-     */
-    handleFail: function(gatewayResponse) {
-        // Send back to the error page
-        ISML.renderTemplate('custom/common/response/failed.isml');
-    },
-
-    /**
-     * Return customer object
+     * Return the customer data.
+     * @param {Object} order The order instance
+     * @returns {Object} The customer data
      */
     getCustomer: function(args) {
         // Load the card and order information
@@ -346,7 +340,9 @@ var ckoHelper = {
     },
 
     /**
-     * Get Basket Quantities
+     * Get the basket quantities.
+     * @param {Object} args The method arguments
+     * @returns {number} The basked quantities
      */
     getQuantity: function(args) {
         // load the card and order information
@@ -357,7 +353,8 @@ var ckoHelper = {
     },
 
     /**
-     * Get Billing Descriptor Object from custom preferences
+     * Get the billing descriptor object from custom preferences.
+     * @returns {Object} The billing descriptor data
      */
     getBillingDescriptorObject: function() {
         var billingDescriptor = {
@@ -369,7 +366,9 @@ var ckoHelper = {
     },
 
     /**
-     * Get Products Information
+     * Get the products information.
+     * @param {Object} args The method arguments
+     * @returns {Object} The product information
      */
     getProductInformation: function(args) {
         // Load the card and order information
@@ -400,7 +399,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return tax object
+     * Return the tax object.
+     * @param {Object} args The method arguments
+     * @returns {Object} The tax data
      */
     getTaxObject: function(args) {
         // Load the card and order information
@@ -423,7 +424,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return shipping object
+     * Return the shipping object.
+     * @param {Object} args The method arguments
+     * @returns {Object} The shipping data
      */
     getShippingValue: function(args) {
         // Load the card and order information
@@ -448,7 +451,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return Order Currency Code
+     * Return the order currency code.
+     * @param {Object} args The method arguments
+     * @returns {string} The currency code
      */
     getCurrencyCode: function(args) {
         // Get the order
@@ -462,7 +467,9 @@ var ckoHelper = {
     },
 
     /**
-     * Get Product Names
+     * Get the product names.
+     * @param {Object} args The method arguments
+     * @returns {Array} The products list
      */
     getProductNames: function(args) {
         // Load the card and order information
@@ -482,7 +489,9 @@ var ckoHelper = {
     },
 
     /**
-     * Get Product price array
+     * Get the product price array.
+     * @param {Object} args The method arguments
+     * @returns {Array} The prices list
      */
     getProductPrices: function(args) {
         // Load the card and order information
@@ -502,7 +511,9 @@ var ckoHelper = {
     },
 
     /**
-     * Get Product IDs
+     * Get the product IDs.
+     * @param {Object} args The method arguments
+     * @returns {Array} The product ids list
      */
     getProductIds: function(args) {
         s;
@@ -519,7 +530,9 @@ var ckoHelper = {
     },
 
     /**
-     * Get Each Product Quantity
+     * Get each product quantity.
+     * @param {Object} args The method arguments
+     * @returns {Array} The product quantities list
      */
     getProductQuantity: function(args) {
         // Load the card and order information
@@ -529,37 +542,19 @@ var ckoHelper = {
         var it = order.productLineItems.iterator();
 
         // Loop through the items
-        var products_quantites = 0;
+        var productsQuantites = 0;
         while (it.hasNext()) {
             var pli = it.next();
-            products_quantites += pli.quantityValue;
+            productsQuantites += pli.quantityValue;
         }
 
-        return products_quantites;
+        return productsQuantites;
     },
 
     /**
-     * Get Each Product Quantity
-     */
-    getProductQuantities: function(args) {
-        // Load the card and order information
-        var order = OrderMgr.getOrder(args.OrderNo);
-
-        // Prepare the iterator
-        var it = order.productLineItems.iterator();
-
-        // Loop through the items
-        var products_quantites = [];
-        while (it.hasNext()) {
-            var pli = it.next();
-            products_quantites.push(pli.quantityValue);
-        }
-
-        return products_quantites;
-    },
-
-    /**
-     * Get Host IP
+     * Return the host IP.
+     * @param {Object} args The method arguments
+     * @returns {string} The host IP
      */
     getHost: function(args) {
         // Load the card and order information
@@ -570,7 +565,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return order amount
+     * Return an order amount.
+     * @param {Object} order The order instance
+     * @returns {number} The amount
      */
     getAmount: function(order) {
         var amount = this.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), this.getCurrency());
@@ -579,7 +576,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return phone object
+     * Return a phone object.
+     * @param {Object} args The method arguments
+     * @returns {Object} The phone object
      */
     getPhoneObject: function(args) {
         // Load the card and order information
@@ -598,7 +597,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return Customer FullName
+     * Get a customer full name.
+     * @param {Object} args The method arguments
+     * @returns {string} The customer full name
      */
     getCustomerName: function(args) {
         // Load the card and order information
@@ -612,7 +613,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return Customer FirstName
+     * Get a customer first name.
+     * @param {Object} args The method arguments
+     * @returns {string} The customer first name
      */
     getCustomerFirstName: function(args) {
         // Load the card and order information
@@ -626,7 +629,9 @@ var ckoHelper = {
     },
 
     /**
-     * Return Customer LastName
+     * Get a customer last name.
+     * @param {Object} args The method arguments
+     * @returns {string} The customer last name
      */
     getCustomerLastName: function(args) {
         // Load the card and order information
@@ -640,14 +645,8 @@ var ckoHelper = {
     },
 
     /**
-     * Return AutoCapture
-     */
-    getCapture: function() {
-    	return ckoHelper.getValue('ckoAutoCapture');
-    },
-
-    /**
-     * Return capture time
+     * Return the capture time.
+     * @returns {Object} The capture time
      */
     getCaptureTime: function() {
         // Get the current date/time in milliseconds
@@ -665,7 +664,8 @@ var ckoHelper = {
     },
 
     /**
-     * Build 3ds object
+     * Build a 3ds object.
+     * @returns {Object} The 3ds data
      */
     get3Ds: function() {
         // 3ds object
@@ -678,7 +678,10 @@ var ckoHelper = {
     },
 
     /**
-     * Build metadata object
+     * Build the metadata object.
+     * @param {Object} data The request data
+     * @param {string} args The method arguments
+     * @returns {Object} The metadata
      */
     getMetadataObject: function(data, args) {
         // Prepare the base metadata
@@ -703,7 +706,10 @@ var ckoHelper = {
     },
 
     /**
-     * Build metadata object
+     * Build the metadata string.
+     * @param {Object} data The request data
+     * @param {string} args The method arguments
+     * @returns {String} The metadata
      */
     getMetadataString: function(data, args) {
         // Prepare the base metadata
@@ -725,7 +731,9 @@ var ckoHelper = {
     },
 
     /**
-     * Build the Billing object
+     * Return the billing object.
+     * @param {Object} args The method arguments
+     * @returns {Object} The billing data
      */
     getBillingObject: function(args) {
         // Load the card and order information
@@ -748,7 +756,9 @@ var ckoHelper = {
     },
 
     /**
-     * Get Billing Country
+     * Get the billing country.
+     * @param {Object} args The method arguments
+     * @returns {string} The billing country code
      */
     getBillingCountry: function(args) {
         // Load the card and order information
@@ -762,7 +772,9 @@ var ckoHelper = {
     },
 
     /**
-     * Build the Shipping object
+     * Return the shipping object.
+     * @param {Object} args The method arguments
+     * @returns {Object} The shipping data
      */
     getShippingObject: function(args) {
         // Load the card and order information
@@ -791,11 +803,13 @@ var ckoHelper = {
     },
 
     /**
-     * Return Basket Item object
+     * Get product quantities from a basket.
+     * @param {Object} basket The basket instance
+     * @returns {Array} The list of quantities
      */
     getBasketObject: function(basket) {
         var currency = this.getAppModeValue('GBP', basket.getCurrencyCode());
-        var products_quantites = [];
+        var productsQuantites = [];
         var it = basket.productLineItems.iterator();
         while (it.hasNext()) {
             var pli = it.next();
@@ -812,7 +826,7 @@ var ckoHelper = {
                 total_tax_amount: this.getFormattedPrice(pli.adjustedTax.value, currency),
             };
 
-            products_quantites.push(products);
+            productsQuantites.push(products);
         }
         var shippingTaxRate = basket.defaultShipment.standardShippingLineItem.getTaxRate() * 100 * 100;
         var shipping = {
@@ -825,21 +839,23 @@ var ckoHelper = {
         };
 
         if (basket.shippingTotalPrice.value > 0) {
-            products_quantites.push(shipping);
+            productsQuantites.push(shipping);
         }
 
-        return products_quantites;
+        return productsQuantites;
     },
 
     /**
-     * Return Basket Item object
+     * Get product quantities from an order.
+     * @param {Object} args The method arguments
+     * @returns {Array} The list of quantities
      */
     getOrderBasketObject: function(args) {
         // Prepare some variables
         var currency = this.getAppModeValue('GBP', this.getCurrencyCode(args));
         var order = OrderMgr.getOrder(args.OrderNo);
         var it = order.productLineItems.iterator();
-        var products_quantites = [];
+        var productsQuantites = [];
 
         // Iterate through the products
         while (it.hasNext()) {
@@ -857,7 +873,7 @@ var ckoHelper = {
                 total_tax_amount: this.getFormattedPrice(pli.adjustedTax.value, currency),
             };
 
-            products_quantites.push(products);
+            productsQuantites.push(products);
         }
 
         // Set the shipping variables
@@ -872,10 +888,10 @@ var ckoHelper = {
         };
 
         if (order.shippingTotalPrice.value > 0) {
-            products_quantites.push(shipping);
+            productsQuantites.push(shipping);
         }
 
-        return products_quantites;
+        return productsQuantites;
     },
 
     /**
@@ -905,7 +921,6 @@ var ckoHelper = {
             city: basket.defaultShipment.shippingAddress.city,
             phone: basket.defaultShipment.shippingAddress.phone,
             country: basket.defaultShipment.shippingAddress.countryCode.valueOf(),
-
         };
 
         return address;
