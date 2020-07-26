@@ -92,9 +92,10 @@ var applePayHelper = {
 
     /**
      * Build Gateway Source Object
+     * @param {Object} tokenData The token data
+     * @returns {Object} The source object
      */
     getSourceObject: function(tokenData) {
-        // source object
         var source = {
             type: 'token',
             token: tokenData.token,
