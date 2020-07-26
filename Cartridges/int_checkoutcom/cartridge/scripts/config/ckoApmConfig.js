@@ -316,6 +316,7 @@ var ckoApmConfig = {
         var order = OrderMgr.getOrder(args.OrderNo);
 
         // Klarna Form Inputs
+        // eslint-disable-next-line
         var klarna_approved = paymentForm.get('klarna_approved').value();
 
         if (klarna_approved) {
@@ -326,7 +327,7 @@ var ckoApmConfig = {
                 capture: false,
                 source: {
                     type: 'klarna',
-                    authorization_token: paymentForm.get('klarna_token').value(),
+                    authorization_token: paymentForm.get('klarna_token').value(), // eslint-disable-line
                     locale: ckoHelper.getLanguage(),
                     purchase_country: ckoHelper.getBillingObject(args).country,
                     tax_amount: ckoHelper.getFormattedPrice(order.totalTax.value, ckoHelper.getCurrency(args)),
