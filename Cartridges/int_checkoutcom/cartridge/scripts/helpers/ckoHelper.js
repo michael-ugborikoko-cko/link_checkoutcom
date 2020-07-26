@@ -25,7 +25,7 @@ var ckoHelper = {
      * @param {Object} data Format a gateway response
      * @returns {string} The response JSON string
      */
-    ckoResponse: function (data) {
+    ckoResponse: function(data) {
         response.setBuffered(false);
         response.setContentType('text/plain');
         var out = response.writer;
@@ -39,13 +39,12 @@ var ckoHelper = {
      * @param {string} liveValue The live value
      * @returns {string} The APM mode
      */
-    getAppModeValue: function (sandboxValue, liveValue) {
+    getAppModeValue: function(sandboxValue, liveValue) {
         var appMode = this.getValue('ckoMode');
         if (appMode === 'sandbox') {
             return sandboxValue;
-        } else {
-            return liveValue;
         }
+        return liveValue;
     },
 
     /**
@@ -77,10 +76,10 @@ var ckoHelper = {
      * @returns {boolean} The gateway response status.
      */
     isValidResponse: function() {
-        var requestKey = request.httpHeaders.get("authorization");
+        var requestKey = request.httpHeaders.get('authorization');
         var privateSharedKey = this.getAccountKeys().privateSharedKey;
 
-        return requestKey === privateSharedKey
+        return requestKey === privateSharedKey;
     },
 
     /**
@@ -88,7 +87,7 @@ var ckoHelper = {
      * @param {string} field The field id
      * @returns {string} The field value
      */
-    getValue: function (field) {
+    getValue: function(field) {
         return Site.getCurrent().getCustomPreferenceValue(field);
     },
 
@@ -97,8 +96,8 @@ var ckoHelper = {
      * @param {string} data The string to process
      * @returns {string} The processed string
      */
-    upperCaseFirst: function (data) {
-    	if (data){
+    upperCaseFirst: function(data) {
+    	if (data) {
         	var upperChar = data.charAt(0).toUpperCase();
         	return data.replace(data.charAt(0), upperChar);
     	}
@@ -107,15 +106,15 @@ var ckoHelper = {
     /**
      * Handles string translation with language resource files
      */
-    _: function (strValue, strFile) {
+    _: function(strValue, strFile) {
         return Resource.msg(strValue, strFile, null);
     },
 
     /**
      * Write gateway information to the website's custom log files
      */
-    log: function (dataType, gatewayData) {
-        if (this.getValue("ckoDebugEnabled") === true) {
+    log: function(dataType, gatewayData) {
+        if (this.getValue('ckoDebugEnabled') === true) {
             var logger = Logger.getLogger('ckodebug');
             if (logger) {
                 logger.debug(
@@ -153,8 +152,8 @@ var ckoHelper = {
         var str = this.getValue('ckoMode') === 'live' ? 'Live' : 'Sandbox';
 
         keys.publicKey = this.getValue('cko' + str + 'PublicKey');
-        keys.secretKey = this.getValue('cko' +  str + 'SecretKey');
-        keys.privateSharedKey = this.getValue('cko' +  str + 'PrivateSharedKey');
+        keys.secretKey = this.getValue('cko' + str + 'SecretKey');
+        keys.privateSharedKey = this.getValue('cko' + str + 'PrivateSharedKey');
 
         return keys;
     },
@@ -162,7 +161,7 @@ var ckoHelper = {
     /**
      * Create an HTTP client to handle request to gateway
      */
-    gatewayClientRequest: function (serviceId, requestData, method) {
+    gatewayClientRequest: function(serviceId, requestData, method) {
         var method = method || 'POST';
         var serv = this.getService(serviceId);
 
@@ -170,7 +169,7 @@ var ckoHelper = {
         if (Object.prototype.hasOwnProperty.call(requestData, 'chargeId')) {
             var requestUrl = serv.getURL().replace('chargeId', requestData.chargeId);
             serv.setURL(requestUrl);
-            delete requestData['chargeId'];
+            delete requestData.chargeId;
         }
 
         // Set the request method
@@ -188,8 +187,8 @@ var ckoHelper = {
     /**
      * Returns the right HTTPS service object
      */
-    getService: function (serviceId) {
-        var parts  =  serviceId.split('.');
+    getService: function(serviceId) {
+        var parts = serviceId.split('.');
         var entity = parts[1];
         var action = parts[2];
         var mode = parts[3];
@@ -202,20 +201,19 @@ var ckoHelper = {
     /**
      * Currency Conversion Ratio
      */
-    getCkoFormatedValue: function (currency) {
+    getCkoFormatedValue: function(currency) {
         if (ckoCurrencyConfig.x1.currencies.match(currency)) {
             return ckoCurrencyConfig.x1.multiple;
         } else if (ckoCurrencyConfig.x1000.currencies.match(currency)) {
             return ckoCurrencyConfig.x1000.multiple;
-        } else {
-            return 100;
         }
+        return 100;
     },
 
     /**
      * Format price for cko gateway
      */
-    getFormattedPrice: function (price, currency) {
+    getFormattedPrice: function(price, currency) {
         var ckoFormateBy = this.getCkoFormatedValue(currency);
         var orderTotalFormated = price * ckoFormateBy;
 
@@ -225,12 +223,12 @@ var ckoHelper = {
     /**
      * Get the Checkout.com orders.
      */
-    getOrders: function (orderNo) {
+    getOrders: function(orderNo) {
         // Prepare the output array
         var data = [];
 
         // Query the orders
-        var result  = SystemObjectMgr.querySystemObjects('Order', 'orderNo = {0}', 'creationDate desc', orderNo);
+        var result = SystemObjectMgr.querySystemObjects('Order', 'orderNo = {0}', 'creationDate desc', orderNo);
 
         // Loop through the results
         while (result.hasNext()) {
@@ -252,11 +250,10 @@ var ckoHelper = {
     /**
      * Checks if an object already exists in an array
      */
-    containsObject: function (obj, list) {
+    containsObject: function(obj, list) {
         var i;
         for (i = 0; i < list.length; i++) {
             if (list[i] === obj) {
-
                 return true;
             }
         }
@@ -267,15 +264,14 @@ var ckoHelper = {
     /**
      * Checks if a payment instrument is Checkout.com
      */
-    isCkoItem: function (item) {
-
+    isCkoItem: function(item) {
         return item.length > 0 && item.indexOf('CHECKOUTCOM_') >= 0;
     },
 
     /**
      * Get Order Quantities
      */
-    getCurrency : function() {
+    getCurrency: function() {
         var orderId = this.getOrderId();
 
         // load the card and order information
@@ -288,21 +284,21 @@ var ckoHelper = {
     /**
      * Removes white spaces form card number
      */
-    getFormattedNumber: function (cardNumber) {
-        return cardNumber.replace(/\s/g, "");
+    getFormattedNumber: function(cardNumber) {
+        return cardNumber.replace(/\s/g, '');
     },
 
     /**
      * Confirm is a payment is valid from API response code
      */
-    paymentSuccess: function (gatewayResponse) {
+    paymentSuccess: function(gatewayResponse) {
     	if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'response_code')) {
     		return gatewayResponse.response_code === 10000 || gatewayResponse.response_code === 10100 || gatewayResponse.response_code === 10200;
-    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'actions')){
+    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'actions')) {
     		return gatewayResponse.actions[0].response_code === 10000 || gatewayResponse.actions[0].response_code === 10100 || gatewayResponse.actions[0].response_code === 10200;
-    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'source')){
+    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'source')) {
     		return gatewayResponse.source.type === 'sofort' || 'bancontact';
-    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'reference')){
+    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'reference')) {
     		return gatewayResponse.reference === this.getOrderId();
     	}
 
@@ -312,7 +308,7 @@ var ckoHelper = {
     /**
      * Write order information to session for the current shopper
      */
-    updateCustomerData: function (gatewayResponse) {
+    updateCustomerData: function(gatewayResponse) {
         if ((gatewayResponse) && Object.prototype.hasOwnProperty.call(gatewayResponse, 'card')) {
             Transaction.wrap(function() {
                 if (session.customer.profile !== null) {
@@ -325,7 +321,7 @@ var ckoHelper = {
     /**
      * Handle a failed payment response
      */
-    handleFail: function (gatewayResponse) {
+    handleFail: function(gatewayResponse) {
         // Send back to the error page
         ISML.renderTemplate('custom/common/response/failed.isml');
     },
@@ -333,14 +329,14 @@ var ckoHelper = {
     /**
      * Return customer object
      */
-    getCustomer: function (args) {
+    getCustomer: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
         // Customer object
         var customer = {
-            email               : order.customerEmail,
-            name                : order.customerName
+            email: order.customerEmail,
+            name: order.customerName,
         };
 
         return customer;
@@ -349,7 +345,7 @@ var ckoHelper = {
     /**
      * Get Basket Quantities
      */
-    getQuantity : function (args) {
+    getQuantity: function(args) {
         // load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
         var quantity = order.getProductQuantityTotal();
@@ -360,11 +356,11 @@ var ckoHelper = {
     /**
      * Get Billing Descriptor Object from custom preferences
      */
-    getBillingDescriptorObject : function() {
+    getBillingDescriptorObject: function() {
         var billingDescriptor = {
-            "name"  : this.getValue('ckoBillingDescriptor1'),
-            "city"  : this.getValue('ckoBillingDescriptor2')
-        }
+            name: this.getValue('ckoBillingDescriptor1'),
+            city: this.getValue('ckoBillingDescriptor2'),
+        };
 
         return billingDescriptor;
     },
@@ -372,7 +368,7 @@ var ckoHelper = {
     /**
      * Get Products Information
      */
-    getProductInformation : function (args) {
+    getProductInformation: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
         var it = order.productLineItems.iterator();
@@ -384,11 +380,11 @@ var ckoHelper = {
 
             // product id
             var product = {
-                "product_id"    : pli.productID,
-                "quantity"      : pli.quantityValue,
-                "price"         : this.getFormattedPrice(pli.adjustedPrice.value.toFixed(2), this.getCurrency()),
-                "description"   : pli.productName
-            }
+                product_id: pli.productID,
+                quantity: pli.quantityValue,
+                price: this.getFormattedPrice(pli.adjustedPrice.value.toFixed(2), this.getCurrency()),
+                description: pli.productName,
+            };
 
             // Push to products array
             products.push(product);
@@ -403,32 +399,30 @@ var ckoHelper = {
     /**
      * Return tax object
      */
-    getTaxObject : function (args) {
+    getTaxObject: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
         // Prepare the tax data
         var tax = {
-            "product_id"    : args.OrderNo,
-            "quantity"      : 1,
-            "price"         : this.getFormattedPrice(order.getTotalTax().valueOf().toFixed(2), this.getCurrency()),
-            "description"   : "Order Tax"
-        }
+            product_id: args.OrderNo,
+            quantity: 1,
+            price: this.getFormattedPrice(order.getTotalTax().valueOf().toFixed(2), this.getCurrency()),
+            description: 'Order Tax',
+        };
 
         // Test the order
         if (order.getTotalTax().valueOf() > 0) {
-
             return tax;
-        } else {
-
-            return false;
         }
+
+        return false;
     },
 
     /**
      * Return shipping object
      */
-    getShippingValue : function (args) {
+    getShippingValue: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -438,23 +432,22 @@ var ckoHelper = {
         // Check if shipping cost is applicable to this order
         if (shipping.getShippingTotalPrice().valueOf() > 0) {
             var shippment = {
-                "product_id"    : shipping.getShippingMethod().getID(),
-                "quantity"      : 1,
-                "price"         : this.getFormattedPrice(shipping.adjustedShippingTotalPrice.value.toFixed(2), this.getCurrency()),
-                "description"   : shipping.getShippingMethod().getDisplayName() + " Shipping : " + shipping.getShippingMethod().getDescription()
-            }
+                product_id: shipping.getShippingMethod().getID(),
+                quantity: 1,
+                price: this.getFormattedPrice(shipping.adjustedShippingTotalPrice.value.toFixed(2), this.getCurrency()),
+                description: shipping.getShippingMethod().getDisplayName() + ' Shipping : ' + shipping.getShippingMethod().getDescription(),
+            };
 
             return shippment;
-        } else {
-
-            return false;
         }
+
+        return false;
     },
 
     /**
      * Return Order Currency Code
      */
-    getCurrencyCode: function (args) {
+    getCurrencyCode: function(args) {
         // Get the order
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -468,7 +461,7 @@ var ckoHelper = {
     /**
      * Get Product Names
      */
-    getProductNames : function (args) {
+    getProductNames: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -488,7 +481,7 @@ var ckoHelper = {
     /**
      * Get Product price array
      */
-    getProductPrices : function (args) {
+    getProductPrices: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -508,7 +501,8 @@ var ckoHelper = {
     /**
      * Get Product IDs
      */
-    getProductIds : function (args) {s
+    getProductIds: function(args) {
+        s;
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
         var it = order.productLineItems.iterator();
@@ -524,7 +518,7 @@ var ckoHelper = {
     /**
      * Get Each Product Quantity
      */
-    getProductQuantity : function (args) {
+    getProductQuantity: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -544,7 +538,7 @@ var ckoHelper = {
     /**
      * Get Each Product Quantity
      */
-    getProductQuantities : function (args) {
+    getProductQuantities: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -564,10 +558,10 @@ var ckoHelper = {
     /**
      * Get Host IP
      */
-    getHost: function (args) {
+    getHost: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
-        var host = order.getRemoteHost()
+        var host = order.getRemoteHost();
 
         return host;
     },
@@ -575,7 +569,7 @@ var ckoHelper = {
     /**
      * Return order amount
      */
-    getAmount: function (order) {
+    getAmount: function(order) {
         var amount = this.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), this.getCurrency());
 
         return amount;
@@ -584,7 +578,7 @@ var ckoHelper = {
     /**
      * Return phone object
      */
-    getPhoneObject: function (args) {
+    getPhoneObject: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -593,8 +587,8 @@ var ckoHelper = {
 
         // Creating phone object
         var phone = {
-            country_code        : null,
-            number              : billingAddress.getPhone()
+            country_code: null,
+            number: billingAddress.getPhone(),
         };
 
         return phone;
@@ -603,7 +597,7 @@ var ckoHelper = {
     /**
      * Return Customer FullName
      */
-    getCustomerName: function (args) {
+    getCustomerName: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -617,7 +611,7 @@ var ckoHelper = {
     /**
      * Return Customer FirstName
      */
-    getCustomerFirstName: function (args) {
+    getCustomerFirstName: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -631,7 +625,7 @@ var ckoHelper = {
     /**
      * Return Customer LastName
      */
-    getCustomerLastName: function (args) {
+    getCustomerLastName: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -673,9 +667,9 @@ var ckoHelper = {
     get3Ds: function() {
         // 3ds object
         var ds = {
-            "enabled"               : this.getValue('cko3ds'),
-            "attempt_n3d"           : this.getValue('ckoN3ds')
-        }
+            enabled: this.getValue('cko3ds'),
+            attempt_n3d: this.getValue('ckoN3ds'),
+        };
 
         return ds;
     },
@@ -683,12 +677,12 @@ var ckoHelper = {
     /**
      * Build metadata object
      */
-    getMetadataObject: function (data, args) {
+    getMetadataObject: function(data, args) {
         // Prepare the base metadata
         var meta = {
-            integration_data    : this.getCartridgeMeta(),
-            platform_data       : this.getValue('ckoSgPlatformData')
-        }
+            integration_data: this.getCartridgeMeta(),
+            platform_data: this.getValue('ckoSgPlatformData'),
+        };
 
         // Add the data info if needed
         if (Object.prototype.hasOwnProperty.call(data, 'type')) {
@@ -708,9 +702,9 @@ var ckoHelper = {
     /**
      * Build metadata object
      */
-    getMetadataString: function (data, args) {
+    getMetadataString: function(data, args) {
         // Prepare the base metadata
-        var meta = 'integration_data' + this.getCartridgeMeta() + 'platform_data' + this.getValue('ckoSgPlatformData')
+        var meta = 'integration_data' + this.getCartridgeMeta() + 'platform_data' + this.getValue('ckoSgPlatformData');
 
         // Add the data info if needed
         if (Object.prototype.hasOwnProperty.call(data, 'type')) {
@@ -730,7 +724,7 @@ var ckoHelper = {
     /**
      * Build the Billing object
      */
-    getBillingObject: function (args) {
+    getBillingObject: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -739,12 +733,12 @@ var ckoHelper = {
 
         // Creating billing address object
         var billingDetails = {
-            address_line1       : billingAddress.getAddress1(),
-            address_line2       : billingAddress.getAddress2(),
-            city                : billingAddress.getCity(),
-            state               : billingAddress.getStateCode(),
-            zip                 : billingAddress.getPostalCode(),
-            country             : billingAddress.getCountryCode().value
+            address_line1: billingAddress.getAddress1(),
+            address_line2: billingAddress.getAddress2(),
+            city: billingAddress.getCity(),
+            state: billingAddress.getStateCode(),
+            zip: billingAddress.getPostalCode(),
+            country: billingAddress.getCountryCode().value,
         };
 
         return billingDetails;
@@ -753,13 +747,13 @@ var ckoHelper = {
     /**
      * Get Billing Country
      */
-    getBillingCountry: function (args) {
+    getBillingCountry: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
         // Get billing address information
         var billingAddress = order.getBillingAddress();
-        var country = billingAddress.getCountryCode().value
+        var country = billingAddress.getCountryCode().value;
 
         return country;
     },
@@ -767,7 +761,7 @@ var ckoHelper = {
     /**
      * Build the Shipping object
      */
-    getShippingObject: function (args) {
+    getShippingObject: function(args) {
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
 
@@ -776,18 +770,18 @@ var ckoHelper = {
 
         // Creating address object
         var shippingDetails = {
-            address_line1       : shippingAddress.getAddress1(),
-            address_line2       : shippingAddress.getAddress2(),
-            city                : shippingAddress.getCity(),
-            state               : shippingAddress.getStateCode(),
-            zip                 : shippingAddress.getPostalCode(),
-            country             : shippingAddress.getCountryCode().value
+            address_line1: shippingAddress.getAddress1(),
+            address_line2: shippingAddress.getAddress2(),
+            city: shippingAddress.getCity(),
+            state: shippingAddress.getStateCode(),
+            zip: shippingAddress.getPostalCode(),
+            country: shippingAddress.getCountryCode().value,
         };
 
         // Shipping object
         var shipping = {
-            address             : shippingDetails,
-            phone               : this.getPhoneObject(args)
+            address: shippingDetails,
+            phone: this.getPhoneObject(args),
         };
 
         return shipping;
@@ -796,7 +790,7 @@ var ckoHelper = {
     /**
      * Return Basket Item object
      */
-    getBasketObject: function (basket) {
+    getBasketObject: function(basket) {
         var currency = this.getAppModeValue('GBP', basket.getCurrencyCode());
         var products_quantites = [];
         var it = basket.productLineItems.iterator();
@@ -807,25 +801,25 @@ var ckoHelper = {
             var unitPrice = Math.round(this.getFormattedPrice(pli.adjustedGrossPrice.value.toFixed(2), currency) / productQuantity);
             var totalAmount = this.getFormattedPrice(pli.adjustedGrossPrice.value, currency);
             var products = {
-                "name"              : pli.productName,
-                "quantity"          : productQuantity.toString(),
-                "unit_price"        : unitPrice.toString(),
-                "tax_rate"          : productTaxRate.toString(),
-                "total_amount"      : totalAmount.toString(),
-                "total_tax_amount"  : this.getFormattedPrice(pli.adjustedTax.value, currency)
-            }
+                name: pli.productName,
+                quantity: productQuantity.toString(),
+                unit_price: unitPrice.toString(),
+                tax_rate: productTaxRate.toString(),
+                total_amount: totalAmount.toString(),
+                total_tax_amount: this.getFormattedPrice(pli.adjustedTax.value, currency),
+            };
 
             products_quantites.push(products);
         }
         var shippingTaxRate = basket.defaultShipment.standardShippingLineItem.getTaxRate() * 100 * 100;
         var shipping = {
-            "name"              : basket.defaultShipment.shippingMethod.displayName + " Shipping",
-            "quantity"          : '1',
-            "unit_price"        : this.getFormattedPrice(basket.shippingTotalGrossPrice.value, currency),
-            "tax_rate"          : shippingTaxRate.toString(),
-            "total_amount"      : this.getFormattedPrice(basket.shippingTotalGrossPrice.value, currency),
-            "total_tax_amount"  : this.getFormattedPrice(basket.shippingTotalTax.value, currency)
-        }
+            name: basket.defaultShipment.shippingMethod.displayName + ' Shipping',
+            quantity: '1',
+            unit_price: this.getFormattedPrice(basket.shippingTotalGrossPrice.value, currency),
+            tax_rate: shippingTaxRate.toString(),
+            total_amount: this.getFormattedPrice(basket.shippingTotalGrossPrice.value, currency),
+            total_tax_amount: this.getFormattedPrice(basket.shippingTotalTax.value, currency),
+        };
 
         if (basket.shippingTotalPrice.value > 0) {
             products_quantites.push(shipping);
@@ -837,8 +831,7 @@ var ckoHelper = {
     /**
      * Return Basket Item object
      */
-    getOrderBasketObject: function (args) {
-
+    getOrderBasketObject: function(args) {
         // Prepare some variables
         var currency = this.getAppModeValue('GBP', this.getCurrencyCode(args));
         var order = OrderMgr.getOrder(args.OrderNo);
@@ -853,13 +846,13 @@ var ckoHelper = {
             var unitPrice = Math.round(this.getFormattedPrice(pli.adjustedGrossPrice.value.toFixed(2), currency) / productQuantity);
             var totalAmount = this.getFormattedPrice(pli.adjustedGrossPrice.value, currency);
             var products = {
-                "name"              : pli.productName,
-                "quantity"          : productQuantity.toString(),
-                "unit_price"        : unitPrice.toString(),
-                "tax_rate"          : productTaxRate.toString(),
-                "total_amount"      : totalAmount.toString(),
-                "total_tax_amount"  : this.getFormattedPrice(pli.adjustedTax.value, currency)
-            }
+                name: pli.productName,
+                quantity: productQuantity.toString(),
+                unit_price: unitPrice.toString(),
+                tax_rate: productTaxRate.toString(),
+                total_amount: totalAmount.toString(),
+                total_tax_amount: this.getFormattedPrice(pli.adjustedTax.value, currency),
+            };
 
             products_quantites.push(products);
         }
@@ -867,13 +860,13 @@ var ckoHelper = {
         // Set the shipping variables
         var shippingTaxRate = order.defaultShipment.standardShippingLineItem.getTaxRate() * 100 * 100;
         var shipping = {
-            "name"              : order.defaultShipment.shippingMethod.displayName + " Shipping",
-            "quantity"          : '1',
-            "unit_price"        : this.getFormattedPrice(order.shippingTotalGrossPrice.value, currency),
-            "tax_rate"          : shippingTaxRate.toString(),
-            "total_amount"      : this.getFormattedPrice(order.shippingTotalGrossPrice.value, currency),
-            "total_tax_amount"  : this.getFormattedPrice(order.shippingTotalTax.value, currency)
-        }
+            name: order.defaultShipment.shippingMethod.displayName + ' Shipping',
+            quantity: '1',
+            unit_price: this.getFormattedPrice(order.shippingTotalGrossPrice.value, currency),
+            tax_rate: shippingTaxRate.toString(),
+            total_amount: this.getFormattedPrice(order.shippingTotalGrossPrice.value, currency),
+            total_tax_amount: this.getFormattedPrice(order.shippingTotalTax.value, currency),
+        };
 
         if (order.shippingTotalPrice.value > 0) {
             products_quantites.push(shipping);
@@ -885,7 +878,7 @@ var ckoHelper = {
     /**
      * Return Basket Item CountryCode
      */
-    getBasketCountyCode: function (basket) {
+    getBasketCountyCode: function(basket) {
         var countyCode = basket.defaultShipment.shippingAddress.countryCode.valueOf();
 
         return countyCode;
@@ -894,20 +887,20 @@ var ckoHelper = {
     /**
      * Return Basket Item CountryCode
      */
-    getBasketAddress: function (basket) {
+    getBasketAddress: function(basket) {
         var address = {
-            given_name                  : basket.defaultShipment.shippingAddress.firstName,
-            family_name                 : basket.defaultShipment.shippingAddress.lastName,
-            email                       : null,
-            title                       : basket.defaultShipment.shippingAddress.title,
-            street_address              : basket.defaultShipment.shippingAddress.address1,
-            street_address2             : basket.defaultShipment.shippingAddress.address2,
-            postal_code                 : basket.defaultShipment.shippingAddress.postalCode,
-            city                        : basket.defaultShipment.shippingAddress.city,
-            phone                       : basket.defaultShipment.shippingAddress.phone,
-            country                     : basket.defaultShipment.shippingAddress.countryCode.valueOf()
+            given_name: basket.defaultShipment.shippingAddress.firstName,
+            family_name: basket.defaultShipment.shippingAddress.lastName,
+            email: null,
+            title: basket.defaultShipment.shippingAddress.title,
+            street_address: basket.defaultShipment.shippingAddress.address1,
+            street_address2: basket.defaultShipment.shippingAddress.address2,
+            postal_code: basket.defaultShipment.shippingAddress.postalCode,
+            city: basket.defaultShipment.shippingAddress.city,
+            phone: basket.defaultShipment.shippingAddress.phone,
+            country: basket.defaultShipment.shippingAddress.countryCode.valueOf(),
 
-        }
+        };
 
         return address;
     },
@@ -915,24 +908,24 @@ var ckoHelper = {
     /**
      * Return Basket Item CountryCode
      */
-    getOrderBasketAddress: function (args) {
+    getOrderBasketAddress: function(args) {
         var order = OrderMgr.getOrder(args.OrderNo);
         var address = {
-            given_name                  : order.defaultShipment.shippingAddress.firstName,
-            family_name                 : order.defaultShipment.shippingAddress.lastName,
-            email                       : order.customerEmail,
-            title                       : order.defaultShipment.shippingAddress.title,
-            street_address              : order.defaultShipment.shippingAddress.address1,
-            street_address2             : order.defaultShipment.shippingAddress.address2,
-            postal_code                 : order.defaultShipment.shippingAddress.postalCode,
-            city                        : order.defaultShipment.shippingAddress.city,
-            phone                       : order.defaultShipment.shippingAddress.phone,
-            country                     : order.defaultShipment.shippingAddress.countryCode.valueOf()
-        }
+            given_name: order.defaultShipment.shippingAddress.firstName,
+            family_name: order.defaultShipment.shippingAddress.lastName,
+            email: order.customerEmail,
+            title: order.defaultShipment.shippingAddress.title,
+            street_address: order.defaultShipment.shippingAddress.address1,
+            street_address2: order.defaultShipment.shippingAddress.address2,
+            postal_code: order.defaultShipment.shippingAddress.postalCode,
+            city: order.defaultShipment.shippingAddress.city,
+            phone: order.defaultShipment.shippingAddress.phone,
+            country: order.defaultShipment.shippingAddress.countryCode.valueOf(),
+        };
 
         return address;
-    }
-}
+    },
+};
 
 // Module exports
 module.exports = ckoHelper;
