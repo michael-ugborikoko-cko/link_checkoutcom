@@ -198,7 +198,7 @@ var apmHelper = {
     /**
      * Sepa controller Request.
      * @param {Object} payObject The transaction parameters
-     * @param {Object} args The transaction arguments
+     * @param {Object} order The order instance
      * @returns {Object} The gateway response
      */
     handleSepaControllerRequest: function(payObject, order) {
