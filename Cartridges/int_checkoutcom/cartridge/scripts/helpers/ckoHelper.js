@@ -97,10 +97,10 @@ var ckoHelper = {
      * @returns {string} The processed string
      */
     upperCaseFirst: function(data) {
-    	if (data) {
-        var upperChar = data.charAt(0).toUpperCase();
-        return data.replace(data.charAt(0), upperChar);
-    }
+        if (data) {
+            var upperChar = data.charAt(0).toUpperCase();
+            return data.replace(data.charAt(0), upperChar);
+        }
 
         return '';
     },
@@ -137,6 +137,7 @@ var ckoHelper = {
      * @returns {string} The order id
      */
     getOrderId: function() {
+        // eslint-disable-next-line
         var orderId = (this.getValue('cko3ds')) ? request.httpParameterMap.get('reference').stringValue : request.httpParameterMap.get('reference').stringValue;
         if (orderId === null) {
             // eslint-disable-next-line
@@ -172,14 +173,15 @@ var ckoHelper = {
     /**
      * Create an HTTP client to handle request to gateway.
      * @param {string} serviceId The service id
-     * @param {Object} requestData The request data
+     * @param {Object} data The request data
      * @param {string} method The HTTP request method
      * @returns {Object} The HTTP response object
      */
-    gatewayClientRequest: function(serviceId, requestData, method) {
+    gatewayClientRequest: function(serviceId, data, method) {
         // eslint-disable-next-line        
         method = method || 'POST';
         var serv = this.getService(serviceId);
+        var requestData = data
 
         // Prepare the request URL and data
         if (Object.prototype.hasOwnProperty.call(requestData, 'chargeId')) {
@@ -314,7 +316,7 @@ var ckoHelper = {
 
     /**
      * Strip spaces form a card number.
-     * @param {string} num The number to process
+     * @param {string} cardNumber The number to process
      * @returns {string} The processed number
      */
     getFormattedNumber: function(cardNumber) {
