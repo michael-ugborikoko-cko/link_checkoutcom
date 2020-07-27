@@ -329,26 +329,29 @@ var ckoHelper = {
      * @returns {boolean} The payment success or failure
      */
     paymentSuccess: function(gatewayResponse) {
-    	if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'response_code')) {
-    		return gatewayResponse.response_code === 10000 || gatewayResponse.response_code === 10100 || gatewayResponse.response_code === 10200;
-    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'actions')) {
-    		return gatewayResponse.actions[0].response_code === 10000 || gatewayResponse.actions[0].response_code === 10100 || gatewayResponse.actions[0].response_code === 10200;
-    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'source')) {
-    		return gatewayResponse.source.type === 'sofort' || 'bancontact';
-    	} else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'reference')) {
-    		return gatewayResponse.reference === this.getOrderId();
-    	}
+        if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'response_code')) {
+            return gatewayResponse.response_code === 10000 || gatewayResponse.response_code === 10100 || gatewayResponse.response_code === 10200;
+        } else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'actions')) {
+            return gatewayResponse.actions[0].response_code === 10000 || gatewayResponse.actions[0].response_code === 10100 || gatewayResponse.actions[0].response_code === 10200;
+        } else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'source')) {
+            return gatewayResponse.source.type === 'sofort' || 'bancontact';
+        } else if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'reference')) {
+            return gatewayResponse.reference === this.getOrderId();
+        }
 
-    	return false;
+        return false;
     },
 
     /**
-     * Write order information to session for the current shopper
+     * Write the order information to session for the current shopper.
+     * @param {Object} gatewayResponse The gateway response
      */
     updateCustomerData: function(gatewayResponse) {
         if ((gatewayResponse) && Object.prototype.hasOwnProperty.call(gatewayResponse, 'card')) {
             Transaction.wrap(function() {
+                // eslint-disable-next-line
                 if (session.customer.profile !== null) {
+                    // eslint-disable-next-line
                     session.customer.profile.custom.ckoCustomerId = gatewayResponse.card.customerId;
                 }
             });
@@ -357,7 +360,7 @@ var ckoHelper = {
 
     /**
      * Return the customer data.
-     * @param {Object} order The order instance
+     * @param {Object} args The method arguments
      * @returns {Object} The customer data
      */
     getCustomer: function(args) {
@@ -550,7 +553,6 @@ var ckoHelper = {
      * @returns {Array} The product ids list
      */
     getProductIds: function(args) {
-        s;
         // Load the card and order information
         var order = OrderMgr.getOrder(args.OrderNo);
         var it = order.productLineItems.iterator();
