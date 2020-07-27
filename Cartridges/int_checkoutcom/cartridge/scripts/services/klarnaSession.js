@@ -66,7 +66,7 @@ var wrapper = {
     },
 };
 
-/*
-* Module exports
-*/
+/**
+ * Module exports
+ */
 module.exports = wrapper;

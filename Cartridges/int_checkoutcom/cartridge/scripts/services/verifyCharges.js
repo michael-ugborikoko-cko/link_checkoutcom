@@ -9,6 +9,7 @@ var util = require('~/cartridge/scripts/helpers/ckoHelper');
 var wrapper = {
     /**
      * Initialize HTTP service for the Checkout.com sandbox charges verification.
+     * @returns {Object} The service instance
      */
     sandbox: function() {
         return LocalServiceRegistry.createService('cko.verify.charges.sandbox.service', {
@@ -41,6 +42,7 @@ var wrapper = {
 
     /**
      * Initialize HTTP service for the Checkout.com sandbox charges verification.
+     * @returns {Object} The service instance
      */
     live: function() {
         return LocalServiceRegistry.createService('cko.verify.charges.live.service', {
@@ -72,7 +74,7 @@ var wrapper = {
     },
 };
 
-/*
-* Module exports
-*/
+/**
+ * Module exports
+ */
 module.exports = wrapper;
