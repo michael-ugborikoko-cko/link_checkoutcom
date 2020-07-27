@@ -22,6 +22,21 @@ var ckoApmFilterConfig = require('~/cartridge/scripts/config/ckoApmFilterConfig'
 var ckoMadaConfig = require('~/cartridge/scripts/config/ckoMadaConfig');
 
 /**
+ * Handles a failed payment from the Checkout.com payment gateway
+ */
+function handleFail() {
+    // Load the order
+    // eslint-disable-next-line
+    var order = OrderMgr.getOrder(session.privacy.ckoOrderId);
+
+    // Restore the cart
+    OrderMgr.failOrder(order, true);
+
+    // Send back to the error page
+    ISML.renderTemplate('custom/common/response/failed.isml');
+}
+
+/**
  * Handles responses from the Checkout.com payment gateway
  */
 function handleReturn() {
@@ -105,21 +120,6 @@ function handleReturn() {
     } else {
         handleFail();
     }
-}
-
-/**
- * Handles a failed payment from the Checkout.com payment gateway
- */
-function handleFail() {
-    // Load the order
-    // eslint-disable-next-line
-    var order = OrderMgr.getOrder(session.privacy.ckoOrderId);
-
-    // Restore the cart
-    OrderMgr.failOrder(order, true);
-
-    // Send back to the error page
-    ISML.renderTemplate('custom/common/response/failed.isml');
 }
 
 /**

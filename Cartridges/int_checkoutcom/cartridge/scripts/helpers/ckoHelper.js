@@ -9,7 +9,6 @@ var Logger = require('dw/system/Logger');
 var PaymentMgr = require('dw/order/PaymentMgr');
 var SystemObjectMgr = require('dw/object/SystemObjectMgr');
 var Resource = require('dw/web/Resource');
-var ISML = require('dw/template/ISML');
 var Site = require('dw/system/Site');
 
 // Card Currency Config
@@ -99,9 +98,11 @@ var ckoHelper = {
      */
     upperCaseFirst: function(data) {
     	if (data) {
-        	var upperChar = data.charAt(0).toUpperCase();
-        	return data.replace(data.charAt(0), upperChar);
-    	}
+            var upperChar = data.charAt(0).toUpperCase();
+            return data.replace(data.charAt(0), upperChar);
+        }
+
+        return '';
     },
 
     /**
@@ -285,14 +286,18 @@ var ckoHelper = {
     },
 
     /**
-     * Removes white spaces form card number
+     * Strip spaces form a card number.
+     * @param {string} num The number to process
+     * @returns {string} The processed number
      */
     getFormattedNumber: function(cardNumber) {
         return cardNumber.replace(/\s/g, '');
     },
 
     /**
-     * Confirm is a payment is valid from API response code
+     * Confirm is a payment is valid from API response code.
+     * @param {Object} gatewayResponse The gateway response
+     * @returns {boolean} The payment success or failure
      */
     paymentSuccess: function(gatewayResponse) {
     	if (Object.prototype.hasOwnProperty.call(gatewayResponse, 'response_code')) {
