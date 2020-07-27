@@ -106,14 +106,19 @@ var ckoHelper = {
     },
 
     /**
-     * Handles string translation with language resource files
+     * Handles string translation with language resource files.
+     * @param {string} strValue The string value
+     * @param {string} strFile The file name
+     * @returns {string} The translated string value
      */
     _: function(strValue, strFile) {
         return Resource.msg(strValue, strFile, null);
     },
 
     /**
-     * Write gateway information to the website's custom log files
+     * Write gateway information to the website's custom log file.
+     * @param {string} dataType The data type
+     * @param {Object} gatewayData The gateway data
      */
     log: function(dataType, gatewayData) {
         if (this.getValue('ckoDebugEnabled') === true) {
@@ -128,7 +133,8 @@ var ckoHelper = {
     },
 
     /**
-     * Return order id
+     * Return an order id.
+     * @returns {string} The order id
      */
     getOrderId: function() {
         var orderId = (this.getValue('cko3ds')) ? request.httpParameterMap.get('reference').stringValue : request.httpParameterMap.get('reference').stringValue;
@@ -141,14 +147,16 @@ var ckoHelper = {
     },
 
     /**
-     * Cartridge metadata
+     * Get the cartridge metadata.
+     * @returns {string} The platform data
      */
     getCartridgeMeta: function() {
         return this.getValue('ckoSgPlatformData');
     },
 
     /**
-     * Get Account API Keys
+     * Get the account API keys.
+     * @returns {Object} The account keys object
      */
     getAccountKeys: function() {
         var keys = {};
@@ -162,7 +170,11 @@ var ckoHelper = {
     },
 
     /**
-     * Create an HTTP client to handle request to gateway
+     * Create an HTTP client to handle request to gateway.
+     * @param {string} serviceId The service id
+     * @param {Object} requestData The request data
+     * @param {string} method The HTTP request method
+     * @returns {Object} The HTTP response object
      */
     gatewayClientRequest: function(serviceId, requestData, method) {
         // eslint-disable-next-line        
@@ -189,7 +201,9 @@ var ckoHelper = {
     },
 
     /**
-     * Returns the right HTTPS service object
+     * Get an HTTP service.
+     * @param {string} serviceId The service id
+     * @returns {Object} The HTTP service instance
      */
     getService: function(serviceId) {
         var parts = serviceId.split('.');
@@ -203,7 +217,9 @@ var ckoHelper = {
     },
 
     /**
-     * Currency Conversion Ratio
+     * Currency conversion mapping.
+     * @param {string} currency The currency code
+     * @returns {number} The conversion factor
      */
     getCkoFormatedValue: function(currency) {
         if (ckoCurrencyConfig.x1.currencies.match(currency)) {
@@ -215,7 +231,10 @@ var ckoHelper = {
     },
 
     /**
-     * Format price for cko gateway
+     * Format a price for a gateway request.
+     * @param {number} price The price to format
+     * @param {string} currency The currency code
+     * @returns {number} The formatted price
      */
     getFormattedPrice: function(price, currency) {
         var ckoFormateBy = this.getCkoFormatedValue(currency);
@@ -226,6 +245,8 @@ var ckoHelper = {
 
     /**
      * Get the Checkout.com orders.
+     * @param {string} orderNo The order number
+     * @returns {Array} The list of orders
      */
     getOrders: function(orderNo) {
         // Prepare the output array
@@ -252,7 +273,10 @@ var ckoHelper = {
     },
 
     /**
-     * Checks if an object already exists in an array
+     * Checks if an object already exists in an array.
+     * @param {Object} obj The object
+     * @param {Array} list The list of objects
+     * @returns {boolean} If the object is found
      */
     containsObject: function(obj, list) {
         var i;
@@ -266,14 +290,17 @@ var ckoHelper = {
     },
 
     /**
-     * Checks if a payment instrument is Checkout.com
+     * Checks if a payment instrument is Checkout.com.
+     * @param {Object} item The payment instrument instance
+     * @returns {boolean} If the instance matches conditions
      */
     isCkoItem: function(item) {
         return item.length > 0 && item.indexOf('CHECKOUTCOM_') >= 0;
     },
 
     /**
-     * Get Order Quantities
+     * Return the order currency code.
+     * @returns {string} The currency code
      */
     getCurrency: function() {
         var orderId = this.getOrderId();
