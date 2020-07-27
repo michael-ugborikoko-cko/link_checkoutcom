@@ -1,3 +1,5 @@
+'use strict';
+
 /* API Includes */
 var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
 

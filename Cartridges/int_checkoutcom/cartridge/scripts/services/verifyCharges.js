@@ -1,5 +1,7 @@
+'use strict';
+
 /* API Includes */
-var svc = require('dw/svc');
+var LocalServiceRegistry = require('dw/svc/LocalServiceRegistry');
 
 /* Utility */
 var util = require('~/cartridge/scripts/helpers/ckoHelper');
