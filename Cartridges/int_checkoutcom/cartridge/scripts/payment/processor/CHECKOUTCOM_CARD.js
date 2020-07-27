@@ -42,8 +42,8 @@ function Handle(args) {
     // Save card feature
     if (paymentForm.get('saveCard').value()) {
         var i,
-        creditCards,
-        newCreditCard;
+            creditCards,
+            newCreditCard;
 
         // eslint-disable-next-line
         creditCards = customer.profile.getWallet().getPaymentInstruments(paymentMethod);
