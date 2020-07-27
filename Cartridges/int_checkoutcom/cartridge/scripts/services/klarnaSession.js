@@ -9,6 +9,7 @@ var util = require('~/cartridge/scripts/helpers/ckoHelper');
 var wrapper = {
     /**
      * Initialize HTTP service for the Checkout.com sandbox full card charge.
+     * @returns {Object} The service instance
      */
     sandbox: function() {
         return LocalServiceRegistry.createService('cko.klarna.session.sandbox.service', {
@@ -37,6 +38,7 @@ var wrapper = {
 
     /**
      * Initialize HTTP service for the Checkout.com live full card charge.
+     * @returns {Object} The service instance
      */
     live: function() {
         return LocalServiceRegistry.createService('cko.klarna.session.live.service', {
