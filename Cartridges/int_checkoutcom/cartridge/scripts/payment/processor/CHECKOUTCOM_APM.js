@@ -16,8 +16,9 @@ var apmHelper = require('~/cartridge/scripts/helpers/apmHelper');
 var apmConfig = require('~/cartridge/scripts/config/ckoApmConfig');
 
 /**
- * Verifies a credit card against a valid card number and expiration date and possibly invalidates invalid form fields.
- * If the verification was successful a credit card payment instrument is created.
+ * Verifies that the payment data is valid.
+ * @param {Object} args The method arguments
+ * @returns {Object} The form validation result
  */
 function Handle(args) {
     // Proceed with transaction
@@ -34,9 +35,9 @@ function Handle(args) {
 }
 
 /**
- * Authorises a payment using a credit card. The payment is authorised by using the BASIC_CREDIT processor
- * only and setting the order no as the transaction ID. Customisations may use other processors and custom
- * logic to authorise credit card payment.
+ * Authorises a payment.
+ * @param {Object} args The method arguments
+ * @returns {Object} The payment success or failure
  */
 function Authorize(args) {
     // Add order Number to session

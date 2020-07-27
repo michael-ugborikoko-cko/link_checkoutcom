@@ -693,7 +693,7 @@ var ckoHelper = {
         var captureOnMin = configCaptureTime > 0 ? configCaptureTime : 0.5;
 
         // Convert the capture time from minutes to milliseconds
-        var captureOnMs = now + parseInt(captureOnMin) * 60000;
+        var captureOnMs = now + (parseInt(captureOnMin) * 60000);
 
         // Convert the capture time to ISO 8601 format
         return new Date(captureOnMs).toISOString();
@@ -745,7 +745,7 @@ var ckoHelper = {
      * Build the metadata string.
      * @param {Object} data The request data
      * @param {string} args The method arguments
-     * @returns {String} The metadata
+     * @returns {string} The metadata
      */
     getMetadataString: function(data, args) {
         // Prepare the base metadata
@@ -932,6 +932,7 @@ var ckoHelper = {
 
     /**
      * Get the basket country code.
+     * @param {Object} basket The basket instance
      * @returns {string} The site country code
      */
     getBasketCountyCode: function(basket) {
