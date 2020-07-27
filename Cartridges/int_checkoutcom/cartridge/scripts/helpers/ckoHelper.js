@@ -98,9 +98,9 @@ var ckoHelper = {
      */
     upperCaseFirst: function(data) {
     	if (data) {
-            var upperChar = data.charAt(0).toUpperCase();
-            return data.replace(data.charAt(0), upperChar);
-        }
+        var upperChar = data.charAt(0).toUpperCase();
+        return data.replace(data.charAt(0), upperChar);
+    }
 
         return '';
     },
