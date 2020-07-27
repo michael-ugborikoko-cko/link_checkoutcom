@@ -41,13 +41,15 @@ function Handle(args) {
 
     // Save card feature
     if (paymentForm.get('saveCard').value()) {
-    	var i,
+        var i,
         creditCards,
         newCreditCard;
 
+        // eslint-disable-next-line
         creditCards = customer.profile.getWallet().getPaymentInstruments(paymentMethod);
 
         Transaction.wrap(function() {
+            // eslint-disable-next-line
             newCreditCard = customer.profile.getWallet().createPaymentInstrument(paymentMethod);
 
             // copy the credit card details to the payment instrument
@@ -61,6 +63,7 @@ function Handle(args) {
                 var creditcard = creditCards[i];
 
                 if (creditcard.maskedCreditCardNumber === newCreditCard.maskedCreditCardNumber && creditcard.creditCardType === newCreditCard.creditCardType) {
+                    // eslint-disable-next-line
                 	customer.profile.getWallet().removePaymentInstrument(creditcard);
                 }
             }
