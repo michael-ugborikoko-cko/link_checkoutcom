@@ -28,7 +28,7 @@ function Handle(args) {
     // Proceed with transact
     Transaction.wrap(function() {
         cart.removeExistingPaymentInstruments(paymentMethod);
-        var paymentInstrument = cart.createPaymentInstrument(paymentMethod, cart.getNonGiftCertificateAmount());
+        cart.createPaymentInstrument(paymentMethod, cart.getNonGiftCertificateAmount());
     });
 
     return { success: true };
@@ -41,6 +41,7 @@ function Handle(args) {
  */
 function Authorize(args) {
     // Add order Number to session
+    // eslint-disable-next-line
     session.privacy.ckoOrderId = args.OrderNo;
 
     // Get apms form

@@ -51,6 +51,7 @@ function Authorize(args) {
     var paymentProcessor = PaymentMgr.getPaymentMethod(paymentInstrument.getPaymentMethod()).getPaymentProcessor();
 
     // Add order number to the session global object
+    // eslint-disable-next-line
     session.privacy.ckoOrderId = args.OrderNo;
 
     // Make the charge request

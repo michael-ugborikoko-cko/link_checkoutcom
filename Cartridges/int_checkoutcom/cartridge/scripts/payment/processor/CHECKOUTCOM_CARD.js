@@ -92,6 +92,7 @@ function Authorize(args) {
     var paymentInstrument = args.PaymentInstrument;
 
     // Add order number to the session global object
+    // eslint-disable-next-line
     session.privacy.ckoOrderId = args.OrderNo;
 
     // Get card payment form
