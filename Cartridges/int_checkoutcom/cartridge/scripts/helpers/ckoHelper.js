@@ -181,7 +181,7 @@ var ckoHelper = {
         // eslint-disable-next-line        
         method = method || 'POST';
         var serv = this.getService(serviceId);
-        var requestData = data
+        var requestData = data;
 
         // Prepare the request URL and data
         if (Object.prototype.hasOwnProperty.call(requestData, 'chargeId')) {
