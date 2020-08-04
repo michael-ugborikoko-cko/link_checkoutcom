@@ -347,6 +347,73 @@ var CKOHelper = {
 
         return keys;
     },
+
+    /*
+     * Saves general settings form to CKO custom objects
+     */
+    storeCkoCustomProperties: function(properties, requestObject) {
+        try {
+            properties.forEach(function(element) {
+                var match = element === 'ckoDebugEnabled' || element === 'cko3ds' || element === 'ckoN3ds'
+                    || element === 'ckoAutoCapture' || element === 'ckoMada' || element === 'ckoEnabled'
+                    || element === 'ckoIdealEnabled' || element === 'ckoBoletoEnabled' || element === 'ckoBancontactEnabled'
+                    || element === 'ckoBenefitEnabled' || element === 'ckoGiroEnabled' || element === 'ckoEpsEnabled'
+                    || element === 'ckoSofortEnabled' || element === 'ckoKnetEnabled' || element === 'ckoQpayEnabled'
+                    || element === 'ckoFawryEnabled' || element === 'ckoSepaEnabled' || element === 'ckoMultibancoEnabled'
+                    || element === 'ckoPoliEnabled' || element === 'ckoP24Enabled' || element === 'ckoKlarnaEnabled'
+                    || element === 'ckoPaypalEnabled' || element === 'ckoOxxoEnabled' || element === 'ckoAlipayEnabled'
+                    || element === 'ckoApplePayEnabled' || element === 'ckoGooglePayEnabled';
+                if (match) {
+                    // eslint-disable-next-line
+                    var property = requestObject[element] ? true : false;
+                    // eslint-disable-next-line
+                    dw.system.Site.getCurrent().setCustomPreferenceValue(element, property);
+                } else {
+                    var value = requestObject[element];
+                    if (value === undefined || value === '') {
+                        // eslint-disable-next-line
+                        dw.system.Site.getCurrent().setCustomPreferenceValue(element, '');
+                    } else {
+                        // eslint-disable-next-line
+        				dw.system.Site.getCurrent().setCustomPreferenceValue(element, value);
+                    }
+                }
+            });
+            return 1;
+        } catch (e) {
+            var error = { error: 'Error', message: e.message };
+            return JSON.stringify(error);
+        }
+    },
+
+    /*
+     * Returns cko settings custom objects form the system
+     */
+    getCkoCustomProperties: function(ckoCustomProperties) {
+        try {
+            // eslint-disable-next-line
+            var customPreference = dw.system.Site.getCurrent();
+            var ckoObjects = {};
+            for (var i = 0; i < ckoCustomProperties.length; i++) {
+                var currentProperty = ckoCustomProperties[i];
+                var match = currentProperty === 'ckoMode' || currentProperty === 'ckoApplePayEnvironment'
+                    || currentProperty === 'ckoApplePayButton' || currentProperty === 'ckoGooglePayEnvironment'
+                    || currentProperty === 'ckoGooglePayButton';
+                if (match) {
+                    ckoObjects[currentProperty] = customPreference.getCustomPreferenceValue(currentProperty).value;
+                } else {
+                    var value = customPreference.getCustomPreferenceValue(currentProperty);
+                    if (value !== '' || value !== undefined) {
+                        ckoObjects[currentProperty] = value;
+                    }
+                }
+            }
+            return JSON.stringify(ckoObjects);
+        } catch (e) {
+            var error = { error: 'Error', message: e.message };
+            return JSON.stringify(error);
+        }
+    },
 };
 
 /*
