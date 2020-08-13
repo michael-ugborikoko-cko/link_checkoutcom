@@ -388,6 +388,22 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <default-value>false</default-value>
             </attribute-definition>
+            <attribute-definition attribute-id="ckoOxxoEnabled">
+                <display-name xml:lang="x-default">Enable Oxxo</display-name>
+                <description xml:lang="x-default">Enable Oxxo payments.</description>
+                <type>boolean</type>
+                <mandatory-flag>true</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="ckoAchEnabled">
+                <display-name xml:lang="x-default">Enable ACH</display-name>
+                <description xml:lang="x-default">Enable ACH payments.</description>
+                <type>boolean</type>
+                <mandatory-flag>true</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
             <attribute-definition attribute-id="ckoSandboxPublicKey">
                 <display-name xml:lang="x-default">Public Key</display-name>
                 <description xml:lang="x-default">Sandbox public key provided by Checkout.com.</description>
@@ -595,6 +611,9 @@
                 <attribute attribute-id="ckoP24Enabled"/>
                 <attribute attribute-id="ckoKlarnaEnabled"/>
                 <attribute attribute-id="ckoPaypalEnabled"/>
+                <attribute attribute-id="ckoOxxoEnabled"/>
+                <attribute attribute-id="ckoAchEnabled"/>
+
             </attribute-group>
             <attribute-group group-id="CKO [7] Google Pay Settings">
                 <display-name xml:lang="x-default">Checkout.com Google Pay Settings</display-name>
