@@ -398,6 +398,27 @@ var ckoApmConfig = {
 
         return payObject;
     },
+
+    /**
+     * Ali Pay Authorization.
+     * @param {Object} args The payment arguments
+     * @returns {Object} The payment parameters
+     */
+    achPayAuthorization: function(args) {
+    	// Build the payment object
+    	var payObject = {
+            "type": "ach",
+            "billing_address": ckoHelper.getOrderBasketAddress(args),
+            "source_data": {
+            	"account_holder_name": ckoHelper.getCustomerName(args),
+            	"account_type": "checking",
+            	"account_number": "0123456789",
+            	"routing_number": "211370545",
+            	"billing_descriptor": "ACH Demo",
+            	"company_name": null
+            }
+    	}
+    }
 };
 
 // Module exports

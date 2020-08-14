@@ -1,0 +1,12 @@
+<!-- ACH APM Option -->
+<div class="cko-apm-accordion">
+	<input id="ach_apm_radio_btn" type="radio" name="apm_list" value="ach">
+	<img alt="${Resource.msg('cko.ach.name','cko',null)}" id="ach_thumb" src="${URLUtils.staticURL('/images/apm-icons/ach.jpg')}">
+	${Resource.msg('cko.ach.name','cko',null)}
+</div>
+
+<div class="cko-apm-panel">
+	<isinputfield formfield="${pdict.CurrentForms.alternativePaymentForm.ach_account_type}" id="ach_account_type" type="select" dynamicname="true" />
+	<isinputfield formfield="${pdict.CurrentForms.alternativePaymentForm.ach_account_number}" id="ach_account_number" type="text" dynamicname="true" />
+	<isinputfield formfield="${pdict.CurrentForms.alternativePaymentForm.ach_routing_number}" id="ach_routing_number" type="text" dynamicname="true" />
+</div>
