@@ -21,8 +21,6 @@ function mandate() {
     // Prepare the varirables
     // eslint-disable-next-line
     var url = session.privacy.redirectUrl;
-    var orderId = ckoHelper.getOrderId();
-    var order = OrderMgr.getOrder(orderId);
 
     // Process the URL
     if (url) {
@@ -30,7 +28,7 @@ function mandate() {
 
             // Prepare the creditor information
             creditor: ckoHelper.upperCaseFirst(ckoHelper.getValue('ckoBusinessName')),
-            ContinueURL: URLUtils.https('CKOAch-HandleMandate')
+            ContinueURL: URLUtils.https('CKOAch-HandleMandate'),
         }).render('achForm');
     } else {
         // Write the response

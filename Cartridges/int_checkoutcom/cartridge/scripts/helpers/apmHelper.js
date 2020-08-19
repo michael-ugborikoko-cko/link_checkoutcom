@@ -115,7 +115,7 @@ var apmHelper = {
         ckoHelper.log(serviceName + ' ' + ckoHelper._('cko.request.data', 'cko'), gatewayRequest);
 
         // Prepare the service name (test for SEPA)
-        serviceName = Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'sepa' || payObject.type === 'ach'
+        serviceName = Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'sepa' && payObject.type === 'ach'
         ? 'cko.card.sources.'
         : 'cko.card.charge.';
 
@@ -169,7 +169,7 @@ var apmHelper = {
                 payment_ip: ckoHelper.getHost(args),
                 metadata: ckoHelper.getMetadataObject(payObject, args),
                 billing_descriptor: ckoHelper.getBillingDescriptorObject(),
-                udf5: ckoHelper.getMetadataString(payObject, args)
+                udf5: ckoHelper.getMetadataString(payObject, args),
             };
         } else if (Object.prototype.hasOwnProperty.call(payObject.source, 'type') && payObject.source.type === 'klarna') {
             // Prepare chargeData object
@@ -182,7 +182,7 @@ var apmHelper = {
                 reference: args.OrderNo,
                 payment_ip: ckoHelper.getHost(args),
                 metadata: ckoHelper.getMetadataObject(payObject, args),
-                billing_descriptor: ckoHelper.getBillingDescriptorObject()
+                billing_descriptor: ckoHelper.getBillingDescriptorObject(),
             };
         } else if (Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'ach') {
             // Prepare the charge data
@@ -197,7 +197,7 @@ var apmHelper = {
                 payment_ip: ckoHelper.getHost(args),
                 metadata: ckoHelper.getMetadataObject(payObject, args),
                 billing_descriptor: ckoHelper.getBillingDescriptorObject(),
-                udf5: ckoHelper.getMetadataString(payObject, args)
+                udf5: ckoHelper.getMetadataString(payObject, args),
             };
         } else {
             // Prepare chargeData object
@@ -209,7 +209,7 @@ var apmHelper = {
                 reference: args.OrderNo,
                 payment_ip: ckoHelper.getHost(args),
                 metadata: ckoHelper.getMetadataObject(payObject, args),
-                billing_descriptor: ckoHelper.getBillingDescriptorObject()
+                billing_descriptor: ckoHelper.getBillingDescriptorObject(),
             };
         }
 
@@ -244,14 +244,14 @@ var apmHelper = {
 
         return null;
     },
-    
+
     /**
      * Ach controller Request.
      * @param {Object} payObject The transaction parameters
      * @param {Object} order The order instance
      * @returns {Object} The gateway response
      */
-     handleAchControllerRequest: function(payObject, order) {
+    handleAchControllerRequest: function(payObject, order) {
         // Gateway response
         var gatewayResponse = null;
 
@@ -272,7 +272,7 @@ var apmHelper = {
         });
 
         return null;
-    }
+    },
 };
 
 // Module exports
