@@ -1,0 +1,35 @@
+<!--- TEMPLATENAME: Achform.isml --->
+<style>
+	@import url("${URLUtils.staticURL('/css/ach.css')}");
+</style>
+
+<iscontent type="text/html" charset="UTF-8" compact="true" />
+<isinclude template="util/modules"/>
+
+<form action="${URLUtils.httpsContinue()}" method="post" class="form-horizontal" id="cko-ach">
+	
+	<div class="cko-form-container">
+	
+	 	<div class="cko-bottom">
+	 		<div class="cko-ach-tandc">
+					<isinputfield formfield="${pdict.CurrentForms.achForm.mandate}" type="checkbox"/>
+					${Resource.msg('cko.ach.infoa','cko',null)} <isprint value="${pdict.creditor}"> ${Resource.msg('cko.ach.infob','cko',null)} 
+	 		</div>
+	 		
+	 		<div class="cko-ach-right">
+		    	<hr>
+				<p>
+			       ${Resource.msg('cko.ach.tandc','cko',null)}
+				</p>
+	    	</div>
+	    </div>
+	
+	</div>
+
+	<div class="cko-ach-button-container">
+		<fieldset class="cko-button-group">
+			<button type="submit" name="${pdict.CurrentForms.achForm.submit.htmlName}" value="submit" class="cko-ach-submit-btn">${Resource.msg('cko.ach.paynow','cko',null)}</button>
+			<button type="cancel" name="${pdict.CurrentForms.achForm.cancel.htmlName}" value="submit" class="cko-ach-cancel-btn">${Resource.msg('cko.ach.cancel','cko',null)}</button>
+		</fieldset>
+	</div>
+</form>

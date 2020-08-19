@@ -33,10 +33,10 @@ var ckoApmConfig = {
                 type: 'ideal',
                 bic: paymentForm.get('ideal_bic').value(),
                 description: args.OrderNo,
-                language: ckoHelper.getLanguage(),
+                language: ckoHelper.getLanguage()
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -57,11 +57,11 @@ var ckoApmConfig = {
                 payer: {
                     name: ckoHelper.getCustomerName(args),
                     email: ckoHelper.getCustomer(args).email,
-                    document: paymentForm.get('boleto_cpf').value(),
-                },
+                    document: paymentForm.get('boleto_cpf').value()
+                }
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -79,10 +79,10 @@ var ckoApmConfig = {
                 type: 'bancontact',
                 payment_country: ckoHelper.getBillingCountry(args),
                 account_holder_name: ckoHelper.getCustomerName(args),
-                billing_descriptor: businessName,
+                billing_descriptor: businessName
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -98,10 +98,10 @@ var ckoApmConfig = {
         var payObject = {
             source: {
                 type: 'benefitpay',
-                integration_type: 'web',
+                integration_type: 'web'
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -117,10 +117,10 @@ var ckoApmConfig = {
         var payObject = {
             source: {
                 type: 'giropay',
-                purpose: businessName,
+                purpose: businessName
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -136,10 +136,10 @@ var ckoApmConfig = {
         var payObject = {
             source: {
                 type: 'eps',
-                purpose: businessName,
+                purpose: businessName
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -154,10 +154,10 @@ var ckoApmConfig = {
         // Building pay object
         var payObject = {
             source: {
-                type: 'sofort',
+                type: 'sofort'
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -173,10 +173,10 @@ var ckoApmConfig = {
         var payObject = {
             source: {
                 type: 'knet',
-                language: ckoHelper.getLanguage().substr(0, 2),
+                language: ckoHelper.getLanguage().substr(0, 2)
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -195,10 +195,10 @@ var ckoApmConfig = {
                 description: businessName,
                 language: ckoHelper.getLanguage().substr(0, 2),
                 quantity: ckoHelper.getProductQuantity(args),
-                national_id: paymentForm.get('qpay_national_id').value(),
+                national_id: paymentForm.get('qpay_national_id').value()
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -217,10 +217,10 @@ var ckoApmConfig = {
                 description: businessName,
                 customer_mobile: ckoHelper.getPhoneObject(args).number,
                 customer_email: ckoHelper.getCustomer(args).email,
-                products: ckoHelper.getProductInformation(args),
+                products: ckoHelper.getProductInformation(args)
             },
             purpose: businessName,
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -241,8 +241,8 @@ var ckoApmConfig = {
                 last_name: ckoHelper.getCustomerLastName(args),
                 account_iban: paymentForm.get('sepa_iban').value(),
                 billing_descriptor: businessName,
-                mandate_type: 'single',
-            },
+                mandate_type: 'single'
+            }
         };
 
         return payObject;
@@ -261,8 +261,8 @@ var ckoApmConfig = {
                 type: 'multibanco',
                 payment_country: ckoHelper.getBillingCountry(args),
                 account_holder_name: ckoHelper.getCustomerName(args),
-                billing_descriptor: businessName,
-            },
+                billing_descriptor: businessName
+            }
         };
 
         return payObject;
@@ -278,8 +278,8 @@ var ckoApmConfig = {
         var payObject = {
             currency: ckoHelper.getCurrency(args),
             source: {
-                type: 'poli',
-            },
+                type: 'poli'
+            }
         };
 
         return payObject;
@@ -299,8 +299,8 @@ var ckoApmConfig = {
                 payment_country: ckoHelper.getBillingCountry(args),
                 account_holder_name: ckoHelper.getCustomerName(args),
                 account_holder_email: ckoHelper.getCustomer(args).email,
-                billing_descriptor: businessName,
-            },
+                billing_descriptor: businessName
+            }
         };
 
         return payObject;
@@ -330,8 +330,8 @@ var ckoApmConfig = {
                     purchase_country: ckoHelper.getBillingObject(args).country,
                     tax_amount: ckoHelper.getFormattedPrice(order.totalTax.value, ckoHelper.getCurrency(args)),
                     billing_address: ckoHelper.getOrderBasketAddress(args),
-                    products: ckoHelper.getOrderBasketObject(args),
-                },
+                    products: ckoHelper.getOrderBasketObject(args)
+                }
             };
 
             return payObject;
@@ -351,8 +351,8 @@ var ckoApmConfig = {
             currency: ckoHelper.getCurrency(args),
             source: {
                 type: 'paypal',
-                invoice_number: args.OrderNo,
-            },
+                invoice_number: args.OrderNo
+            }
         };
 
         return payObject;
@@ -373,10 +373,10 @@ var ckoApmConfig = {
                 payer: {
                     name: ckoHelper.getCustomerName(args),
                     email: ckoHelper.getCustomer(args).email,
-                    document: paymentForm.get('oxxo_identification').value(),
-                },
+                    document: paymentForm.get('oxxo_identification').value()
+                }
             },
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
@@ -391,33 +391,36 @@ var ckoApmConfig = {
         // Build the payment object
         var payObject = {
             source: {
-                type: 'alipay',
+                type: 'alipay'
             },
-            currency: ckoHelper.getCurrency(args),
+            currency: ckoHelper.getCurrency(args)
         };
 
         return payObject;
     },
 
     /**
-     * Ali Pay Authorization.
+     * Ach Pay Authorization.
      * @param {Object} args The payment arguments
      * @returns {Object} The payment parameters
      */
     achPayAuthorization: function(args) {
-    	// Build the payment object
-    	var payObject = {
-            "type": "ach",
-            "billing_address": ckoHelper.getOrderBasketAddress(args),
-            "source_data": {
-            	"account_holder_name": ckoHelper.getCustomerName(args),
-            	"account_type": "checking",
-            	"account_number": "0123456789",
-            	"routing_number": "211370545",
-            	"billing_descriptor": "ACH Demo",
-            	"company_name": null
+        // Build the payment object
+        var payObject = {
+            type: "ach",
+            billing_address: ckoHelper.getOrderBasketAddress(args),
+            currency: ckoHelper.getCurrency(args),
+            source_data: {
+                account_holder_name: ckoHelper.getCustomerName(args),
+                account_type: paymentForm.get('ach_account_type').value(),
+                account_number: paymentForm.get('ach_account_number').value(),
+                routing_number: paymentForm.get('ach_routing_number').value(),
+                billing_descriptor: "ACH Demo",
+                company_name: null
             }
-    	}
+        };
+        
+        return payObject;
     }
 };
 

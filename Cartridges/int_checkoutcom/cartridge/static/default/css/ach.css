@@ -1,0 +1,53 @@
+
+#cko-ach .cko-form-container{
+	min-width: 60em;
+	max-width: 90em;
+	border: solid 0.1em #eee;
+	border-radius: 0.5em;
+	margin: auto;
+	margin-top: 3em;
+}
+
+#cko-ach .cko-form-container .cko-bottom{
+	text-align: left;
+}
+
+#cko-ach .cko-form-container .cko-bottom .cko-ach-tandc{
+	padding: 1.5em;
+}
+
+#cko-ach .cko-form-container .cko-bottom .cko-ach-tandc div{
+	width: 2em;
+	float: left;
+}
+
+
+#cko-ach .cko-form-container .cko-bottom .cko-ach-right{
+	padding: 0.5em;
+	text-align: center;
+	opacity: 0.3;
+}
+
+#cko-ach .cko-ach-button-container{
+	text-align: center;
+	width: 70%;
+	max-width: 100em;
+	min-width: 60em;
+	margin: auto;
+	margin-top: 4em;
+}
+
+#cko-ach .cko-ach-button-container .cko-button-group{
+	border: none;
+}
+
+#cko-ach .cko-ach-button-container .cko-button-group .cko-ach-submit-btn{
+	width: 30%;
+	padding: 1em;
+	background: #ccc;
+}
+
+#cko-ach .cko-ach-button-container .cko-button-group .cko-ach-cancel-btn{
+	width: 20%;
+	padding: 1em;
+}

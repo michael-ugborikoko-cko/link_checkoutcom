@@ -1,0 +1,2 @@
+<!--- TEMPLATENAME: AchMandate.isml --->
+<isredirect location="${URLUtils.url('CKOAch-Mandate')}" permanent="false">

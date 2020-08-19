@@ -55,10 +55,10 @@
         <!-- Field for Ach pay -->
     <field formid="ach_account_type" label="ach.account.type" type="string" mandatory="true" max-length="40" binding="ach_account_type">
          <options>
-             <option optionid="Checking" value="ach.account.type.checking.value" label="ach.account.type.checking.label"/>
-             <option optionid="Savings" value="ach.account.type.savings.value" label="ach.account.type.savings.label"/>
-             <option optionid="Corporate" value="ach.account.type.corporate.value" label="ach.account.type.corporate.label"/>
-             <option optionid="CorpSavings" value="ach.account.type.corpSavings.value" label="ach.account.type.corpSavings.label"/>
+             <option optionid="Checking" value="checking" label="ach.account.type.checking.label"/>
+             <option optionid="Savings" value="savings" label="ach.account.type.savings.label"/>
+             <option optionid="Corporate" value="corporate" label="ach.account.type.corporate.label"/>
+             <option optionid="CorpSavings" value="corpSavings" label="ach.account.type.corpSavings.label"/>
          </options>
     </field>
     <field formid="ach_account_number" label="ach.account.number" type="string" mandatory="true" max-length="40" binding="ach_account_number"/>

@@ -31,6 +31,8 @@ var apmHelper = {
                     var templatePath;
                     if (Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'sepa') {
                         templatePath = 'redirects/sepaMandate.isml';
+                    } else if (Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'ach') {
+                        templatePath = 'redirects/achMandate.isml';
                     } else {
                         templatePath = 'redirects/apm.isml';
                     }
@@ -76,6 +78,9 @@ var apmHelper = {
         if (type === 'Sepa') {
             session.privacy.redirectUrl = "${URLUtils.url('CKOSepa-Mandate')}"; // eslint-disable-line
             session.privacy.sepaResponseId = gatewayResponse.id; // eslint-disable-line
+        } else if (type === 'ACH') {
+            session.privacy.redirectUrl = "${URLUtils.url('CKOAch-Mandate')}"; // eslint-disable-line
+            session.privacy.achResponseId = gatewayResponse.id; // eslint-disable-line
         }
 
         // Add redirect URL to session if exists
@@ -110,7 +115,7 @@ var apmHelper = {
         ckoHelper.log(serviceName + ' ' + ckoHelper._('cko.request.data', 'cko'), gatewayRequest);
 
         // Prepare the service name (test for SEPA)
-        serviceName = Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'sepa'
+        serviceName = Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'sepa' || payObject.type === 'ach'
         ? 'cko.card.sources.'
         : 'cko.card.charge.';
 
@@ -164,9 +169,9 @@ var apmHelper = {
                 payment_ip: ckoHelper.getHost(args),
                 metadata: ckoHelper.getMetadataObject(payObject, args),
                 billing_descriptor: ckoHelper.getBillingDescriptorObject(),
-                udf5: ckoHelper.getMetadataString(payObject, args),
+                udf5: ckoHelper.getMetadataString(payObject, args)
             };
-        } else if (Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.source.type === 'klarna') {
+        } else if (Object.prototype.hasOwnProperty.call(payObject.source, 'type') && payObject.source.type === 'klarna') {
             // Prepare chargeData object
             chargeData = {
                 customer: ckoHelper.getCustomer(args),
@@ -177,7 +182,22 @@ var apmHelper = {
                 reference: args.OrderNo,
                 payment_ip: ckoHelper.getHost(args),
                 metadata: ckoHelper.getMetadataObject(payObject, args),
+                billing_descriptor: ckoHelper.getBillingDescriptorObject()
+            };
+        } else if (Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'ach') {
+            // Prepare the charge data
+            chargeData = {
+                customer: ckoHelper.getCustomer(args),
+                amount: ckoHelper.getFormattedPrice(order.totalGrossPrice.value.toFixed(2), payObject.currency),
+                type: payObject.type,
+                currency: payObject.currency,
+                billing_address: ckoHelper.getBillingObject(args),
+                source_data: payObject.source_data,
+                reference: args.OrderNo,
+                payment_ip: ckoHelper.getHost(args),
+                metadata: ckoHelper.getMetadataObject(payObject, args),
                 billing_descriptor: ckoHelper.getBillingDescriptorObject(),
+                udf5: ckoHelper.getMetadataString(payObject, args)
             };
         } else {
             // Prepare chargeData object
@@ -189,7 +209,7 @@ var apmHelper = {
                 reference: args.OrderNo,
                 payment_ip: ckoHelper.getHost(args),
                 metadata: ckoHelper.getMetadataObject(payObject, args),
-                billing_descriptor: ckoHelper.getBillingDescriptorObject(),
+                billing_descriptor: ckoHelper.getBillingDescriptorObject()
             };
         }
 
@@ -224,6 +244,35 @@ var apmHelper = {
 
         return null;
     },
+    
+    /**
+     * Ach controller Request.
+     * @param {Object} payObject The transaction parameters
+     * @param {Object} order The order instance
+     * @returns {Object} The gateway response
+     */
+     handleAchControllerRequest: function(payObject, order) {
+        // Gateway response
+        var gatewayResponse = null;
+
+        // Perform the request to the payment gateway
+        gatewayResponse = ckoHelper.gatewayClientRequest(
+            'cko.card.charge.' + ckoHelper.getValue('ckoMode') + '.service',
+            payObject
+        );
+
+        // If the charge is valid, process the response
+        if (gatewayResponse) {
+            return gatewayResponse;
+        }
+
+        // Update the transaction
+        Transaction.wrap(function() {
+            OrderMgr.failOrder(order, true);
+        });
+
+        return null;
+    }
 };
 
 // Module exports
