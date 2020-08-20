@@ -115,7 +115,7 @@ var apmHelper = {
         ckoHelper.log(serviceName + ' ' + ckoHelper._('cko.request.data', 'cko'), gatewayRequest);
 
         // Prepare the service name (test for SEPA)
-        serviceName = Object.prototype.hasOwnProperty.call(payObject, 'type') && payObject.type === 'sepa' && payObject.type === 'ach'
+        serviceName = Object.prototype.hasOwnProperty.call(payObject, 'type') && (payObject.type === 'sepa' || 'ach')
         ? 'cko.card.sources.'
         : 'cko.card.charge.';
 
